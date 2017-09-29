@@ -51,7 +51,7 @@ module.exports = {
    plugins: [
         new ExtractTextPlugin({
             filename: ('styles.css')
-        }),
+        })
         // new webpack.optimize.UglifyJsPlugin({
         //     compress: {
         //         warnings: false,
@@ -79,7 +79,7 @@ module.exports = {
     devServer: {
 		inline: true,
 		contentBase: './public',
-		port: 7070,
+		port: 5050,
 		host: '0.0.0.0'
     },
 

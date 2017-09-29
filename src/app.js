@@ -1,7 +1,11 @@
 // import 'babel-polyfill';
 import main from './styles/main.styl';
 
+import init from './modules/init';
 
-document.addEventListener('DOMContentLoaded', () => {
-	
+
+window.addEventListener('load', () => {
+
+	init();
+
 });
