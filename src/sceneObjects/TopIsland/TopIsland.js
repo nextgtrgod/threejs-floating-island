@@ -3,6 +3,8 @@ import { Object3D } from 'three';
 import Cube from '../../modules/Cube';
 import Fence from '../fence';
 import Fan from '../fan';
+import Pine from '../pine';
+import PipeCorner from '../pipeCorner';
 import House from './House';
 
 import { colors } from '../../modules/colors';
@@ -108,5 +110,52 @@ export default class TopIsland {
 
 		this.mesh.add(...fences);
 
+
+		// pines
+		{
+			const pine = ( new Pine([1, 1, 1]) ).mesh;
+			pine.position.x -= 280;
+			pine.position.y += 600;
+			pine.position.z += 140;
+
+			this.mesh.add(pine);
+		};
+
+		{
+			const pine = ( new Pine([1, 1.1, 1]) ).mesh;
+			pine.position.x -= 380;
+			pine.position.y += 600;
+			pine.position.z += 140;
+
+			this.mesh.add(pine);
+		};
+
+		{
+			const pine = ( new Pine([1.1, 1.5, 1.1]) ).mesh;
+			pine.position.x -= 480;
+			pine.position.y += 600;
+			pine.position.z += 140;
+
+			this.mesh.add(pine);
+		};
+
+		{
+			const pine = ( new Pine([1.5, 1.8, 1.5]) ).mesh;
+			pine.position.x -= 480;
+			pine.position.y += 600;
+			pine.position.z -= 80;
+
+			this.mesh.add(pine);
+		};
+
+
+		const pipeCorner = ( new PipeCorner() ).mesh;
+		pipeCorner.position.x -= 480;
+		pipeCorner.position.y += 600;
+		pipeCorner.position.z += 30;
+
+
+
+		this.mesh.add(pipeCorner);
 	}
 }

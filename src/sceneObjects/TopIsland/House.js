@@ -99,6 +99,8 @@ export default class House {
 		});
 
 		const chimney = new Mesh(chimneyGeometry, chimneyMaterial);
+		chimney.castShadow = true;
+		chimney.receiveShadow = true;
 		chimney.doubleSided = true;
 		chimney.position.x += (size.x / 4);
 		chimney.position.y += size.y + 20;

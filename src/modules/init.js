@@ -1,5 +1,5 @@
 // import { GridHelper } from 'three';
-import { AxisHelper } from 'three';
+import { AxisHelper, CameraHelper } from 'three';
 
 import createScene from './createScene';
 import createCamera from './createCamera';
@@ -25,12 +25,14 @@ export default function init() {
 	let topIsland = new TopIsland();
 
 	const axisHelper = new AxisHelper( 400 );
+	// const cameraHelper = new CameraHelper( camera );
 
 	scene.add(
 		bottomIsland.mesh,
 		middleIsland.mesh,
 		topIsland.mesh,
-		axisHelper
+		axisHelper,
+		// cameraHelper
 	);
 
 	scene.rotation.x = Math.PI / 8;
@@ -46,7 +48,7 @@ export default function init() {
 		});
 
 		[...topIsland.fans].map((fan, index) => {
-			fan.propeller.rotation.z += .05 * (index + 1);
+			fan.propeller.rotation.z -= .05 * (index + 1);
 		});
 
 
