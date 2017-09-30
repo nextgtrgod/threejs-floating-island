@@ -20,7 +20,7 @@ module.exports = {
                     {
                         loader: 'babel-loader',
                         options: {
-                            presets: ['babili', 'es2015', 'es2017'],
+                            presets: ['es2015', 'es2017'],
                             plugins: [
                                 ["transform-class-properties", { "spec": true }]
                             ]
@@ -79,7 +79,7 @@ module.exports = {
     devServer: {
 		inline: true,
 		contentBase: './public',
-		port: 5050,
+		port: 6060,
 		host: '0.0.0.0'
     },
 

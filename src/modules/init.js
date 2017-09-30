@@ -1,4 +1,5 @@
 // import { GridHelper } from 'three';
+import { AxisHelper } from 'three';
 
 import createScene from './createScene';
 import createCamera from './createCamera';
@@ -18,28 +19,38 @@ export default function init() {
 	let renderer = createRenderer();
 	createLights(scene);
 
-	let bottomIsland = (new BottomIsland()).mesh;
-	let middleIsland = (new MiddleIsland()).mesh;
-	let topIsland = (new TopIsland()).mesh;
 
+	let bottomIsland = new BottomIsland();
+	let middleIsland = new MiddleIsland();
+	let topIsland = new TopIsland();
 
-	bottomIsland.rotation.y = - Math.PI / 4;
-	bottomIsland.rotation.x = Math.PI / 8;
-	middleIsland.rotation.y = - Math.PI / 4;
-	middleIsland.rotation.x = Math.PI / 8;
-	topIsland.rotation.y = - Math.PI / 4;
-	topIsland.rotation.x = Math.PI / 8;
+	const axisHelper = new AxisHelper( 400 );
 
+	scene.add(
+		bottomIsland.mesh,
+		middleIsland.mesh,
+		topIsland.mesh,
+		axisHelper
+	);
 
-	// let grid = new GridHelper(1000, 100);
-	
-	scene.add(bottomIsland, middleIsland, topIsland);
+	scene.rotation.x = Math.PI / 8;
+	scene.rotation.y = - Math.PI / 4;
+
 
 	// animation
 	function loop() {
 
-		renderer.render(scene, camera);
+		// fans
+		[...middleIsland.fans].map((fan, index) => {
+			fan.propeller.rotation.z += .1 * (index + 1);
+		});
 
+		[...topIsland.fans].map((fan, index) => {
+			fan.propeller.rotation.z += .05 * (index + 1);
+		});
+
+
+		renderer.render(scene, camera);
 		requestAnimationFrame(loop);
 	};
 	loop();
@@ -52,14 +63,29 @@ export default function init() {
 
 	let cameraPosition = gui.addFolder('camera position');
 	cameraPosition.add(camera.position, 'x', -500, 500);
-	cameraPosition.add(camera.position, 'y', -500, 500);
-	cameraPosition.add(camera.position, 'z', -1500, 1500);
+	cameraPosition.add(camera.position, 'y', -1000, 1000);
+	cameraPosition.add(camera.position, 'z', -3500, 3500);
 	cameraPosition.open();
 
 	let cameraRotation = gui.addFolder('camera rotation');
 	cameraRotation.add(camera.rotation, 'x', - Math.PI * 2, Math.PI * 2);
 	cameraRotation.add(camera.rotation, 'y', - Math.PI * 2, Math.PI * 2);
 	cameraRotation.add(camera.rotation, 'z', - Math.PI * 2, Math.PI * 2);
-	cameraRotation.open();
-	
+	// cameraRotation.open();
+
+	let sceneRotation = gui.addFolder('scene rotation');
+	sceneRotation.add(scene.rotation, 'x', - Math.PI * 2, Math.PI * 2);
+	sceneRotation.add(scene.rotation, 'y', - Math.PI * 2, Math.PI * 2);
+	sceneRotation.add(scene.rotation, 'z', - Math.PI * 2, Math.PI * 2);
+	sceneRotation.open();
+
+	let directionalLight = gui.addFolder('scene light');
+	directionalLight.add(scene.children[1].position, 'x', (- 1000), 1000);
+	directionalLight.add(scene.children[1].position, 'y', (- 1000), 1000);
+	directionalLight.add(scene.children[1].position, 'z', (- 1000), 1000);
+	directionalLight.open();
+
+
+	console.log(scene);
+
 }

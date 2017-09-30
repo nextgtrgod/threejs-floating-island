@@ -10,14 +10,13 @@ export default function createLights(scene) {
 	let ambientLight = new AmbientLight(0x404040);
 	ambientLight.intensity = .5;
 
-	shadowLight.position.set(-500, 300, 300);
+	shadowLight.position.set(-700, 375, 300);
 	shadowLight.castShadow = true;
-	shadowLight.shadowDarkness = 0;
 
-	shadowLight.shadow.camera.left = -400;
-	shadowLight.shadow.camera.right = 400;
-	shadowLight.shadow.camera.top = 400;
-	shadowLight.shadow.camera.bottom = -400;
+	shadowLight.shadow.camera.left = -800;
+	shadowLight.shadow.camera.right = 800;
+	shadowLight.shadow.camera.top = 800;
+	shadowLight.shadow.camera.bottom = -800;
 	shadowLight.shadow.camera.near = 1;
 	shadowLight.shadow.camera.far = 1000;
 

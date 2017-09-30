@@ -12,8 +12,8 @@ export default class BottomIsland {
 		// big cube
 		this.mesh.add(
 			(new Cube(
-				[200, 200, 200],
-				{x: 0, y: -200, z: 200},
+				[400, 400, 400],
+				{x: 0, y: -400, z: 400},
 				colors.darkGrey,
 				'bottom-cube-basement')
 			).mesh
