@@ -1,4 +1,4 @@
-import { Mesh, Object3D, CylinderGeometry, MeshPhongMaterial, DoubleSide } from 'three';
+import { Geometry, Mesh, Object3D, CylinderGeometry, MeshPhongMaterial, DoubleSide } from 'three';
 
 import Cube from '../../modules/Cube';
 
@@ -43,24 +43,24 @@ export default class House {
 
 
 		// stairs
-		const stairs = new Object3D();
+		const stairsGeometry = new Geometry();
 
 		const backSide = new Cube(
 			[5, (size.y / 2), 20],
 			{x: -(size.x / 2 - (5 / 2)), y: ((size.y / 2) / 2), z: -30},
 			colors.darkGrey
 		);
+		backSide.mesh.updateMatrix();
 
 		const leftSide = new Cube(
 			[size.x, (size.y / 2), 5],
 			{x: 0, y: ((size.y / 2) / 2), z: -20},
 			colors.darkGrey
 		);
-
 		leftSide.mesh.geometry.vertices[0].x -= (size.x * (3 / 4) - 20);
 		leftSide.mesh.geometry.vertices[1].x -= (size.x * (3 / 4) - 20);
+		leftSide.mesh.updateMatrix();
 
-		const steps = [];
 
 		for (let i = 1; i <= 6; i++) {
 			
@@ -72,8 +72,9 @@ export default class House {
 				{x: (size.x / 2) - (i * stepWidth), y: (stepHeight / 2), z: -30},
 				colors.darkGrey
 			);
+			step.mesh.updateMatrix();
 
-			steps.push(step.mesh);
+			stairsGeometry.merge(step.mesh.geometry, step.mesh.matrix);
 		};
 
 		const staircase = new Cube(
@@ -81,13 +82,24 @@ export default class House {
 			{x: -(size.x / 2) + (size.x / 4) / 2, y: ((size.y / 3) / 2), z: -30},
 			colors.darkGrey
 		);
+		staircase.mesh.updateMatrix();
 
-		stairs.add(
-			backSide.mesh,
-			leftSide.mesh,
-			...steps,
-			staircase.mesh
+
+		stairsGeometry.merge(leftSide.mesh.geometry, leftSide.mesh.matrix);
+		stairsGeometry.merge(backSide.mesh.geometry, backSide.mesh.matrix);
+		stairsGeometry.merge(staircase.mesh.geometry, staircase.mesh.matrix);
+
+		const stairs = new Mesh(
+			stairsGeometry,
+			new MeshPhongMaterial(
+				{
+					color: colors.darkGrey,
+					flatShading: true
+				}
+			)
 		);
+		stairs.receiveShadow = true;
+		stairs.castShadow = true;
 
 
 		// chimney

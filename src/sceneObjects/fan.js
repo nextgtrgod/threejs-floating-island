@@ -1,4 +1,4 @@
-import { Mesh, Object3D, CylinderGeometry, BoxGeometry, MeshPhongMaterial } from 'three';
+import { Geometry, Mesh, Object3D, CylinderGeometry, BoxGeometry, MeshPhongMaterial } from 'three';
 
 import { colors } from '../modules/colors';
 
@@ -7,6 +7,8 @@ export default class Fan {
 	constructor() {
 
 		this.mesh = new Object3D();
+
+		const staticGroupGeometry = new Geometry();
 
 		// materials
 		const darkMaterial = new MeshPhongMaterial({
@@ -22,23 +24,25 @@ export default class Fan {
 
 		const baseGeometry = new CylinderGeometry(8, 8, 10, 8, 1);
 		const base = new Mesh(baseGeometry, darkMaterial);
-		base.receiveShadow = true;
-		base.castShadow = true;
 
-		// pipe
+
 		const pipeGeometry = new CylinderGeometry(5, 5, 400, 20, 1);
 		const pipe = new Mesh(pipeGeometry, darkMaterial);
-		// pipe.name = 'pipe';
-		pipe.receiveShadow = true;
-		pipe.castShadow = true;
 
-		// engine
+
 		const engineGeometry = new BoxGeometry(30, 30, 50);
 		const engine = new Mesh(engineGeometry, darkMaterial);
-		// pipe.name = 'engine';
-		engine.receiveShadow = true;
-		engine.castShadow = true;
 		engine.position.y += 200;
+		engine.updateMatrix();
+
+
+		staticGroupGeometry.merge(base.geometry, base.matrix);
+		staticGroupGeometry.merge(pipe.geometry, pipe.matrix);
+		staticGroupGeometry.merge(engine.geometry, engine.matrix);
+
+		const staticGroup = new Mesh(staticGroupGeometry, darkMaterial);
+		staticGroup.castShadow = true;
+		staticGroup.receiveShadow = true;
 
 	
 		// propeller
@@ -81,6 +85,6 @@ export default class Fan {
 		this.propeller = propeller; // global for animation
 	
 		// final
-		this.mesh.add(base, pipe, engine, propeller);
+		this.mesh.add(staticGroup, propeller);
 	}
 }

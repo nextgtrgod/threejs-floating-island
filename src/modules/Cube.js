@@ -19,7 +19,7 @@ export default class Cube {
 
 		this.material = new MeshPhongMaterial({
 			color: this.color,
-			flatShading: true,
+			flatShading: true
 			// transparent: true,
 			// opacity: .5
 		});

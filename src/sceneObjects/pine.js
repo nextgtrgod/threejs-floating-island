@@ -1,4 +1,4 @@
-import { Mesh, Object3D, CylinderGeometry, MeshPhongMaterial,  } from 'three';
+import { Geometry, Mesh, Object3D, CylinderGeometry, MeshPhongMaterial,  } from 'three';
 
 import { colors } from '../modules/colors';
 
@@ -27,16 +27,22 @@ export default class Pine {
 			flatShading: true
 		});
 
+		const branchesGeometry = new Geometry();
+
 		for (let i = 1; i <= 7; i++) {
 			let R = 45 - (i * 5); 
-			const branchesLevel = new Mesh((new CylinderGeometry((R - 10), R, 10, 6, 1)), greenMaterial);
-			branchesLevel.castShadow = true;
-			branchesLevel.receiveShadow = true;
+			const branchesLevel = new Mesh(new CylinderGeometry((R - 10), R, 10, 6, 1));
 
 			branchesLevel.position.y += 10 + (i * 70) / 7;
 
-			this.mesh.add(branchesLevel);
+			branchesLevel.updateMatrix();
+
+			branchesGeometry.merge(branchesLevel.geometry, branchesLevel.matrix);
 		};
+		const branches = new Mesh(branchesGeometry, greenMaterial);
+		branches.receiveShadow = true;
+		branches.castShadow = true;
+
 
 		this.mesh.scale.x = scale[0];
 		this.mesh.scale.y = scale[1];
@@ -45,7 +51,8 @@ export default class Pine {
 		this.mesh.rotation.y = rotation; 
 
 		this.mesh.add(
-			trunk
+			trunk,
+			branches
 		);
 
 	}

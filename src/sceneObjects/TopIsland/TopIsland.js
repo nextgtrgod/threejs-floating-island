@@ -1,4 +1,4 @@
-import { Object3D } from 'three';
+import { Object3D, Mesh, Geometry, MeshPhongMaterial } from 'three';
 
 import Cube from '../../modules/Cube';
 import Fence from '../fence';
@@ -61,18 +61,22 @@ export default class TopIsland {
 		house.mesh.position.x -= 300;
 		house.mesh.position.y += 600;
 
-		this.mesh.add(house.mesh);
+		this.mesh.add(
+			house.mesh
+		);
 
 
 		// fence
-		let fences = [];
+		let fenceGeometry = new Geometry();
+
 		for (let i = 0; i < 10; i++) {
 			const fence = new Fence();
 			fence.mesh.position.x -= (220 + i * fence.width) ;
 			fence.mesh.position.y += 600;
 			fence.mesh.position.z += 190;
-
-			fences.push(fence.mesh);
+			
+			fence.mesh.updateMatrix();
+			fenceGeometry.merge(fence.mesh.geometry, fence.mesh.matrix);
 		};
 
 		for (let i = 0; i < 10; i++) {
@@ -83,7 +87,8 @@ export default class TopIsland {
 
 			fence.mesh.rotation.y = - (Math.PI / 2);
 
-			fences.push(fence.mesh);
+			fence.mesh.updateMatrix();
+			fenceGeometry.merge(fence.mesh.geometry, fence.mesh.matrix);
 		};
 
 		for (let i = 0; i < 10; i++) {
@@ -94,7 +99,8 @@ export default class TopIsland {
 
 			fence.mesh.rotation.y = Math.PI;
 
-			fences.push(fence.mesh);
+			fence.mesh.updateMatrix();
+			fenceGeometry.merge(fence.mesh.geometry, fence.mesh.matrix);
 		};
 
 		for (let i = 0; i < 3; i++) {
@@ -105,10 +111,23 @@ export default class TopIsland {
 	
 			fence.mesh.rotation.y = Math.PI / 2;
 
-			fences.push(fence.mesh);
+			fence.mesh.updateMatrix();
+			fenceGeometry.merge(fence.mesh.geometry, fence.mesh.matrix);
 		};
 
-		this.mesh.add(...fences);
+		const fencePerimeter = new Mesh(
+			fenceGeometry,
+			new MeshPhongMaterial({
+				color: colors.wood,
+				flatShading: true
+			})
+		);
+		fencePerimeter.castShadow = true;
+		fencePerimeter.receiveShadow = true;
+
+		this.mesh.add(
+			fencePerimeter
+		);
 
 
 		// pines
@@ -140,7 +159,7 @@ export default class TopIsland {
 		};
 
 		{
-			const pine = ( new Pine([1.5, 1.8, 1.5]) ).mesh;
+			const pine = ( new Pine([1.6, 1.8, 1.6]) ).mesh;
 			pine.position.x -= 480;
 			pine.position.y += 600;
 			pine.position.z -= 80;
