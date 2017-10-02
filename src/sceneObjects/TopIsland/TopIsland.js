@@ -122,6 +122,7 @@ export default class TopIsland {
 				flatShading: true
 			})
 		);
+		fencePerimeter.name = 'fence-perimeter';
 		fencePerimeter.castShadow = true;
 		fencePerimeter.receiveShadow = true;
 

@@ -1,21 +1,15 @@
-import { Mesh, Object3D, CylinderGeometry ,TorusGeometry, MeshPhongMaterial, DoubleSide, Geometry } from 'three';
+import { Geometry, Mesh, Object3D, CylinderGeometry, TorusGeometry } from 'three';
 
-import { colors } from '../modules/colors';
+import { materials } from '../modules/materials';
 
 
 export default class PipeCorner {
 	constructor(isBottomConnection = true) {
 
 		this.mesh = new Object3D();
+		this.mesh.name = 'pipe-corner';
 
 		const singleGeometry = new Geometry();
-
-		// pipe
-		const pipeMaterial = new MeshPhongMaterial({
-			color: colors.lightGrey,
-			flatShading: true,
-			side: DoubleSide
-		});
 
 		// pipe radius
 		const radius = 35;
@@ -50,7 +44,7 @@ export default class PipeCorner {
 
 	
 			// segments
-			const segmentGeometry = new CylinderGeometry(2, 2, 8, 3, 1 ,true);
+			const segmentGeometry = new CylinderGeometry(2, 2, 8, 3, 1, true);
 			
 			for (let i = 0; i < 16; i++) {
 				const segment = new Mesh(segmentGeometry);
@@ -88,7 +82,7 @@ export default class PipeCorner {
 		singleGeometry.merge(connection.geometry, connection.matrix);
 
 
-		const pipeCorner = new Mesh(singleGeometry, pipeMaterial);
+		const pipeCorner = new Mesh(singleGeometry, materials.lightMetal);
 		pipeCorner.position.y += 10;
 		pipeCorner.castShadow = true;
 		pipeCorner.receiveShadow = true;

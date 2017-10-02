@@ -1,37 +1,27 @@
-import { Geometry, Mesh, Object3D, CylinderGeometry, BoxGeometry, MeshPhongMaterial } from 'three';
+import { Geometry, Mesh, Object3D, CylinderGeometry, BoxGeometry } from 'three';
 
-import { colors } from '../modules/colors';
+import { materials } from '../modules/materials';
 
 
 export default class Fan {
 	constructor() {
 
 		this.mesh = new Object3D();
+		this.mesh.name = 'fan';
 
 		const staticGroupGeometry = new Geometry();
 
-		// materials
-		const darkMaterial = new MeshPhongMaterial({
-			color: colors.darkGrey,
-			flatShading: true
-		});
-
-		const lightMaterial = new MeshPhongMaterial({
-			color: colors.white,
-			flatShading: true
-		});
-
 
 		const baseGeometry = new CylinderGeometry(8, 8, 10, 8, 1);
-		const base = new Mesh(baseGeometry, darkMaterial);
+		const base = new Mesh(baseGeometry);
 
 
 		const pipeGeometry = new CylinderGeometry(5, 5, 400, 20, 1);
-		const pipe = new Mesh(pipeGeometry, darkMaterial);
+		const pipe = new Mesh(pipeGeometry);
 
 
 		const engineGeometry = new BoxGeometry(30, 30, 50);
-		const engine = new Mesh(engineGeometry, darkMaterial);
+		const engine = new Mesh(engineGeometry);
 		engine.position.y += 200;
 		engine.updateMatrix();
 
@@ -40,7 +30,7 @@ export default class Fan {
 		staticGroupGeometry.merge(pipe.geometry, pipe.matrix);
 		staticGroupGeometry.merge(engine.geometry, engine.matrix);
 
-		const staticGroup = new Mesh(staticGroupGeometry, darkMaterial);
+		const staticGroup = new Mesh(staticGroupGeometry, materials.darkMetal);
 		staticGroup.castShadow = true;
 		staticGroup.receiveShadow = true;
 
@@ -49,7 +39,7 @@ export default class Fan {
 		const propeller = new Object3D();
 
 		const hubGeometry = new CylinderGeometry(10, 10, 30, 10, 1);
-		const hub = new Mesh(hubGeometry, darkMaterial);
+		const hub = new Mesh(hubGeometry, materials.darkMetal);
 		hub.receiveShadow = true;
 		hub.castShadow = true;
 		hub.position.z += 30;
@@ -60,7 +50,7 @@ export default class Fan {
 		const bladeGeometry = new BoxGeometry(20, 120, 2);
 
 		for (let i = 0; i < 3; i++) {
-			const blade = new Mesh(bladeGeometry, lightMaterial);
+			const blade = new Mesh(bladeGeometry, materials.white);
 
 			blade.geometry.translate( 0, 120 / 6, 0 );
 

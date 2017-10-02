@@ -1,32 +1,24 @@
-import { Geometry, Mesh, Object3D, CylinderGeometry, MeshPhongMaterial,  } from 'three';
+import { Geometry, Mesh, Object3D, CylinderGeometry  } from 'three';
 
-import { colors } from '../modules/colors';
+import { materials } from '../modules/materials';
 
 
 export default class Pine {
 	constructor(scale = [1, 1, 1], rotation = 0) {
 
 		this.mesh = new Object3D();
+		this.mesh.name = 'pine';
 
 		// tree trunk
 		const trunkGeometry = new CylinderGeometry(8, 8, 15, 10, 1);
-		const trunkMaterial = new MeshPhongMaterial({
-			color: colors.wood,
-			flatShading: true
-		});
 
-		const trunk = new Mesh(trunkGeometry, trunkMaterial);
+		const trunk = new Mesh(trunkGeometry, materials.wood);
 		trunk.castShadow = true;
 		trunk.receiveShadow = true;
 		trunk.position.y += 7.5;
 
 
 		// branches
-		const greenMaterial = new MeshPhongMaterial({
-			color: colors.darkGreen,
-			flatShading: true
-		});
-
 		const branchesGeometry = new Geometry();
 
 		for (let i = 1; i <= 7; i++) {
@@ -39,7 +31,7 @@ export default class Pine {
 
 			branchesGeometry.merge(branchesLevel.geometry, branchesLevel.matrix);
 		};
-		const branches = new Mesh(branchesGeometry, greenMaterial);
+		const branches = new Mesh(branchesGeometry, materials.green);
 		branches.receiveShadow = true;
 		branches.castShadow = true;
 

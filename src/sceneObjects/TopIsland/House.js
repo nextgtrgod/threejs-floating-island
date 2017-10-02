@@ -9,6 +9,7 @@ export default class House {
 	constructor() {
 
 		this.mesh = new Object3D();
+		this.mesh.name = 'house';
 
 		// stage
 		const size = {
@@ -48,14 +49,14 @@ export default class House {
 		const backSide = new Cube(
 			[5, (size.y / 2), 20],
 			{x: -(size.x / 2 - (5 / 2)), y: ((size.y / 2) / 2), z: -30},
-			colors.darkGrey
+			colors.darkMetal
 		);
 		backSide.mesh.updateMatrix();
 
 		const leftSide = new Cube(
 			[size.x, (size.y / 2), 5],
 			{x: 0, y: ((size.y / 2) / 2), z: -20},
-			colors.darkGrey
+			colors.darkMetal
 		);
 		leftSide.mesh.geometry.vertices[0].x -= (size.x * (3 / 4) - 20);
 		leftSide.mesh.geometry.vertices[1].x -= (size.x * (3 / 4) - 20);
@@ -70,7 +71,7 @@ export default class House {
 			const step = new Cube(
 				[stepWidth, stepHeight, 20],
 				{x: (size.x / 2) - (i * stepWidth), y: (stepHeight / 2), z: -30},
-				colors.darkGrey
+				colors.darkMetal
 			);
 			step.mesh.updateMatrix();
 
@@ -80,7 +81,7 @@ export default class House {
 		const staircase = new Cube(
 			[(size.x / 4), (size.y / 3), 20],
 			{x: -(size.x / 2) + (size.x / 4) / 2, y: ((size.y / 3) / 2), z: -30},
-			colors.darkGrey
+			colors.darkMetal
 		);
 		staircase.mesh.updateMatrix();
 
@@ -93,7 +94,7 @@ export default class House {
 			stairsGeometry,
 			new MeshPhongMaterial(
 				{
-					color: colors.darkGrey,
+					color: colors.darkMetal,
 					flatShading: true
 				}
 			)
