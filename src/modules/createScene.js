@@ -10,7 +10,7 @@ export default function createScene() {
 
 
 	let scene = new Scene();
-	// scene.fog = new Fog(colors.sky, 100, 950);
+	// scene.fog = new Fog(colors.sky, 0, 2000);
 
 	
 	// window.addEventListener('resize', () => {

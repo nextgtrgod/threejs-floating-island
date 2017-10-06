@@ -14,5 +14,7 @@ export const colors = {
 	wood:		0xa76e17,
 	brick:		0xca653d,
 	roof:		0xbc765c,
-	sky:		0x80b6dc
+	sky:		0x80b6dc,
+
+	red:		0xff0000
 }

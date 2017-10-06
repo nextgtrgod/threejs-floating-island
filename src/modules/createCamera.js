@@ -19,9 +19,9 @@ export default function createCamera() {
 		farPlane
 	);
 
-	camera.position.x = -200;
-	camera.position.y = 685;
-	camera.position.z = 700;
+	camera.position.x = 10;
+	camera.position.y = 305;
+	camera.position.z = 630;
 
 	return camera;
 }

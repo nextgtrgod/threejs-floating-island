@@ -10,5 +10,6 @@ export const materials = {
 	lightMetal: new MeshPhongMaterial({ color: colors.lightMetal, flatShading: true, side: DoubleSide }),
 	brick:		new MeshPhongMaterial({ color: colors.brick, flatShading: true, side: DoubleSide}),
 	roof:		new MeshPhongMaterial({ color: colors.roof, flatShading: true }),
-	white:		new MeshPhongMaterial({ color: colors.white, flatShading: true })
+	white:		new MeshPhongMaterial({ color: colors.white, flatShading: true }),
+	red:		new MeshPhongMaterial({ color: colors.red, flatShading: true })
 }

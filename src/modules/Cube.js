@@ -7,7 +7,7 @@ export default class Cube {
 	constructor(
 		size = [100, 100, 100],
 		position = { x: 0, y: 0, z: 0 },
-		color = null, name = `cube-${Math.random() * 1000}`) {
+		color = null, name = `cube-${~~(Math.random() * 1000)}`) {
 
 		this.width 	= size[0];
 		this.height = size[1];
@@ -22,7 +22,9 @@ export default class Cube {
 		if (this.color) {
 			this.material = new MeshPhongMaterial({
 				color: this.color,
-				flatShading: true
+				flatShading: true,
+				// transparent: true,
+				// opacity: .6
 			});
 		} else {
 			this.material = null

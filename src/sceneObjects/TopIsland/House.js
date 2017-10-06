@@ -1,8 +1,10 @@
-import { Geometry, Mesh, Object3D, CylinderGeometry, MeshPhongMaterial, DoubleSide } from 'three';
+import { Geometry, Mesh, Object3D, PlaneGeometry, CylinderGeometry } from 'three';
 
 import Cube from '../../modules/Cube';
 
 import { colors } from '../../modules/colors';
+
+import { materials } from '../../modules/materials';
 
 
 export default class House {
@@ -20,14 +22,16 @@ export default class House {
 		const firstFloor = new Cube(
 			[size.x, size.y, size.z],
 			{x: 0, y: (size.y / 2), z: -100},
-			colors.brick
+			colors.brick,
+			'first-floor'
 		);
 
 		// roof
 		const roof = new Cube(
 			[(size.x + 10), (size.y / 2), (size.z + 10)],
 			{x: 0, y: size.y + (size.y / 4), z: -100},
-			colors.roof
+			colors.roof,
+			'roof'
 		);
 
 		roof.mesh.geometry.vertices[0].x -= 20;
@@ -51,7 +55,6 @@ export default class House {
 			{x: -(size.x / 2 - (5 / 2)), y: ((size.y / 2) / 2), z: -30},
 			colors.darkMetal
 		);
-		backSide.mesh.updateMatrix();
 
 		const leftSide = new Cube(
 			[size.x, (size.y / 2), 5],
@@ -73,7 +76,6 @@ export default class House {
 				{x: (size.x / 2) - (i * stepWidth), y: (stepHeight / 2), z: -30},
 				colors.darkMetal
 			);
-			step.mesh.updateMatrix();
 
 			stairsGeometry.merge(step.mesh.geometry, step.mesh.matrix);
 		};
@@ -83,35 +85,24 @@ export default class House {
 			{x: -(size.x / 2) + (size.x / 4) / 2, y: ((size.y / 3) / 2), z: -30},
 			colors.darkMetal
 		);
-		staircase.mesh.updateMatrix();
 
 
 		stairsGeometry.merge(leftSide.mesh.geometry, leftSide.mesh.matrix);
 		stairsGeometry.merge(backSide.mesh.geometry, backSide.mesh.matrix);
 		stairsGeometry.merge(staircase.mesh.geometry, staircase.mesh.matrix);
 
-		const stairs = new Mesh(
-			stairsGeometry,
-			new MeshPhongMaterial(
-				{
-					color: colors.darkMetal,
-					flatShading: true
-				}
-			)
-		);
+		const stairs = new Mesh(stairsGeometry, materials.darkMetal);
+		stairs.name = 'stairs';
 		stairs.receiveShadow = true;
 		stairs.castShadow = true;
 
 
 		// chimney
 		const chimneyGeometry = new CylinderGeometry(10, 10, 80, 4, 1, true);
-		const chimneyMaterial = new MeshPhongMaterial({
-			color: colors.brick,
-			flatShading: true,
-			side: DoubleSide
-		});
 
-		const chimney = new Mesh(chimneyGeometry, chimneyMaterial);
+		const chimney = new Mesh(chimneyGeometry, materials.brick);
+		chimney.name = 'chimney';
+
 		chimney.castShadow = true;
 		chimney.receiveShadow = true;
 		chimney.doubleSided = true;
@@ -122,13 +113,41 @@ export default class House {
 		chimney.rotation.y = Math.PI / 4;
 
 
+		// windows
+		const leftWindow = new Cube(
+			[2, 20, 30],
+			{x: (size.x / 2), y: (size.y / 2) + 10, z: -(size.z + 10)},
+			colors.white,
+			'window'
+		);
+	
+		const rightWindow = leftWindow.mesh.clone();
+		rightWindow.position.z += 60;
+
+
+		// the doors
+		const frontDoor = new Cube(
+			[2, 30, 20],
+			{x: (size.x / 2), y: 15, z: -100},
+			colors.lightMetal,
+			'door'
+		);
+
+		const sideDoor = frontDoor.mesh.clone();
+		sideDoor.position.set(-(size.x / 2) + 20, (size.y) - 30, -40);
+		sideDoor.rotation.y += Math.PI / 2;
+
 
 		// final
 		this.mesh.add(
 			firstFloor.mesh,
+			frontDoor.mesh,
+			sideDoor,
+			leftWindow.mesh,
+			rightWindow,
 			roof.mesh,
 			stairs,
-			chimney
+			chimney,
 		);
 	}
 }

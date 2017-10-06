@@ -1,5 +1,5 @@
 // import { GridHelper } from 'three';
-import { AxisHelper, CameraHelper } from 'three';
+import { Clock, AxisHelper, CameraHelper } from 'three';
 
 import createScene from './createScene';
 import createCamera from './createCamera';
@@ -36,19 +36,27 @@ export default function init() {
 	);
 
 	scene.rotation.x = Math.PI / 8;
-	scene.rotation.y = - Math.PI / 4;
+	// scene.rotation.y = - Math.PI / 4;
+	scene.rotation.y = - 1.25;
+
 
 
 	// animation
+	const clock = new Clock();
+	let delta;
+
 	function loop() {
+		delta = clock.getDelta();
 
 		// fans
 		[...middleIsland.fans].map((fan, index) => {
-			fan.propeller.rotation.z += .1 * (index + 1);
+			fan.propeller.rotation.z += 5 * (index + 1) * delta;
 		});
 
+		middleIsland.windvaneFan.rotation.z += 1 * delta;
+
 		[...topIsland.fans].map((fan, index) => {
-			fan.propeller.rotation.z -= .05 * (index + 1);
+			fan.propeller.rotation.z -= 2 * (index + 1) * delta;
 		});
 
 

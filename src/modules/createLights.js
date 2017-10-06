@@ -5,12 +5,12 @@ export default function createLights(scene) {
 
 	let hemisphereLight = new HemisphereLight(0xaaaaaa, 0x000000, .9);
 
-	let shadowLight = new DirectionalLight(0xffffff, .9);
+	let shadowLight = new DirectionalLight(0xffffff, .75);
 
 	let ambientLight = new AmbientLight(0x404040);
 	ambientLight.intensity = .5;
 
-	shadowLight.position.set(-700, 375, 300);
+	shadowLight.position.set(-280, 695, 350);
 	shadowLight.castShadow = true;
 
 	shadowLight.shadow.camera.left = -800;

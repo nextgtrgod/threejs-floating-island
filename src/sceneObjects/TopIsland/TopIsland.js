@@ -8,6 +8,7 @@ import PipeCorner from '../pipeCorner';
 import House from './House';
 
 import { colors } from '../../modules/colors';
+import { materials } from '../../modules/materials';
 
 
 export default class TopIsland {
@@ -19,7 +20,7 @@ export default class TopIsland {
 		this.mesh.add(
 			(new Cube(
 				[400, 400, 400],
-				{ x: -400, y: 400, z: 0 },
+				{ x: 0, y: 0, z: 0 },
 				colors.lightGreen,
 				'top-cube-basement')
 			).mesh
@@ -31,8 +32,8 @@ export default class TopIsland {
 
 		{
 			const fan = new Fan();
-			fan.mesh.position.x -= (400 + 100);
-			fan.mesh.position.y += (400 + 100);
+			fan.mesh.position.x -= 100;
+			fan.mesh.position.y += 100;
 			fan.mesh.position.z += 200;
 			fan.mesh.rotation.x = Math.PI / 2;
 			fan.mesh.rotation.y = Math.PI / 2;
@@ -42,8 +43,8 @@ export default class TopIsland {
 
 		{
 			const fan = new Fan();
-			fan.mesh.position.x -= (400 - 100);
-			fan.mesh.position.y += (400 - 100);
+			fan.mesh.position.x += 100;
+			fan.mesh.position.y -= 100;
 			fan.mesh.position.z += 200;
 			fan.mesh.rotation.x = Math.PI / 2;
 			fan.mesh.rotation.y = Math.PI / 2;
@@ -58,8 +59,8 @@ export default class TopIsland {
 
 		// house
 		const house = new House();
-		house.mesh.position.x -= 300;
-		house.mesh.position.y += 600;
+		house.mesh.position.x += 100;
+		house.mesh.position.y += 200;
 
 		this.mesh.add(
 			house.mesh
@@ -71,8 +72,8 @@ export default class TopIsland {
 
 		for (let i = 0; i < 10; i++) {
 			const fence = new Fence();
-			fence.mesh.position.x -= (220 + i * fence.width) ;
-			fence.mesh.position.y += 600;
+			fence.mesh.position.x += (190 - i * fence.width) ;
+			fence.mesh.position.y += 200;
 			fence.mesh.position.z += 190;
 			
 			fence.mesh.updateMatrix();
@@ -81,8 +82,8 @@ export default class TopIsland {
 
 		for (let i = 0; i < 10; i++) {
 			const fence = new Fence();
-			fence.mesh.position.x -= 592.5;
-			fence.mesh.position.y += 600;
+			fence.mesh.position.x -= 187;
+			fence.mesh.position.y += 200;
 			fence.mesh.position.z += 190 - (i *fence.width);
 
 			fence.mesh.rotation.y = - (Math.PI / 2);
@@ -93,9 +94,9 @@ export default class TopIsland {
 
 		for (let i = 0; i < 10; i++) {
 			const fence = new Fence(( i === 9 ? true : false));
-			fence.mesh.position.x -= (592.5 - i * fence.width);
-			fence.mesh.position.y += 600;
-			fence.mesh.position.z -= 190;
+			fence.mesh.position.x -= (187 - i * fence.width);
+			fence.mesh.position.y += 200;
+			fence.mesh.position.z -= 187;
 
 			fence.mesh.rotation.y = Math.PI;
 
@@ -105,8 +106,8 @@ export default class TopIsland {
 
 		for (let i = 0; i < 3; i++) {
 			const fence = new Fence();
-			fence.mesh.position.x -= 220;
-			fence.mesh.position.y += 600;
+			fence.mesh.position.x += 190;
+			fence.mesh.position.y += 200;
 			fence.mesh.position.z += ((fence.width * 2) + i * (fence.width)) + 5;
 	
 			fence.mesh.rotation.y = Math.PI / 2;
@@ -115,13 +116,7 @@ export default class TopIsland {
 			fenceGeometry.merge(fence.mesh.geometry, fence.mesh.matrix);
 		};
 
-		const fencePerimeter = new Mesh(
-			fenceGeometry,
-			new MeshPhongMaterial({
-				color: colors.wood,
-				flatShading: true
-			})
-		);
+		const fencePerimeter = new Mesh(fenceGeometry, materials.wood);
 		fencePerimeter.name = 'fence-perimeter';
 		fencePerimeter.castShadow = true;
 		fencePerimeter.receiveShadow = true;
@@ -134,17 +129,17 @@ export default class TopIsland {
 		// pines
 		{
 			const pine = ( new Pine([1, 1, 1]) ).mesh;
-			pine.position.x -= 280;
-			pine.position.y += 600;
+			pine.position.x += 140;
+			pine.position.y += 200;
 			pine.position.z += 140;
 
 			this.mesh.add(pine);
 		};
 
 		{
-			const pine = ( new Pine([1, 1.1, 1]) ).mesh;
-			pine.position.x -= 380;
-			pine.position.y += 600;
+			const pine = ( new Pine([1, 1.2, 1]) ).mesh;
+			pine.position.x += 40;
+			pine.position.y += 200;
 			pine.position.z += 140;
 
 			this.mesh.add(pine);
@@ -152,8 +147,8 @@ export default class TopIsland {
 
 		{
 			const pine = ( new Pine([1.1, 1.5, 1.1]) ).mesh;
-			pine.position.x -= 480;
-			pine.position.y += 600;
+			pine.position.x -= 80;
+			pine.position.y += 200;
 			pine.position.z += 140;
 
 			this.mesh.add(pine);
@@ -161,8 +156,8 @@ export default class TopIsland {
 
 		{
 			const pine = ( new Pine([1.6, 1.8, 1.6]) ).mesh;
-			pine.position.x -= 480;
-			pine.position.y += 600;
+			pine.position.x -= 80;
+			pine.position.y += 200;
 			pine.position.z -= 80;
 
 			this.mesh.add(pine);
@@ -170,12 +165,12 @@ export default class TopIsland {
 
 
 		const pipeCorner = ( new PipeCorner() ).mesh;
-		pipeCorner.position.x -= 480;
-		pipeCorner.position.y += 600;
-		pipeCorner.position.z += 30;
-
-
+		pipeCorner.position.x -= 60;
+		pipeCorner.position.y += 200;
+		pipeCorner.position.z += 40;
 
 		this.mesh.add(pipeCorner);
+
+		this.mesh.position.set(-400, 400, 0);
 	}
 }
