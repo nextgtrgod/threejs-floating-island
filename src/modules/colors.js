@@ -16,5 +16,6 @@ export const colors = {
 	roof:		0xbc765c,
 	sky:		0x80b6dc,
 
-	red:		0xff0000
+	red:		0xff0000,
+	rust:		0xb98475
 }

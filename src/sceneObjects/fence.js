@@ -1,4 +1,4 @@
-import { Geometry, Mesh, MeshPhongMaterial } from 'three';
+import { Geometry, Mesh } from 'three';
 
 import Cube from '../modules/Cube';
 

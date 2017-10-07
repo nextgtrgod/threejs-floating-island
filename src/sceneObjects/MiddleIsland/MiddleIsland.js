@@ -16,6 +16,7 @@ export default class MiddleIsland {
 	constructor() {
 
 		this.mesh = new Object3D();
+		this.mesh.name = 'middle-island';
 
 		// big cube
 		this.mesh.add(

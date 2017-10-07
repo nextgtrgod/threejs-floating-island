@@ -1,4 +1,4 @@
-import { Geometry, Mesh, Object3D, PlaneGeometry, CylinderGeometry } from 'three';
+import { Geometry, Mesh, Object3D, CylinderGeometry } from 'three';
 
 import Cube from '../../modules/Cube';
 

@@ -20,10 +20,12 @@
 		"babel-preset-es2017": "^6.24.1",
 		"css-loader": "^0.28.7",
 		"postcss-loader": "^2.0.6",
+		"stats.js": "^0.17.0",
 		"style-loader": "^0.18.2",
 		"stylus": "^0.54.5",
 		"stylus-loader": "^3.0.1",
 		"three": "^0.87.1",
+		"three-orbit-controls": "^82.1.0",
 		"webpack": "^3.6.0",
 		"webpack-dev-server": "^2.9.1"
 	}

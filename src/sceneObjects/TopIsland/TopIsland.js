@@ -15,14 +15,14 @@ export default class TopIsland {
 	constructor() {
 
 		this.mesh = new Object3D();
+		this.mesh.name = 'top-island';
 
 		// big cube
 		this.mesh.add(
 			(new Cube(
 				[400, 400, 400],
 				{ x: 0, y: 0, z: 0 },
-				colors.lightGreen,
-				'top-cube-basement')
+				colors.lightGreen)
 			).mesh
 		);
 
@@ -72,10 +72,10 @@ export default class TopIsland {
 
 		for (let i = 0; i < 10; i++) {
 			const fence = new Fence();
-			fence.mesh.position.x += (190 - i * fence.width) ;
+			fence.mesh.position.x += (190 - i * fence.width);
 			fence.mesh.position.y += 200;
 			fence.mesh.position.z += 190;
-			
+
 			fence.mesh.updateMatrix();
 			fenceGeometry.merge(fence.mesh.geometry, fence.mesh.matrix);
 		};
@@ -84,7 +84,7 @@ export default class TopIsland {
 			const fence = new Fence();
 			fence.mesh.position.x -= 187;
 			fence.mesh.position.y += 200;
-			fence.mesh.position.z += 190 - (i *fence.width);
+			fence.mesh.position.z += 190 - (i * fence.width);
 
 			fence.mesh.rotation.y = - (Math.PI / 2);
 
@@ -93,7 +93,7 @@ export default class TopIsland {
 		};
 
 		for (let i = 0; i < 10; i++) {
-			const fence = new Fence(( i === 9 ? true : false));
+			const fence = new Fence((i === 9 ? true : false));
 			fence.mesh.position.x -= (187 - i * fence.width);
 			fence.mesh.position.y += 200;
 			fence.mesh.position.z -= 187;
@@ -109,7 +109,7 @@ export default class TopIsland {
 			fence.mesh.position.x += 190;
 			fence.mesh.position.y += 200;
 			fence.mesh.position.z += ((fence.width * 2) + i * (fence.width)) + 5;
-	
+
 			fence.mesh.rotation.y = Math.PI / 2;
 
 			fence.mesh.updateMatrix();
@@ -128,7 +128,7 @@ export default class TopIsland {
 
 		// pines
 		{
-			const pine = ( new Pine([1, 1, 1]) ).mesh;
+			const pine = (new Pine([1, 1, 1])).mesh;
 			pine.position.x += 140;
 			pine.position.y += 200;
 			pine.position.z += 140;
@@ -137,7 +137,7 @@ export default class TopIsland {
 		};
 
 		{
-			const pine = ( new Pine([1, 1.2, 1]) ).mesh;
+			const pine = (new Pine([1, 1.2, 1])).mesh;
 			pine.position.x += 40;
 			pine.position.y += 200;
 			pine.position.z += 140;
@@ -146,7 +146,7 @@ export default class TopIsland {
 		};
 
 		{
-			const pine = ( new Pine([1.1, 1.5, 1.1]) ).mesh;
+			const pine = (new Pine([1.1, 1.5, 1.1])).mesh;
 			pine.position.x -= 80;
 			pine.position.y += 200;
 			pine.position.z += 140;
@@ -155,7 +155,7 @@ export default class TopIsland {
 		};
 
 		{
-			const pine = ( new Pine([1.6, 1.8, 1.6]) ).mesh;
+			const pine = (new Pine([1.6, 1.8, 1.6])).mesh;
 			pine.position.x -= 80;
 			pine.position.y += 200;
 			pine.position.z -= 80;
@@ -164,7 +164,7 @@ export default class TopIsland {
 		};
 
 
-		const pipeCorner = ( new PipeCorner() ).mesh;
+		const pipeCorner = (new PipeCorner()).mesh;
 		pipeCorner.position.x -= 60;
 		pipeCorner.position.y += 200;
 		pipeCorner.position.z += 40;

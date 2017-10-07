@@ -13,15 +13,15 @@ export default function createLights(scene) {
 	shadowLight.position.set(-280, 695, 350);
 	shadowLight.castShadow = true;
 
-	shadowLight.shadow.camera.left = -800;
-	shadowLight.shadow.camera.right = 800;
-	shadowLight.shadow.camera.top = 800;
-	shadowLight.shadow.camera.bottom = -800;
-	shadowLight.shadow.camera.near = 1;
-	shadowLight.shadow.camera.far = 1000;
+	shadowLight.shadow.camera.left 		= -800;
+	shadowLight.shadow.camera.right 	= 800;
+	shadowLight.shadow.camera.top 		= 800;
+	shadowLight.shadow.camera.bottom 	= -800;
+	shadowLight.shadow.camera.near 		= 1;
+	shadowLight.shadow.camera.far 		= 1000;
 
-	shadowLight.shadow.mapSize.width = 512;
-	shadowLight.shadow.mapSize.height = 512;
+	shadowLight.shadow.mapSize.width 	= 512;
+	shadowLight.shadow.mapSize.height 	= 512;
 
 
 	scene.add(hemisphereLight);  
