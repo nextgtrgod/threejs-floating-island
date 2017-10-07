@@ -5,6 +5,8 @@ import Fan from '../fan';
 import Fence from '../fence';
 import Pine from '../pine';
 import Windvane from './Windvane';
+import Ladder from './Ladder';
+import Stones from './Stones';
 
 import { colors } from '../../modules/colors';
 import { materials } from '../../modules/materials';
@@ -80,7 +82,7 @@ export default class MiddleIsland {
 			fenceGeometry.merge(fence.mesh.geometry, fence.mesh.matrix);
 		};
 
-		for (let i = 0; i < 4; i++) {
+		for (let i = 0; i < 5; i++) {
 			const fence = new Fence();
 			fence.mesh.position.x -= (190 - i * fence.width) ;
 			fence.mesh.position.y += 200;
@@ -90,9 +92,9 @@ export default class MiddleIsland {
 			fenceGeometry.merge(fence.mesh.geometry, fence.mesh.matrix);
 		};
 
-		for (let i = 0; i < 3; i++) {
+		for (let i = 0; i < 4; i++) {
 			const fence = new Fence();
-			fence.mesh.position.x += (80 + i * fence.width);
+			fence.mesh.position.x += (45 + i * fence.width);
 			fence.mesh.position.y += 200;
 			fence.mesh.position.z += 185;
 
@@ -119,11 +121,24 @@ export default class MiddleIsland {
 
 		this.windvaneFan = windvane.fan;
 
+
+		// ladder
+		const ladder = new Ladder().mesh;
+		ladder.position.set(-158, 200, -90);
+		ladder.rotation.z = Math.PI / 32;
+
+
+		// stones
+		const stones = new Stones().mesh;
+		stones.position.set(-210, 200, 170);
+
 		// final
 		this.mesh.add(
 			fencePerimeter,
 			pine,
-			windvane.mesh
+			windvane.mesh,
+			ladder,
+			stones
 		);
 		
 	}

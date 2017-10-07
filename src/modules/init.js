@@ -35,9 +35,10 @@ export default function init() {
 		// cameraHelper
 	);
 
-	scene.rotation.x = Math.PI / 8;
+	// scene.rotation.x = Math.PI / 8;
+	scene.rotation.x = .45
 	// scene.rotation.y = - Math.PI / 4;
-	scene.rotation.y = - 1.25;
+	scene.rotation.y = - .5;
 
 
 
