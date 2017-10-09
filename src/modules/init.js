@@ -126,5 +126,6 @@ export default function init() {
 
 
 	console.log(scene);
+	console.log(renderer.info);
 
 }

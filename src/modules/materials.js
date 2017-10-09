@@ -1,6 +1,6 @@
 import { colors } from './colors';
 
-import { MeshPhongMaterial, DoubleSide } from 'three';
+import { MeshPhongMaterial, DoubleSide, LineBasicMaterial } from 'three';
 
 
 export const materials = {
@@ -36,5 +36,7 @@ export const materials = {
 	brick:		new MeshPhongMaterial({ color: colors.brick, flatShading: true, side: DoubleSide}),
 	roof:		new MeshPhongMaterial({ color: colors.roof, flatShading: true }),
 	white:		new MeshPhongMaterial({ color: colors.white, flatShading: true }),
-	red:		new MeshPhongMaterial({ color: colors.red, flatShading: true })
+	red:		new MeshPhongMaterial({ color: colors.red, flatShading: true }),
+
+	line:		new LineBasicMaterial({ color: colors.lightMetal, linewidth: 1})
 }

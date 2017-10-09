@@ -9,7 +9,7 @@ export default function createRenderer() {
 
 	let renderer = new WebGLRenderer({
 		alpha: true,
-		antialias: false
+		antialias: true
 	});
 
 	renderer.setSize(WIDTH, HEIGHT);
