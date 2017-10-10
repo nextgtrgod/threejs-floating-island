@@ -120,7 +120,7 @@ export default class MiddleIsland {
 		const windvane = new Windvane();
 		windvane.mesh.position.set(110, 200, -80);
 
-		this.windvaneFan = windvane.fan;
+		this.windvane = windvane;
 
 
 		// ladder

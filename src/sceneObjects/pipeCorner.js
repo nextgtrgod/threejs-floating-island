@@ -32,19 +32,19 @@ export default class PipeCorner {
 
 
 			// rings
-			const ringGeometry = new TorusGeometry((radius + 1), 4, 10, 16, (2 * Math.PI) );
+			const ringGeometry = new TorusGeometry((radius + 1), 6, 10, 16, (2 * Math.PI) );
 			const ring = new Mesh(ringGeometry);
 			ring.position.y += 8;
 			ring.rotation.x = Math.PI / 2;
 			ring.updateMatrix();
 
 			const bottomRing = ring.clone();
-			bottomRing.position.y -= 16;
+			bottomRing.position.y -= 24;
 			bottomRing.updateMatrix();
 
 	
 			// segments
-			const segmentGeometry = new CylinderGeometry(2, 2, 8, 3, 1, true);
+			const segmentGeometry = new CylinderGeometry(2, 2, 24, 3, 1, true);
 			
 			for (let i = 0; i < 16; i++) {
 				const segment = new Mesh(segmentGeometry);
@@ -70,7 +70,7 @@ export default class PipeCorner {
 		if (isBottomConnection) {
 			const bottomConnection = connection.clone();
 
-			bottomConnection.position.set(-(2 * radius), 0, 0);
+			bottomConnection.position.set(-(2 * radius), -20, 0);
 			bottomConnection.rotation.z += Math.PI / 2;
 			bottomConnection.updateMatrix();
 

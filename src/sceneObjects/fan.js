@@ -77,4 +77,8 @@ export default class Fan {
 		// final
 		this.mesh.add(staticGroup, propeller);
 	}
+
+	rotate = (value) => {
+		this.propeller.rotation.z += value;
+	}
 }

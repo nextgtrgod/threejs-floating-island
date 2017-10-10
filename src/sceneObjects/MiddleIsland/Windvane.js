@@ -209,6 +209,8 @@ export default class Windvane {
 			vane.add(axle, hub, tail, fan);
 		};
 
+		this.vane = vane;
+
 
 		// final
 		this.mesh.add(
@@ -216,5 +218,13 @@ export default class Windvane {
 			vaneSupport,
 			vane
 		);
+	}
+
+	rotateFan = (value) => {
+		this.fan.rotation.z += value;
+	}
+
+	rotateVane = (value) => {
+		this.vane.rotation.y += value;
 	}
 }

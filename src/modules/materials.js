@@ -38,5 +38,14 @@ export const materials = {
 	white:		new MeshPhongMaterial({ color: colors.white, flatShading: true }),
 	red:		new MeshPhongMaterial({ color: colors.red, flatShading: true }),
 
-	line:		new LineBasicMaterial({ color: colors.lightMetal, linewidth: 1})
+	line:		new LineBasicMaterial({ color: colors.lightMetal, linewidth: 1}),
+
+	water:	new MeshPhongMaterial(
+		{
+			color: colors.water,
+			flatShading: true,
+			// transparent: true,
+			// opacity: .8
+		}
+	)
 }

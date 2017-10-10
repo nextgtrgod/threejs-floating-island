@@ -84,19 +84,19 @@ export default class BottomIsland {
 		// pipe corners
 		const pipesParams = [
 			{
-				position: { x: 0, y: 160, z: 180 },
+				position: { x: 0, y: 160, z: 200 },
 				rotation: { x: 0, y: (Math.PI / 2), z: 0 }
 			},
 			{
-				position: { x: 0, y: 0, z: 180 },
+				position: { x: 0, y: 0, z: 190 },
 				rotation: { x: 0, y: (Math.PI / 2), z: Math.PI }
 			},
 			{
-				position: { x: 200, y: -60, z: 0 },
+				position: { x: 220, y: -75, z: 0 },
 				rotation: { x: (Math.PI / 2), y: (Math.PI / 2), z: 0 }
 			},
 			{
-				position: { x: 210, y: -60, z: 10 },
+				position: { x: 230, y: -75, z: -40 },
 				rotation: { x: (Math.PI / 2), y: Math.PI, z: 0 }
 			}
 		];

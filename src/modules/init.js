@@ -16,6 +16,8 @@ import BottomIsland from '../sceneObjects/BottomIsland/BottomIsland';
 import MiddleIsland from '../sceneObjects/MiddleIsland/MiddleIsland';
 import TopIsland from '../sceneObjects/TopIsland/TopIsland';
 
+import Water from './Water';
+
 
 export default function init() {
 
@@ -33,8 +35,12 @@ export default function init() {
 	let middleIsland = new MiddleIsland();
 	let topIsland = new TopIsland();
 
-	const axisHelper = new AxisHelper( 400 );
+	// const axisHelper = new AxisHelper( 400 );
 	// const cameraHelper = new CameraHelper( camera );
+
+	const water = new Water();
+	water.mesh.position.set(-400, 560, 40);
+	// water.mesh.scale.set(1, .5, 1);
 
 	scene.add(
 		bottomIsland.mesh,
@@ -42,13 +48,13 @@ export default function init() {
 		topIsland.mesh,
 		// axisHelper,
 		// cameraHelper
+		water.mesh
 	);
 
 	scene.rotation.x = Math.PI / 6;
 	// scene.rotation.x = .45
 	scene.rotation.y = - Math.PI / 4;
 	// scene.rotation.y = - .5;
-
 
 
 	// all loaded
@@ -65,6 +71,8 @@ export default function init() {
 	const clock = new Clock();
 	let delta;
 
+	middleIsland.windvane.rotateVane(Math.random() * (2 * Math.PI));
+
 	function loop() {
 
 		//
@@ -74,15 +82,21 @@ export default function init() {
 		delta = clock.getDelta();
 
 		// fans
-		[...middleIsland.fans].map((fan, index) => {
-			fan.propeller.rotation.z += 5 * (index + 1) * delta;
-		});
+		middleIsland.fans[0].rotate(5 * delta);
+		middleIsland.fans[1].rotate(10 * delta);
 
-		middleIsland.windvaneFan.rotation.z += 1 * delta;
+		topIsland.fans[0].rotate(-2 * delta);
+		topIsland.fans[1].rotate(-4 * delta);
 
-		[...topIsland.fans].map((fan, index) => {
-			fan.propeller.rotation.z -= 2 * (index + 1) * delta;
-		});
+
+		// windvane
+		middleIsland.windvane.rotateFan(delta);
+
+
+		// waves
+		water.moveWaves();
+
+
 
 		renderer.render(scene, camera);
 

@@ -17,5 +17,7 @@ export const colors = {
 	sky:		0x80b6dc,
 
 	red:		0xff0000,
-	rust:		0xb98475
+	rust:		0xb98475,
+
+	water:		0x80b6dc
 }
