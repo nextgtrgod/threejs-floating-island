@@ -4,7 +4,8 @@ const THREE = require('three');
 
 const OrbitControls = require('three-orbit-controls')(THREE);
 
-import { Clock, AxisHelper, CameraHelper } from 'three';
+import { Vector3, Clock, AxisHelper, CameraHelper } from 'three';
+import { EffectComposer, RenderPass, BokehPass } from 'postprocessing';
 
 import createScene from './createScene';
 import createCamera from './createCamera';
@@ -26,6 +27,17 @@ export default function init() {
 	let renderer = createRenderer();
 	createLights(scene);
 
+	const effectComposer = new EffectComposer(renderer);
+	effectComposer.addPass(new RenderPass(scene, camera));
+
+	const bokehPass = new BokehPass(camera, {
+		focus: .1,
+		dof: .095
+	});
+	bokehPass.renderToScreen = true;
+	effectComposer.addPass(bokehPass);
+
+	console.log(bokehPass);
 
 	// orbit controls
 	const controls = new OrbitControls(camera);
@@ -38,26 +50,40 @@ export default function init() {
 	// const axisHelper = new AxisHelper( 400 );
 	// const cameraHelper = new CameraHelper( camera );
 
-	const water = new Water();
-	water.mesh.position.set(-400, 560, 40);
-	// water.mesh.scale.set(1, .5, 1);
 
+	// river parts
+	const river = [];
+	{
+		const pathPoints = [
+			new Vector3(-450, 710, 40),
+			new Vector3(-380, 620, 40),
+			new Vector3(-195, 600, 40),
+			new Vector3(-180, 210, 40),
+			new Vector3(-60, 210, 50),
+			new Vector3(-20, 210, 100),
+			new Vector3(15, 205, 210),
+			new Vector3(0, -180, 230),
+			new Vector3(0, -180, 580)
+		];
+
+		const riverPart = new Water(pathPoints, 25);
+		
+		river.push(riverPart);
+
+		scene.add(riverPart.mesh);
+	};
+
+	//
 	scene.add(
 		bottomIsland.mesh,
 		middleIsland.mesh,
-		topIsland.mesh,
-		// axisHelper,
-		// cameraHelper
-		water.mesh
+		topIsland.mesh
 	);
-
 	scene.rotation.x = Math.PI / 6;
-	// scene.rotation.x = .45
 	scene.rotation.y = - Math.PI / 4;
-	// scene.rotation.y = - .5;
 
 
-	// all loaded
+	// when all loaded
 	document.body.classList.add('loaded');
 
 
@@ -71,6 +97,7 @@ export default function init() {
 	const clock = new Clock();
 	let delta;
 
+	// vane
 	middleIsland.windvane.rotateVane(Math.random() * (2 * Math.PI));
 
 	function loop() {
@@ -79,7 +106,7 @@ export default function init() {
 		stats.begin();
 		//
 
-		delta = clock.getDelta();
+		delta =  clock.getDelta();
 
 		// fans
 		middleIsland.fans[0].rotate(5 * delta);
@@ -94,11 +121,12 @@ export default function init() {
 
 
 		// waves
-		water.moveWaves();
+		river[0].moveWaves();
 
 
 
 		renderer.render(scene, camera);
+		// effectComposer.render(delta);
 
 		//
 		stats.end();
@@ -114,29 +142,13 @@ export default function init() {
 	const guiContainer = document.getElementById('gui');
 	guiContainer.appendChild(gui.domElement);
 
-	// let cameraPosition = gui.addFolder('camera position');
-	// cameraPosition.add(camera.position, 'x', -500, 500);
-	// cameraPosition.add(camera.position, 'y', -1000, 1000);
-	// cameraPosition.add(camera.position, 'z', -3500, 3500);
-	// cameraPosition.open();
-
-	// let cameraRotation = gui.addFolder('camera rotation');
-	// cameraRotation.add(camera.rotation, 'x', - Math.PI * 2, Math.PI * 2);
-	// cameraRotation.add(camera.rotation, 'y', - Math.PI * 2, Math.PI * 2);
-	// cameraRotation.add(camera.rotation, 'z', - Math.PI * 2, Math.PI * 2);
-	// cameraRotation.open();
-
-	// let sceneRotation = gui.addFolder('scene rotation');
-	// sceneRotation.add(scene.rotation, 'x', - Math.PI * 2, Math.PI * 2);
-	// sceneRotation.add(scene.rotation, 'y', - Math.PI * 2, Math.PI * 2);
-	// sceneRotation.add(scene.rotation, 'z', - Math.PI * 2, Math.PI * 2);
-	// sceneRotation.open();
-
 	let directionalLight = gui.addFolder('scene light');
 	directionalLight.add(scene.children[1].position, 'x', (- 1000), 1000);
 	directionalLight.add(scene.children[1].position, 'y', (- 1000), 1000);
 	directionalLight.add(scene.children[1].position, 'z', (- 1000), 1000);
 	directionalLight.open();
+
+	gui.add(controls, 'enabled');
 
 
 	console.log(scene);

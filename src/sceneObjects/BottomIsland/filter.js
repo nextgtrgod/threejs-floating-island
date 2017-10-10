@@ -24,7 +24,7 @@ export default class Filter {
 		const pillar = new Mesh(new BoxGeometry(5, 40, 20));
 
 		const anotherPillar = pillar.clone();
-		anotherPillar.position.x -= 80;
+		anotherPillar.position.x -= 100;
 		anotherPillar.updateMatrix();
 
 		pillarsGeometry.merge(pillar.geometry, pillar.matrix);
@@ -43,7 +43,7 @@ export default class Filter {
 			let y = i * 5;
 
 			linesGeometry.vertices.push( new Vector3(0, y, 0) );
-			linesGeometry.vertices.push( new Vector3(-80, y, 0 ) );
+			linesGeometry.vertices.push( new Vector3(-100, y, 0 ) );
 		};
 
 		const lines = new LineSegments(linesGeometry, materials.line);

@@ -5,13 +5,13 @@ three.js lowpoly experiment
 * [three.js](https://threejs.org/)
 
 
-![threejs-lowpoly-world app screenshot](https://image.ibb.co/jruoMG/threejs_lowpoly_world.jpg)
+![threejs-lowpoly-world app screenshot](https://image.ibb.co/hTWoqb/threejs_lowpoly_world.jpg)
 
 
 #### Todo
 - [x] Static objects
 - [x] Fans and windvane
-- [ ] Water (particles)
+- [x] Water (vertices movement)
 - [ ] Wind (depends on cursor movement)
 - [ ] Day/Night Cycle
 - [ ] Random events

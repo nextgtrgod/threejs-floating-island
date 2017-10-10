@@ -1,41 +1,34 @@
-import {
-	Object3D,
-	Mesh,
-	Curve,
-	Vector3,
-	TubeGeometry,
-	Geometry } from 'three';
+import { Shape, Mesh, Vector3, ExtrudeGeometry, CatmullRomCurve3 } from 'three';
 
 import { materials } from './materials';
 
 
 export default class Water {
-	constructor() {
+	constructor(points = [new Vector3(0, 0, 0), new Vector3(1, 1, 1)], steps = 10) {
 
 		// river path
-		class CustomSinCurve {
-            constructor(scale = 1) {
+		const spline = new CatmullRomCurve3(points);
 
-                Curve.call(this);
+		var extrudeSettings = {
+			steps			: steps,
+			bevelEnabled	: false,
+			extrudePath		: spline
+		};
 
-                this.scale = scale;
-            }
+		const circle = new Shape();
+		const cirlceRadius = 36;
+		const circleSegments = 16;
 
-            getPoint = (t) => {
+		circle.moveTo(cirlceRadius * Math.cos(0), cirlceRadius * Math.sin(0));
 
-                const tx = t * 3 - 1.5;
-                const ty = Math.sin(2 * Math.PI * t);
-                const tz = 0;
+		for (let i = 1; i < circleSegments; i++) {
+			circle.lineTo(
+				cirlceRadius * Math.cos(circleSegments * (2 * Math.PI) / i),
+				cirlceRadius * Math.sin(circleSegments * (2 * Math.PI) / i) / 1.5
+			);
+		};
 
-                return new Vector3(tx, ty, tz).multiplyScalar(this.scale);
-            }
-        }
-        CustomSinCurve.prototype = Object.create(Curve.prototype);
-		CustomSinCurve.prototype.constructor = CustomSinCurve;
-
-
-        const path = new CustomSinCurve(100);
-        const geometry = new TubeGeometry(path, 35, 35, 50, false);
+        const geometry = new ExtrudeGeometry(circle, extrudeSettings);
         const material = materials.water;
 
 
@@ -59,11 +52,10 @@ export default class Water {
 				speed: 0.032 + Math.random() * 0.064
 			});
 		};
-
-
-        const mesh = new Mesh(geometry, material);
-
-        this.mesh = mesh;
+		
+		this.mesh =  new Mesh(geometry, material);
+		this.mesh.receiveShadow = true;
+		this.mesh.castShadow = true;
 	}
 
 

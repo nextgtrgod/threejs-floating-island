@@ -185,7 +185,7 @@ export default class BottomIsland {
 
 		// water filter
 		const filter = (new Filter()).mesh;
-		filter.position.set(35, 220, 0);
+		filter.position.set(45, 220, 0);
 
 		this.mesh.add(filter);
 		

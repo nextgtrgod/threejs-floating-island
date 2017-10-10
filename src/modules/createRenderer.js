@@ -14,7 +14,7 @@ export default function createRenderer() {
 
 	renderer.setSize(WIDTH, HEIGHT);
 	renderer.shadowMap.enabled = true;
-	renderer.shadowMap.type = PCFSoftShadowMap;
+	// renderer.shadowMap.type = PCFSoftShadowMap;
 
 	renderer.shadowMap.renderReverseSided = true;
 

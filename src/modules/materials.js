@@ -44,8 +44,8 @@ export const materials = {
 		{
 			color: colors.water,
 			flatShading: true,
-			// transparent: true,
-			// opacity: .8
+			transparent: true,
+			opacity: .8
 		}
 	)
 }
