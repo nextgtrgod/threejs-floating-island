@@ -27,17 +27,15 @@ export default function init() {
 	let renderer = createRenderer();
 	createLights(scene);
 
-	const effectComposer = new EffectComposer(renderer);
-	effectComposer.addPass(new RenderPass(scene, camera));
+	// const effectComposer = new EffectComposer(renderer);
+	// effectComposer.addPass(new RenderPass(scene, camera));
 
-	const bokehPass = new BokehPass(camera, {
-		focus: .1,
-		dof: .095
-	});
-	bokehPass.renderToScreen = true;
-	effectComposer.addPass(bokehPass);
-
-	console.log(bokehPass);
+	// const bokehPass = new BokehPass(camera, {
+	// 	focus: .1,
+	// 	dof: .095
+	// });
+	// bokehPass.renderToScreen = true;
+	// effectComposer.addPass(bokehPass);
 
 	// orbit controls
 	const controls = new OrbitControls(camera);
@@ -69,9 +67,22 @@ export default function init() {
 		const riverPart = new Water(pathPoints, 25);
 		
 		river.push(riverPart);
-
-		scene.add(riverPart.mesh);
 	};
+
+	{
+		const pathPoints = [
+			new Vector3(0, -270, 675),
+			new Vector3(0, -380, 675)
+		];
+
+		const riverPart = new Water(pathPoints, 4);
+		
+		river.push(riverPart);
+	};
+
+	river.map(riverPart => scene.add(riverPart.mesh));
+
+
 
 	//
 	scene.add(
@@ -122,7 +133,7 @@ export default function init() {
 
 		// waves
 		river[0].moveWaves();
-
+		river[1].moveWaves();
 
 
 		renderer.render(scene, camera);

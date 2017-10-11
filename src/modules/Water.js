@@ -53,7 +53,7 @@ export default class Water {
 			});
 		};
 		
-		this.mesh =  new Mesh(geometry, material);
+		this.mesh = new Mesh(geometry, material);
 		this.mesh.receiveShadow = true;
 		this.mesh.castShadow = true;
 	}

@@ -1,4 +1,10 @@
-import { Geometry, Mesh, Object3D, CylinderGeometry, TorusGeometry } from 'three';
+import {
+	Geometry,
+	Mesh,
+	Object3D,
+	CylinderGeometry,
+	TorusGeometry
+} from 'three';
 
 import { materials } from '../modules/materials';
 

@@ -28,10 +28,12 @@ export default class BottomIsland {
 
 
 		// chimney
+		const chimneyCombinedGeometry = new Geometry();
+
 		const chimneysParams = [
-			{x: 125, y: 300, z: -80, scale: 100},
-			{x: 135, y: 270, z: -50, scale: 70},
-			{x: 95,  y: 245, z: -40, scale: 50},
+			{x: 120, y: 350, z: -120, scale: 150},
+			{x: 135, y: 270, z: -90, scale: 70},
+			{x: 95,  y: 245, z: -70, scale: 50},
 			{x: 80,  y: 240, z: 70,  scale: 40},
 			{x: 90,  y: 230, z: 100, scale: 30},
 			{x: 120, y: 220, z: 80,  scale: 20},
@@ -49,16 +51,17 @@ export default class BottomIsland {
 				chimneysParams[i].z,
 			);
 			chimney.scale.z = chimneysParams[i].scale;
+			chimney.updateMatrix();
 
-			this.mesh.add(chimney);
+			chimneyCombinedGeometry.merge(chimney.geometry, chimney.matrix);
 		};
 
 
+		// big chimney!
 		const bigChimneyGeometry = new Geometry();
 
 		const chimneyInner = new Mesh(
-			new CylinderGeometry(35, 35, 70, 20, 1),
-			materials.rust
+			new CylinderGeometry(35, 35, 70, 20, 1)
 		);
 		chimneyInner.position.set(0, -50, 0);
 		chimneyInner.updateMatrix();
@@ -71,13 +74,18 @@ export default class BottomIsland {
 		bigChimneyGeometry.merge(chimneyOuter.geometry, chimneyOuter.matrix);
 
 		const bigChimney = new Mesh(bigChimneyGeometry, materials.rust);
-		bigChimney.name = 'big-chimney';
 
-		bigChimney.castShadow = true;
-		bigChimney.receiveShadow = true;
 		bigChimney.position.set(-125, 325, 90);
+		bigChimney.updateMatrix();
 
-		this.mesh.add(bigChimney);
+		
+		chimneyCombinedGeometry.merge(bigChimney.geometry, bigChimney.matrix);
+
+		const chimneyCombined = new Mesh(chimneyCombinedGeometry, materials.rust);
+		chimneyCombined.castShadow = true;
+		chimneyCombined.receiveShadow = true;
+
+		this.mesh.add(chimneyCombined);
 
 
 
@@ -88,7 +96,7 @@ export default class BottomIsland {
 				rotation: { x: 0, y: (Math.PI / 2), z: 0 }
 			},
 			{
-				position: { x: 0, y: 0, z: 190 },
+				position: { x: 0, y: 0, z: 200 },
 				rotation: { x: 0, y: (Math.PI / 2), z: Math.PI }
 			},
 			{

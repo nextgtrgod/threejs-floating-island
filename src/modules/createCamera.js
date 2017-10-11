@@ -10,7 +10,7 @@ export default function createCamera() {
 	let aspectRatio = WIDTH / HEIGHT;
 	const fieldOfView = 50;
 	const nearPlane = 1;
-	const farPlane = 10000;
+	const farPlane = 4000;
 
 	let camera = new PerspectiveCamera(
 		fieldOfView,

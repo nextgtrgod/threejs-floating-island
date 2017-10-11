@@ -9,7 +9,6 @@ export const materials = {
 	darkMetal:	new MeshPhongMaterial(
 		{
 			color: colors.darkMetal,
-			// flatShading: true
 			specular: 0x050505,
 			shininess: 100
 		}
@@ -44,6 +43,8 @@ export const materials = {
 		{
 			color: colors.water,
 			flatShading: true,
+			specular: 0x050505,
+			shininess: 1000,
 			transparent: true,
 			opacity: .8
 		}

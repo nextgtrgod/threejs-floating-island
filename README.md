@@ -5,7 +5,7 @@ three.js lowpoly experiment
 * [three.js](https://threejs.org/)
 
 
-![threejs-lowpoly-world app screenshot](https://image.ibb.co/hTWoqb/threejs_lowpoly_world.jpg)
+![threejs-lowpoly-world app screenshot](https://image.ibb.co/nKwciw/threejs_lowpoly_world.jpg)
 
 
 #### Todo

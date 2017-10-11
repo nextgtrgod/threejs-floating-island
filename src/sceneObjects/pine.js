@@ -40,7 +40,7 @@ export default class Pine {
 		this.mesh.scale.y = scale[1];
 		this.mesh.scale.z = scale[2];
 
-		this.mesh.rotation.y = rotation; 
+		this.mesh.rotation.y = rotation;
 
 		this.mesh.add(
 			trunk,
