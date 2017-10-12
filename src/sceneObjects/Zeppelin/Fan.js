@@ -5,15 +5,19 @@ import {
 	CylinderGeometry,
 	LatheGeometry,
 	Vector2,
+	Vector3,
 	Shape,
 	ExtrudeGeometry,
+	CatmullRomCurve3,
 	Matrix4 } from 'three';
 
+import Hose from './hose';
+import Cube from '../../modules/Cube';
 import { materials } from '../../modules/materials';
 
 
 export default class Fan {
-	constructor() {
+	constructor(full = true, mirrored = false) {
 
 		this.mesh = new Object3D();
 		this.mesh.name = 'zeppelin-fan';
@@ -21,7 +25,7 @@ export default class Fan {
 
 		
 		// engine
-		const engineRadius = 30;
+		const engineRadius = 40;
 		const engineGeometry = new Geometry();
 		
 		const engineMain = new Mesh(
@@ -54,21 +58,53 @@ export default class Fan {
 		engineTier.updateMatrix();
 
 
-		// for (let i = -2; i < 4; i++) {
-		// 	let engineSegment = new Mesh(
-		// 		new CylinderGeometry(4, 4, 20, 3, 1)
-		// 	);
-		// 	engineSegment.rotation.set(Math.PI / 2, Math.PI / 3, 0);
-		// 	engineSegment.position.set(engineRadius - 2, i * 8, 0);
-		// 	engineSegment.updateMatrix();
+		if (full) {
+			// engine air flow grid
+			const sideLeft = (new Cube( [15, 45, 1] )).mesh;
+			sideLeft.position.set(35, 5, 15);
+			sideLeft.updateMatrix();
 
-		// 	engineGeometry.merge(engineSegment.geometry, engineSegment.matrix);
-		// };
+			const sideRight = sideLeft.clone();
+			sideLeft.position.z -= 30;
+			sideLeft.updateMatrix();
+
+			engineGeometry.merge(sideLeft.geometry, sideLeft.matrix);
+			engineGeometry.merge(sideRight.geometry, sideRight.matrix);
+
+			for (let i = -2; i < 4; i++) {
+				let engineSegment = new Mesh(
+					new CylinderGeometry(4, 4, 30, 3, 1)
+				);
+				engineSegment.rotation.set(Math.PI / 2, Math.PI / 3, 0);
+				engineSegment.position.set(
+					(engineRadius + i / 2 - 2),
+					(i * 8),
+					0
+				);
+				engineSegment.updateMatrix();
+	
+				engineGeometry.merge(engineSegment.geometry, engineSegment.matrix);
+			};
+
+			// hose
+			let m = (mirrored) ? (-1) : 1;
+			
+			const hose = new Hose(4, [
+				new Vector3(-10, 28, m * 35),
+				new Vector3(0, 5, m * 50),
+				new Vector3(10, -4, m * 55),
+				new Vector3(20, -8, m * 50),
+				new Vector3(24, -12, m * 40),
+				new Vector3(20, -16, m * 25),
+			]).mesh;
+
+			engineGeometry.merge(hose.geometry, hose.matrix);
+		};
 
 		const engineHub = new Mesh(
 			new CylinderGeometry(5, 10, 15, 8, 1, true)
 		);
-		engineHub.position.y += 40;
+		engineHub.position.y += 58;
 		engineHub.updateMatrix();
 
 
@@ -87,7 +123,7 @@ export default class Fan {
 		const propellerGeometry = new Geometry();
 
 		const pipe = new Mesh(
-			new CylinderGeometry(4, 4, 250, 8, 1)
+			new CylinderGeometry(4, 4, 280, 8, 1)
 		);
 		pipe.position.set(0, 100, 0);
 		pipe.updateMatrix();
@@ -96,7 +132,7 @@ export default class Fan {
 		const bladesHub = new Mesh(
 			new CylinderGeometry(12, 5, 10, 8, 1)
 		);
-		bladesHub.position.set(0, 215, 0);
+		bladesHub.position.set(0, 228, 0);
 		bladesHub.updateMatrix();
 
 
@@ -132,9 +168,27 @@ export default class Fan {
 		}
 
 		const blades = new Mesh(bladesGeometry, materials.white);
-		blades.position.set(0, 222, 0);
+		blades.position.set(0, 235, 0);
 		blades.geometry.applyMatrix( new Matrix4().makeRotationX( Math.PI / 2 ) );
 		blades.updateMatrix();
+
+
+
+		if (full) {
+			for (let i = 0; i < 3; i++) {
+				const bladeBottom = new Cube( [65, 20, 1] ).mesh;
+				bladeBottom.position.y -= 40;
+				bladeBottom.geometry.vertices[2].x -= 12;
+				bladeBottom.geometry.vertices[3].x -= 12;
+				bladeBottom.geometry.vertices[6].x += 12;
+				bladeBottom.geometry.vertices[7].x += 12;
+				bladeBottom.rotation.y += i * (Math.PI / 3);
+				bladeBottom.updateMatrix();
+	
+				propellerGeometry.merge(bladeBottom.geometry, bladeBottom.matrix);
+			};
+		};
+
 
 
 		propellerGeometry.merge(pipe.geometry, pipe.matrix);

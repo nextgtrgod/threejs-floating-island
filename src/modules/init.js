@@ -117,7 +117,7 @@ export default function init() {
 
 	// vane
 	middleIsland.windvane.rotateVane(Math.random() * (2 * Math.PI));
-
+	let i = 0;
 	function loop() {
 
 		//
@@ -143,7 +143,13 @@ export default function init() {
 		river[1].moveWaves();
 
 		// zeppelin
-		zeppelin.fans[0].rotate(10 * delta);
+		zeppelin.fans[0].rotate(20 * delta);
+		zeppelin.fans[1].rotate(21 * delta);
+		zeppelin.fans[2].rotate(19 * delta);
+		zeppelin.fans[3].rotate(22 * delta);
+
+		zeppelin.mesh.position.y += Math.sin(i * Math.PI);
+		i += .01;
 
 
 		renderer.render(scene, camera);

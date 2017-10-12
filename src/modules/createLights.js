@@ -34,7 +34,7 @@ export default function createLights(scene) {
 	scene.add(
 		hemisphereLight,
 		shadowLight,
-		shadowLightHelper, // temp
+		// shadowLightHelper, // temp
 		ambientLight
 	);  
 }
