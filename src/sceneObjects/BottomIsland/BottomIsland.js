@@ -39,6 +39,7 @@ export default class BottomIsland {
 			{x: 120, y: 220, z: 80,  scale: 20},
 			{x: -130, y: 320, z: -110, scale: 140},
 			{x: -125, y: 270, z: -70, scale: 70},
+			{x: -140, y: 500, z: 90, scale: 200}
 		];
 		
 
@@ -61,7 +62,7 @@ export default class BottomIsland {
 		const bigChimneyGeometry = new Geometry();
 
 		const chimneyInner = new Mesh(
-			new CylinderGeometry(35, 35, 70, 20, 1)
+			new CylinderGeometry(40, 40, 70, 6, 1)
 		);
 		chimneyInner.position.set(0, -50, 0);
 		chimneyInner.updateMatrix();
@@ -193,9 +194,8 @@ export default class BottomIsland {
 
 		// water filter
 		const filter = (new Filter()).mesh;
-		filter.position.set(45, 220, 0);
+		filter.position.set(50, 215, -5);
 
 		this.mesh.add(filter);
-		
 	}
 }

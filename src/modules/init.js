@@ -16,8 +16,12 @@ import createLights from './createLights';
 import BottomIsland from '../sceneObjects/BottomIsland/BottomIsland';
 import MiddleIsland from '../sceneObjects/MiddleIsland/MiddleIsland';
 import TopIsland from '../sceneObjects/TopIsland/TopIsland';
+import Zeppelin from '../sceneObjects/Zeppelin/Zeppelin';
 
 import Water from './Water';
+
+// temp
+import { materials } from './materials';
 
 
 export default function init() {
@@ -41,9 +45,11 @@ export default function init() {
 	const controls = new OrbitControls(camera);
 
 
-	let bottomIsland = new BottomIsland();
-	let middleIsland = new MiddleIsland();
-	let topIsland = new TopIsland();
+	const bottomIsland = new BottomIsland();
+	const middleIsland = new MiddleIsland();
+	const topIsland = new TopIsland();
+	const zeppelin = new Zeppelin();
+
 
 	// const axisHelper = new AxisHelper( 400 );
 	// const cameraHelper = new CameraHelper( camera );
@@ -88,7 +94,8 @@ export default function init() {
 	scene.add(
 		bottomIsland.mesh,
 		middleIsland.mesh,
-		topIsland.mesh
+		topIsland.mesh,
+		zeppelin.mesh
 	);
 	scene.rotation.x = Math.PI / 6;
 	scene.rotation.y = - Math.PI / 4;
@@ -135,6 +142,9 @@ export default function init() {
 		river[0].moveWaves();
 		river[1].moveWaves();
 
+		// zeppelin
+		zeppelin.fans[0].rotate(10 * delta);
+
 
 		renderer.render(scene, camera);
 		// effectComposer.render(delta);
@@ -159,7 +169,18 @@ export default function init() {
 	directionalLight.add(scene.children[1].position, 'z', (- 1000), 1000);
 	directionalLight.open();
 
-	gui.add(controls, 'enabled');
+	let params = {
+		cameraControls: true,
+		isOverride: false
+	};
+
+	gui.add(params, 'cameraControls').onChange(() => {
+		controls.enabled = (params.cameraControls) ? true : false
+	}).name('camera controls');
+
+	gui.add(params, 'isOverride').onChange(() => {
+		scene.overrideMaterial = (params.isOverride) ? materials.override : false;
+	}).name('wireframe');
 
 
 	console.log(scene);

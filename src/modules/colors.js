@@ -19,5 +19,7 @@ export const colors = {
 	red:		0xff0000,
 	rust:		0xb98475,
 
-	water:		0x80b6dc
+	water:		0x80b6dc,
+
+	balloon:	0xd9d9d9
 }

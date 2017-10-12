@@ -19,6 +19,7 @@ export default class Chimney {
 
 		const extrudeSettings = {
 			amount: 1,
+			steps: 1,
 			bevelEnabled: false
 		};
 

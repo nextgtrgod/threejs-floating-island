@@ -1,6 +1,9 @@
 import { colors } from './colors';
 
-import { MeshPhongMaterial, DoubleSide, LineBasicMaterial } from 'three';
+import {
+	MeshPhongMaterial,
+	DoubleSide,
+	LineBasicMaterial } from 'three';
 
 
 export const materials = {
@@ -36,6 +39,8 @@ export const materials = {
 	roof:		new MeshPhongMaterial({ color: colors.roof, flatShading: true }),
 	white:		new MeshPhongMaterial({ color: colors.white, flatShading: true }),
 	red:		new MeshPhongMaterial({ color: colors.red, flatShading: true }),
+	
+	balloon: 	new MeshPhongMaterial({ color: colors.balloon, flatShading: true, side: DoubleSide }),
 
 	line:		new LineBasicMaterial({ color: colors.lightMetal, linewidth: 1}),
 
@@ -48,5 +53,9 @@ export const materials = {
 			transparent: true,
 			opacity: .8
 		}
-	)
+	),
+
+
+	// for debug
+	override:	new MeshPhongMaterial({ color: 0xdcb780, wireframe: true })
 }

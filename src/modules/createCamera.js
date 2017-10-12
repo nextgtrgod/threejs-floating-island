@@ -20,10 +20,8 @@ export default function createCamera() {
 	);
 
 	camera.position.x = 0;
-	camera.position.y = 0;
-	camera.position.z = 2000;
-
-	camera.lookAt(200, 0, 0);
+	camera.position.y = -600;
+	camera.position.z = 2400;
 
 	return camera;
 }

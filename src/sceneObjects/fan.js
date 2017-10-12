@@ -12,16 +12,20 @@ export default class Fan {
 		const staticGroupGeometry = new Geometry();
 
 
-		const baseGeometry = new CylinderGeometry(8, 8, 10, 8, 1);
-		const base = new Mesh(baseGeometry);
+		const base = new Mesh(
+			new CylinderGeometry(8, 8, 10, 6, 1)
+		);
 
 
-		const pipeGeometry = new CylinderGeometry(5, 5, 400, 20, 1);
-		const pipe = new Mesh(pipeGeometry);
+		const pipe = new Mesh(
+			new CylinderGeometry(5, 5, 400, 6, 1)
+		);
 
 
-		const engineGeometry = new BoxGeometry(30, 30, 50);
-		const engine = new Mesh(engineGeometry);
+		const engine = new Mesh(
+			new CylinderGeometry(25, 25, 50, 8, 1)
+		);
+		engine.rotation.x += Math.PI / 2;
 		engine.position.y += 200;
 		engine.updateMatrix();
 

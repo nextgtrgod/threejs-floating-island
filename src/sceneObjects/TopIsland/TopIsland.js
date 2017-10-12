@@ -35,8 +35,8 @@ export default class TopIsland {
 			fan.mesh.position.x -= 100;
 			fan.mesh.position.y += 100;
 			fan.mesh.position.z += 200;
-			fan.mesh.rotation.x = Math.PI / 2;
-			fan.mesh.rotation.y = Math.PI / 2;
+			fan.mesh.rotation.x += Math.PI / 2;
+			fan.mesh.rotation.y += Math.PI;
 
 			this.fans.push(fan);
 		};
@@ -46,8 +46,8 @@ export default class TopIsland {
 			fan.mesh.position.x += 100;
 			fan.mesh.position.y -= 100;
 			fan.mesh.position.z += 200;
-			fan.mesh.rotation.x = Math.PI / 2;
-			fan.mesh.rotation.y = Math.PI / 2;
+			fan.mesh.rotation.x += Math.PI / 2;
+			fan.mesh.rotation.y += Math.PI;
 
 			this.fans.push(fan);
 		};

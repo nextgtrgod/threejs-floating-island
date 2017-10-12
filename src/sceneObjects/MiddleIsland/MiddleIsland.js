@@ -6,7 +6,7 @@ import Fence from '../fence';
 import Pine from '../pine';
 import Windvane from './Windvane';
 import Ladder from './Ladder';
-import Stones from './Stones';
+import Stones from '../stones';
 
 import { colors } from '../../modules/colors';
 import { materials } from '../../modules/materials';
@@ -37,7 +37,8 @@ export default class MiddleIsland {
 			fan.mesh.position.x += 200;
 			fan.mesh.position.y += 100;
 			fan.mesh.position.z -= 100;
-			fan.mesh.rotation.z = (- Math.PI / 2)
+			fan.mesh.rotation.x -= Math.PI / 2;
+			fan.mesh.rotation.z -= Math.PI / 2;
 
 			this.fans.push(fan);
 		};
@@ -48,7 +49,8 @@ export default class MiddleIsland {
 			fan.mesh.position.x += 200;
 			fan.mesh.position.y -= 50;
 			fan.mesh.position.z += 100;
-			fan.mesh.rotation.z = (- Math.PI / 2)
+			fan.mesh.rotation.x -= Math.PI / 2;
+			fan.mesh.rotation.z -= Math.PI / 2;
 
 			this.fans.push(fan);
 		};
@@ -130,8 +132,31 @@ export default class MiddleIsland {
 
 
 		// stones
-		const stones = new Stones().mesh;
+		const stonesCoordinates = [];
+
+		for (let i = 0; i < 12; i++) {
+			stonesCoordinates.push(
+				[
+					250 * Math.cos(i * Math.PI / 24),
+					0,
+					-180 * Math.sin(i * Math.PI / 24),
+				]
+			);
+		};
+
+		for (let i = 0; i < 8; i++) {
+			stonesCoordinates.push(
+				[
+					150 * Math.cos(i * Math.PI / 16) + 10,
+					0,
+					-100 * Math.sin(i * Math.PI / 16),
+				]
+			);
+		};
+
+		const stones = new Stones(stonesCoordinates).mesh;
 		stones.position.set(-210, 200, 170);
+
 
 		// final
 		this.mesh.add(

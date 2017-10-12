@@ -21,7 +21,7 @@ export default class Filter {
 		// pillars
 		const pillarsGeometry = new Geometry();
 
-		const pillar = new Mesh(new BoxGeometry(5, 40, 20));
+		const pillar = new Mesh(new BoxGeometry(5, 30, 390));
 
 		const anotherPillar = pillar.clone();
 		anotherPillar.position.x -= 100;
@@ -40,10 +40,10 @@ export default class Filter {
 
 		for (let i = 0; i < 4; i++) {
 			
-			let y = i * 5;
+			let y = i * 4;
 
-			linesGeometry.vertices.push( new Vector3(0, y, 0) );
-			linesGeometry.vertices.push( new Vector3(-100, y, 0 ) );
+			linesGeometry.vertices.push( new Vector3(0, y, -40) );
+			linesGeometry.vertices.push( new Vector3(-100, y, -40 ) );
 		};
 
 		const lines = new LineSegments(linesGeometry, materials.line);
