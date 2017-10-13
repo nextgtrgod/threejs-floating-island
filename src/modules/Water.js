@@ -23,8 +23,8 @@ export default class Water {
 
 		for (let i = 1; i < circleSegments; i++) {
 			circle.lineTo(
-				cirlceRadius * Math.cos(circleSegments * (2 * Math.PI) / i),
-				cirlceRadius * Math.sin(circleSegments * (2 * Math.PI) / i) / 1.5
+				cirlceRadius * Math.cos(i * (2 * Math.PI) / circleSegments),
+				cirlceRadius * Math.sin(i * (2 * Math.PI) / circleSegments) / 1.5
 			);
 		};
 

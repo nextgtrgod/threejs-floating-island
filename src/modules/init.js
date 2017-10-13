@@ -147,6 +147,8 @@ export default function init() {
 		zeppelin.fans[1].rotate(21 * delta);
 		zeppelin.fans[2].rotate(19 * delta);
 		zeppelin.fans[3].rotate(22 * delta);
+		zeppelin.cabine.turbines[0].rotate(.25 * delta);
+		zeppelin.cabine.turbines[1].rotate(.25 * delta);
 
 		zeppelin.mesh.position.y += Math.sin(i * Math.PI);
 		i += .01;
@@ -188,8 +190,21 @@ export default function init() {
 		scene.overrideMaterial = (params.isOverride) ? materials.override : false;
 	}).name('wireframe');
 
+	// let bokehParams = bokehPass.bokehMaterial.uniforms;
+	// let { aperture, aspect, cameraFar, cameraNear, dof, focus, maxBlur} = bokehParams;
+
+
+	// gui.add(aperture, 'value').min(0).max(1).step(.001).name('aperture');
+	// gui.add(aspect, 'value').min(0).max(10).step(.01).name('aspect');
+	// gui.add(cameraFar, 'value').min(-5000).max(5000).step(10).name('cameraFar');
+	// gui.add(cameraNear, 'value').min(-5000).max(5000).step(10).name('cameraNear');
+	// gui.add(dof, 'value').min(0).max(1).step(.01).name('dof');
+	// gui.add(focus, 'value').min(0).max(1).step(.01).name('focus');
+	// gui.add(maxBlur, 'value').min(0).max(1).step(.01).name('maxBlur');
+
 
 	console.log(scene);
 	console.log(renderer.info);
+	// console.log(bokehPass);
 
 }

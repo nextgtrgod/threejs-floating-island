@@ -87,6 +87,7 @@ export default class Tanks {
 		tanksGeometry.merge(tier.geometry, tier.matrix);
 		
 		this.mesh = new Mesh(tanksGeometry, materials.lightMetal);
+		this.mesh.name = 'fuel-tanks';
 		this.mesh.castShadow = true;
 		this.mesh.receiveShadow = true;
 	}

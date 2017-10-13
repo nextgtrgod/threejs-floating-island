@@ -14,6 +14,7 @@ export default class Balloon {
 	constructor() {
 
 		this.mesh = new Object3D();
+		this.mesh.name = 'zeppelin-balloon';
 
 		const radius = 200;
 		const pointsCount = 12;

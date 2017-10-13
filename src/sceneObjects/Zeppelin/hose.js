@@ -21,8 +21,8 @@ export default class Hose {
 
 		for (let i = 1; i < 16; i++) {
 			shape.lineTo(
-				this.radius * Math.cos(16 * (2 * Math.PI) / i),
-				this.radius * Math.sin(16 * (2 * Math.PI) / i)
+				this.radius * Math.cos(i * (2 * Math.PI) / 16),
+				this.radius * Math.sin(i * (2 * Math.PI) / 16)
 			);
 		};
 
@@ -36,5 +36,6 @@ export default class Hose {
 				}
 			)
 		);
+		this.mesh.name = 'hose';
 	}
 }

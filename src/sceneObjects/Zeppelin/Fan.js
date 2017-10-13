@@ -8,7 +8,6 @@ import {
 	Vector3,
 	Shape,
 	ExtrudeGeometry,
-	CatmullRomCurve3,
 	Matrix4 } from 'three';
 
 import Hose from './hose';
@@ -29,7 +28,7 @@ export default class Fan {
 		const engineGeometry = new Geometry();
 		
 		const engineMain = new Mesh(
-			new CylinderGeometry(engineRadius, engineRadius - 5, (engineRadius * 2), 16, 1, true)
+			new CylinderGeometry(engineRadius, engineRadius - 5, (engineRadius * 2), 16, 1)
 		);
 
 		const engineTopPoints = [];
@@ -171,23 +170,6 @@ export default class Fan {
 		blades.position.set(0, 235, 0);
 		blades.geometry.applyMatrix( new Matrix4().makeRotationX( Math.PI / 2 ) );
 		blades.updateMatrix();
-
-
-
-		if (full) {
-			for (let i = 0; i < 3; i++) {
-				const bladeBottom = new Cube( [65, 20, 1] ).mesh;
-				bladeBottom.position.y -= 40;
-				bladeBottom.geometry.vertices[2].x -= 12;
-				bladeBottom.geometry.vertices[3].x -= 12;
-				bladeBottom.geometry.vertices[6].x += 12;
-				bladeBottom.geometry.vertices[7].x += 12;
-				bladeBottom.rotation.y += i * (Math.PI / 3);
-				bladeBottom.updateMatrix();
-	
-				propellerGeometry.merge(bladeBottom.geometry, bladeBottom.matrix);
-			};
-		};
 
 
 
