@@ -55,8 +55,6 @@ export default class PipeCorner {
 		pipeCorner.castShadow = true;
 		pipeCorner.receiveShadow = true;
 
-		this.mesh.add(
-			pipeCorner
-		);
+		this.mesh = pipeCorner;
 	}
 }

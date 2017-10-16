@@ -26,6 +26,17 @@ export const materials = {
 		}
 	),
 
+	glass: new MeshPhongMaterial(
+		{
+			color: colors.glass,
+			side: DoubleSide,
+			transparent: true,
+			opacity: .5,
+			specular: 0x050505,
+			shininess: 10000
+		}
+	),
+
 	rust: new MeshPhongMaterial(
 		{
 			color: colors.rust,

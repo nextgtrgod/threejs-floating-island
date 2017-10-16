@@ -21,5 +21,6 @@ export const colors = {
 
 	water:		0x80b6dc,
 
-	balloon:	0xd9d9d9
+	balloon:	0xd9d9d9,
+	glass:		0xeeeeee
 }

@@ -1,4 +1,4 @@
-import { Object3D, Geometry, Mesh } from 'three';
+import { Object3D, Geometry, Mesh, CylinderGeometry } from 'three';
 
 import Cube from '../../modules/Cube';
 import Fan from '../fan';
@@ -7,6 +7,9 @@ import Pine from '../pine';
 import Windvane from './Windvane';
 import Ladder from './Ladder';
 import Stones from '../stones';
+
+import PipeCorner from '../pipeCorner';
+import PipeConnection from '../pipeConnection';
 
 import { colors } from '../../modules/colors';
 import { materials } from '../../modules/materials';
@@ -134,6 +137,119 @@ export default class MiddleIsland {
 		stones.position.set(-210, 200, 170);
 
 
+		// back side pipes
+		const pipesGeometry = new Geometry();
+		const glassGeometry = new Geometry();
+
+		const pipesParams = [
+			{
+				type: 'straight',
+				position: [80, -475, 125],
+				rotation: [(Math.PI / 2), 0, 0]
+			},
+			{
+				type: 'connection',
+				position: [80, -475, 35],
+				rotation: [(Math.PI / 2), 0, 0],
+				options: {
+					m: 1
+				}
+			},
+			{
+				type: 'arc',
+				position: [80, -397.5, 20],
+				rotation: [-(Math.PI / 2), (Math.PI / 2), -(Math.PI / 2)],
+				options: {
+					scale: 1.1
+				}
+			},
+			{
+				type: 'connection',
+				position: [80, -300, -57.5],
+				rotation: [0, 0, 0],
+				options: {
+					m: 8
+				}
+			},
+			{
+				type: 'straight',
+				position: [-275, -75, 80],
+				rotation: [0, 0, (Math.PI / 2)]
+			},
+			{
+				type: 'connection',
+				position: [-360, -75, 80],
+				rotation: [0, 0, (Math.PI / 2)],
+				options: {
+					m: 1
+				}
+			},
+			{
+				type: 'arc',
+				position: [-370, 0, 80],
+				rotation: [0, 0, (Math.PI / 2)],
+				options: {
+					scale: 1.1
+				}
+			},
+			{
+				type: 'connection',
+				position: [-450, 150, 80],
+				rotation: [0, 0, 0],
+				options: {
+					m: 4
+				}
+			}
+		];
+
+		for (let i = 0; i < pipesParams.length; i++) {
+
+			let pipe;
+			
+			// 
+			function setParams(el, params) {
+				el.position.set(
+					params.position[0],
+					params.position[1],
+					params.position[2],
+				);
+				el.rotation.set(
+					params.rotation[0],
+					params.rotation[1],
+					params.rotation[2],
+				);
+				el.updateMatrix();
+			};
+
+			switch (pipesParams[i].type) {
+				case 'straight':
+					pipe = new Mesh(
+						new CylinderGeometry(35, 35, 150, 8, 1)
+					);
+					break;
+				case 'connection':
+					pipe = (new PipeConnection(pipesParams[i].options.m)).mesh;
+					break;
+				case 'arc':
+					pipe = (new PipeCorner(false, false)).mesh;
+					pipe.scale.set(
+						pipesParams[i].options.scale,
+						pipesParams[i].options.scale,
+						pipesParams[i].options.scale
+					);
+					break;
+			};
+			setParams(pipe, pipesParams[i]);
+
+			pipesGeometry.merge(pipe.geometry, pipe.matrix);
+
+		};
+
+		const pipes = new Mesh(pipesGeometry, materials.lightMetal);
+		pipes.castShadow = true;
+		pipes.receiveShadow = true;
+
+
 		// final
 		this.mesh.add(
 			fencePerimeter,
@@ -141,7 +257,8 @@ export default class MiddleIsland {
 			windvane.mesh,
 			ladder,
 			stones,
-			...(this.fans.map(fan => fan.mesh))
+			...(this.fans.map(fan => fan.mesh)),
+			pipes
 		);
 		
 	}

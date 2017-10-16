@@ -10,7 +10,7 @@ three.js lowpoly experiment
 
 #### Todo
 - [x] Static objects
-- [ ] Pipes (back side)
+- [x] Pipes (back side)
 - [x] Fans and windvane
 - [x] Water (vertices movement)
 - [ ] Day/Night Cycle

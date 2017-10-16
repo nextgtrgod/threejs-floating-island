@@ -4,7 +4,7 @@ const THREE = require('three');
 
 const OrbitControls = require('three-orbit-controls')(THREE);
 
-import { Vector3, Clock, AxisHelper, CameraHelper } from 'three';
+import { Object3D, Vector3, Clock, AxisHelper, CameraHelper } from 'three';
 import { EffectComposer, RenderPass, BokehPass } from 'postprocessing';
 
 import createScene from './createScene';
@@ -50,6 +50,13 @@ export default function init() {
 	const topIsland = new TopIsland();
 	const zeppelin = new Zeppelin();
 
+	const islands = new Object3D();
+
+	islands.add(
+		bottomIsland.mesh,
+		middleIsland.mesh,
+		topIsland.mesh,
+	);
 
 	// const axisHelper = new AxisHelper( 400 );
 	// const cameraHelper = new CameraHelper( camera );
@@ -79,6 +86,13 @@ export default function init() {
 				new Vector3(0, -380, 665)
 			],
 			steps: 4
+		},
+		{
+			points: [
+				new Vector3(-450, 90, 80),
+				new Vector3(-450, 0, 80),
+			],
+			steps: 2
 		}
 	];
 
@@ -91,15 +105,13 @@ export default function init() {
 		);
 	};
 
-	river.map(riverPart => scene.add(riverPart.mesh));
+	river.map(riverPart => islands.add(riverPart.mesh));
 
 
 
 	//
 	scene.add(
-		bottomIsland.mesh,
-		middleIsland.mesh,
-		topIsland.mesh,
+		islands,
 		zeppelin.mesh
 	);
 	// isometric view
@@ -147,6 +159,7 @@ export default function init() {
 		// waves
 		river[0].moveWaves();
 		river[1].moveWaves();
+		river[2].moveWaves();
 
 		// zeppelin
 		zeppelin.fans[0].rotate(20 * delta);
@@ -157,6 +170,8 @@ export default function init() {
 		zeppelin.cabine.turbines[1].rotate(.25 * delta);
 
 		zeppelin.mesh.position.y += Math.sin(i * Math.PI);
+		islands.position.y += Math.cos(i * Math.PI) / 2;
+
 		i += .01;
 
 
