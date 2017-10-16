@@ -5,7 +5,10 @@ import {
 	ExtrudeGeometry,
 	LatheGeometry,
 	Shape,
-	Object3D } from 'three';
+	Object3D,
+	EdgesGeometry,
+	LineBasicMaterial,
+LineSegments } from 'three';
 
 import { materials } from '../../modules/materials';
 
@@ -32,14 +35,15 @@ export default class Balloon {
 		};
 
 
-
-
+	
 		// balloon
 		const balloon = new Mesh(
 			new LatheGeometry( points ),
 			materials.balloon
 		);
+		// balloon.castShadow = true;
 		balloon.receiveShadow = true;
+
 
 
 		// frame

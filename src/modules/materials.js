@@ -40,7 +40,7 @@ export const materials = {
 	white:		new MeshPhongMaterial({ color: colors.white, flatShading: true }),
 	red:		new MeshPhongMaterial({ color: colors.red, flatShading: true }),
 	
-	balloon: 	new MeshPhongMaterial({ color: colors.balloon, flatShading: true, side: DoubleSide }),
+	balloon: 	new MeshPhongMaterial({ color: colors.balloon, flatShading: true, side: DoubleSide}),
 
 	line:		new LineBasicMaterial({ color: colors.lightMetal, linewidth: 1}),
 

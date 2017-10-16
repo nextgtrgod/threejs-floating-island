@@ -166,7 +166,7 @@ export default class TopIsland {
 
 		const pipeCorner = (new PipeCorner()).mesh;
 		pipeCorner.position.x -= 60;
-		pipeCorner.position.y += 220;
+		pipeCorner.position.y += 215;
 		pipeCorner.position.z += 40;
 
 		this.mesh.add(pipeCorner);

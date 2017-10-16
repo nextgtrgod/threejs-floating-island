@@ -15,7 +15,7 @@ export default class Zeppelin {
 		this.mesh = new Object3D();
 		this.mesh.name = 'zeppelin';
 
-		this.mesh.position.set(-400, 600, 900);
+		this.mesh.position.set(-400, 600, -900);
 
 
 		const balloon = (new Balloon()).mesh;

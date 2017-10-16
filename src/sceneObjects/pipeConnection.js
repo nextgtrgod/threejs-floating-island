@@ -9,7 +9,13 @@ import { materials } from '../modules/materials';
 
 
 export default class PipeConnection {
-	constructor(radius = 35, segmentsCount = 16, needMaterial = false) {
+	constructor(
+		m = 1,
+		isFrontRing = true,
+		isBackRing = true,
+		radius = 35,
+		segmentsCount = 16,
+		needMaterial = false) {
 
 		const geometry = new Geometry();
 
@@ -21,32 +27,38 @@ export default class PipeConnection {
 
 		// base
 		const base = new Mesh(
-			new CylinderGeometry( radius, radius, 20, 20, 1, true )
+			new CylinderGeometry( radius, radius, (24 * m), 20, 1, true )
 		);
 		base.rotation.y = (2 * Math.PI / 80);
 		base.updateMatrix();
 
+		geometry.merge(base.geometry, base.matrix);
+
 
 		// rings
-		const frontRing = new Mesh(
-			new TorusGeometry( radius, 6, 10, 16, (2 * Math.PI) )
-		);
-		frontRing.position.y += 8;
-		frontRing.rotation.x = Math.PI / 2;
-		frontRing.updateMatrix();
+		if (isFrontRing) {
+			const frontRing = new Mesh(
+				new TorusGeometry( radius, 6, 10, 16, (2 * Math.PI) )
+			);
+			frontRing.position.y = 12 * m;
+			frontRing.rotation.x = Math.PI / 2;
+			frontRing.updateMatrix();
+			geometry.merge(frontRing.geometry, frontRing.matrix);
+		};
 
-		const backRing = frontRing.clone();
-		backRing.position.y -= 24;
-		backRing.updateMatrix();
-
-
-		geometry.merge(base.geometry, base.matrix);
-		geometry.merge(frontRing.geometry, frontRing.matrix);
-		geometry.merge(backRing.geometry, backRing.matrix);
+		if (isBackRing) {
+			const backRing = new Mesh(
+				new TorusGeometry( radius, 6, 10, 16, (2 * Math.PI) )
+			);
+			backRing.position.y = -12 * m;
+			backRing.rotation.x = Math.PI / 2;
+			backRing.updateMatrix();
+			geometry.merge(backRing.geometry, backRing.matrix);
+		};
 
 	
 		// segments
-		const segmentGeometry = new CylinderGeometry(2, 2, 24, 3, 1, true);
+		const segmentGeometry = new CylinderGeometry( 2, 2, (24 * m), 3, 1, true );
 		
 		for (let i = 0; i < this.segmentsCount; i++) {
 

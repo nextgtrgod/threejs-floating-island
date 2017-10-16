@@ -57,33 +57,38 @@ export default function init() {
 
 	// river parts
 	const river = [];
-	{
-		const pathPoints = [
-			new Vector3(-450, 710, 40),
-			new Vector3(-380, 620, 40),
-			new Vector3(-195, 600, 40),
-			new Vector3(-180, 210, 40),
-			new Vector3(-60, 210, 50),
-			new Vector3(-20, 210, 100),
-			new Vector3(15, 205, 210),
-			new Vector3(0, -180, 230),
-			new Vector3(0, -180, 580)
-		];
 
-		const riverPart = new Water(pathPoints, 25);
-		
-		river.push(riverPart);
-	};
+	const riverParams = [
+		{
+			points: [
+				new Vector3(-440, 695, 40),
+				new Vector3(-370, 615, 40),
+				new Vector3(-195, 600, 40),
+				new Vector3(-180, 210, 40),
+				new Vector3(-60, 210, 50),
+				new Vector3(-20, 210, 100),
+				new Vector3(15, 205, 210),
+				new Vector3(0, -180, 230),
+				new Vector3(0, -180, 570)
+			],
+			steps: 25
+		},
+		{
+			points: [
+				new Vector3(0, -250, 665),
+				new Vector3(0, -380, 665)
+			],
+			steps: 4
+		}
+	];
 
-	{
-		const pathPoints = [
-			new Vector3(0, -270, 675),
-			new Vector3(0, -380, 675)
-		];
-
-		const riverPart = new Water(pathPoints, 4);
-		
-		river.push(riverPart);
+	for (let i = 0; i < riverParams.length; i++) {
+		river.push(
+			new Water(
+				riverParams[i].points,
+				riverParams[i].steps
+			)
+		);
 	};
 
 	river.map(riverPart => scene.add(riverPart.mesh));
@@ -97,6 +102,7 @@ export default function init() {
 		topIsland.mesh,
 		zeppelin.mesh
 	);
+	// isometric view
 	scene.rotation.x = Math.PI / 6;
 	scene.rotation.y = - Math.PI / 4;
 

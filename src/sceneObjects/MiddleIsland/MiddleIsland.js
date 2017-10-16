@@ -18,6 +18,7 @@ export default class MiddleIsland {
 		this.mesh = new Object3D();
 		this.mesh.name = 'middle-island';
 
+
 		// big cube
 		this.mesh.add(
 			(new Cube(
@@ -28,83 +29,58 @@ export default class MiddleIsland {
 			).mesh
 		);
 
+
 		// fans
 		this.fans = [];
 
+		const fansParams = [
+			{x: 200, y: 100, z: -100, rx: -Math.PI / 2, rz: -Math.PI / 2},
+			{x: 200, y: -50, z: 100, rx: -Math.PI / 2, rz: -Math.PI / 2}
+		];
 
-		{
+		for (let i = 0; i < fansParams.length; i++) {
 			const fan = new Fan();
-			fan.mesh.position.x += 200;
-			fan.mesh.position.y += 100;
-			fan.mesh.position.z -= 100;
-			fan.mesh.rotation.x -= Math.PI / 2;
-			fan.mesh.rotation.z -= Math.PI / 2;
+			fan.mesh.position.set(
+				fansParams[i].x,
+				fansParams[i].y,
+				fansParams[i].z
+			);
+			fan.mesh.rotation.set(
+				fansParams[i].rx,
+				0,
+				fansParams[i].rz
+			);
 
 			this.fans.push(fan);
 		};
-
-		{
-			const fan = new Fan();
-
-			fan.mesh.position.x += 200;
-			fan.mesh.position.y -= 50;
-			fan.mesh.position.z += 100;
-			fan.mesh.rotation.x -= Math.PI / 2;
-			fan.mesh.rotation.z -= Math.PI / 2;
-
-			this.fans.push(fan);
-		};
-
-		this.fans.map(fan => {
-			this.mesh.add(fan.mesh)
-		});
 
 
 		// fence perimeter
+		const fenceParams = [
+			{x: 190, z: -190, ry: 0, mx: -1, mz: 0, count: 11},
+			{x: 190, z: 185, ry: -Math.PI / 2, mx: 0, mz: -1, count: 10},
+			{x: -190, z: 190, ry: 0, mx: 1, mz: 0, count: 4},
+			{x: 80, z: 185, ry: Math.PI, mx: 1, mz: 0, count: 3},
+		];
+		const fenceWidth = 38;
 		let fenceGeometry = new Geometry();
-		
-		for (let i = 0; i < 11; i++) {
-			const fence = new Fence();
-			fence.mesh.position.x += (190 - i * fence.width) ;
-			fence.mesh.position.y += 200;
-			fence.mesh.position.z -= 190;
-			
-			fence.mesh.updateMatrix();
-			fenceGeometry.merge(fence.mesh.geometry, fence.mesh.matrix);
-		};
 
-		for (let i = 0; i < 10; i++) {
-			const fence = new Fence();
-			fence.mesh.position.x += 190;
-			fence.mesh.position.y += 200;
-			fence.mesh.position.z += 185 - (i *fence.width);
+		for (let i = 0; i < fenceParams.length; i++) {
 
-			fence.mesh.rotation.y = - (Math.PI / 2);
+			for(let j = 0; j < fenceParams[i].count; j++) {
 
-			fence.mesh.updateMatrix();
-			fenceGeometry.merge(fence.mesh.geometry, fence.mesh.matrix);
-		};
+				const fence = (new Fence()).mesh;
+				fence.position.set(
+					fenceParams[i].x + (j * fenceParams[i].mx * fenceWidth),
+					210,
+					fenceParams[i].z + (j * fenceParams[i].mz * fenceWidth)
+				);
+				fence.rotation.y = fenceParams[i].ry;
+				fence.updateMatrix();
 
-		for (let i = 0; i < 5; i++) {
-			const fence = new Fence();
-			fence.mesh.position.x -= (190 - i * fence.width) ;
-			fence.mesh.position.y += 200;
-			fence.mesh.position.z += 190;
-			
-			fence.mesh.updateMatrix();
-			fenceGeometry.merge(fence.mesh.geometry, fence.mesh.matrix);
-		};
+				fenceGeometry.merge(fence.geometry, fence.matrix);
+			};
 
-		for (let i = 0; i < 4; i++) {
-			const fence = new Fence();
-			fence.mesh.position.x += (45 + i * fence.width);
-			fence.mesh.position.y += 200;
-			fence.mesh.position.z += 185;
-
-			fence.mesh.rotation.y = Math.PI;
-
-			fence.mesh.updateMatrix();
-			fenceGeometry.merge(fence.mesh.geometry, fence.mesh.matrix);
 		};
 
 		const fencePerimeter = new Mesh(fenceGeometry, materials.wood);
@@ -164,7 +140,8 @@ export default class MiddleIsland {
 			pine,
 			windvane.mesh,
 			ladder,
-			stones
+			stones,
+			...(this.fans.map(fan => fan.mesh))
 		);
 		
 	}
