@@ -23,6 +23,8 @@ import Water from './Water';
 // temp
 import { materials } from './materials';
 
+import Time from './Time';
+
 
 export default function init() {
 
@@ -129,6 +131,10 @@ export default function init() {
 	document.body.appendChild(stats.dom);
 
 
+	// time
+	const time = new Time();
+
+
 	// animation
 	const clock = new Clock();
 	let delta;
@@ -181,6 +187,8 @@ export default function init() {
 		//
 		stats.end();
 		//
+
+		time.update();
 
 		requestAnimationFrame(loop);
 	};

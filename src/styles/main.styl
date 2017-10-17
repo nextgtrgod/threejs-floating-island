@@ -1,3 +1,9 @@
+// fonts
+@import url('https://fonts.googleapis.com/css?family=Poiret+One')
+
+$font-default = 'Poiret One', cursive;
+
+
 
 body
 	position relative
@@ -7,6 +13,7 @@ body
 	padding 0
 	background-color #80b6dc
 	opacity 0
+	font-family: $font-default
 	&:before
 		content ''
 		position absolute
@@ -15,9 +22,10 @@ body
 		right 0
 		bottom 0
 		margin auto
-		opacity .1
+		opacity .2
 		background-image url('./images/bg.jpg')
 		background-size cover
+		filter blur(5px)
 
 	
 	&.loaded
@@ -36,6 +44,17 @@ body
 	position absolute
 	top 0
 	right 0
+
+.date
+	position absolute
+	left 1vw
+	bottom 1vw
+	font-size 40px
+	span
+		display block
+		&#time
+			font-size 1.5em
+			letter-spacing 1px
 
 
 // animation

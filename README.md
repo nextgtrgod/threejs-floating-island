@@ -5,7 +5,7 @@ three.js lowpoly experiment
 * [three.js](https://threejs.org/)
 
 
-![threejs-lowpoly-world app screenshot](https://image.ibb.co/eoziQb/threejs_lowpoly_world.jpg)
+![threejs-lowpoly-world app screenshot](https://image.ibb.co/fnis6R/threejs_lowpoly_world.jpg)
 
 
 #### Todo
@@ -16,4 +16,5 @@ three.js lowpoly experiment
 - [ ] Day/Night Cycle
 - [ ] Zeppelin big cabine
 - [ ] Zeppelin ladder to islands
-- [ ] Date and time (ru/eng - system lang)
+- [x] Date and time (ru/eng - system lang)
+- [ ] resize/mobile
