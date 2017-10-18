@@ -30,25 +30,23 @@ export default class TopIsland {
 		// fans
 		this.fans = [];
 
-		{
+		const fansParams = [
+			{ x: -100, y: 100 },
+			{ x: 100, y: -100 }
+		];
+
+		for (let i = 0; i < fansParams.length; i++) {	
 			const fan = new Fan();
-			fan.mesh.position.x -= 100;
-			fan.mesh.position.y += 100;
-			fan.mesh.position.z += 200;
-			fan.mesh.rotation.x += Math.PI / 2;
-			fan.mesh.rotation.y += Math.PI;
-
-			this.fans.push(fan);
-		};
-
-		{
-			const fan = new Fan();
-			fan.mesh.position.x += 100;
-			fan.mesh.position.y -= 100;
-			fan.mesh.position.z += 200;
-			fan.mesh.rotation.x += Math.PI / 2;
-			fan.mesh.rotation.y += Math.PI;
-
+			fan.mesh.position.set(
+				fansParams[i].x,
+				fansParams[i].y,
+				200
+			);
+			fan.mesh.rotation.set(
+				Math.PI / 2,
+				Math.PI,
+				0
+			);
 			this.fans.push(fan);
 		};
 
@@ -59,7 +57,7 @@ export default class TopIsland {
 
 		// house
 		const house = new House();
-		house.mesh.position.x += 100;
+		house.mesh.position.x += 80;
 		house.mesh.position.y += 200;
 
 		this.mesh.add(
@@ -67,53 +65,34 @@ export default class TopIsland {
 		);
 
 
-		// fence
+		// fence perimeter
 		let fenceGeometry = new Geometry();
 
-		for (let i = 0; i < 10; i++) {
-			const fence = new Fence();
-			fence.mesh.position.x += (190 - i * fence.width);
-			fence.mesh.position.y += 200;
-			fence.mesh.position.z += 190;
+		const fenceParams = [
+			{x: 190, z: 187, ry: 0, mx: -1, mz: 0, count: 10},
+			{x: -187, z: 185, ry: -Math.PI / 2, mx: 0, mz: -1, count: 10},
+			{x: -187, z: -187, ry: Math.PI, mx: 1, mz: 0, count: 10},
+			{x: 190, z: 118, ry: Math.PI / 2, mx: 0, mz: 1, count: 2},
+			{x: 187, z: -155, ry: -Math.PI / 2, mx: 0, mz: -1, count: 1},
+		];
+		const fenceWidth = 38;
 
-			fence.mesh.updateMatrix();
-			fenceGeometry.merge(fence.mesh.geometry, fence.mesh.matrix);
-		};
+		for (let i = 0; i < fenceParams.length; i++) {
 
-		for (let i = 0; i < 10; i++) {
-			const fence = new Fence();
-			fence.mesh.position.x -= 187;
-			fence.mesh.position.y += 200;
-			fence.mesh.position.z += 190 - (i * fence.width);
+			for(let j = 0; j < fenceParams[i].count; j++) {
 
-			fence.mesh.rotation.y = - (Math.PI / 2);
+				const fence = (new Fence()).mesh;
+				fence.position.set(
+					fenceParams[i].x + (j * fenceParams[i].mx * fenceWidth),
+					210,
+					fenceParams[i].z + (j * fenceParams[i].mz * fenceWidth)
+				);
+				fence.rotation.y = fenceParams[i].ry;
+				fence.updateMatrix();
 
-			fence.mesh.updateMatrix();
-			fenceGeometry.merge(fence.mesh.geometry, fence.mesh.matrix);
-		};
+				fenceGeometry.merge(fence.geometry, fence.matrix);
+			};
 
-		for (let i = 0; i < 10; i++) {
-			const fence = new Fence((i === 9 ? true : false));
-			fence.mesh.position.x -= (187 - i * fence.width);
-			fence.mesh.position.y += 200;
-			fence.mesh.position.z -= 187;
-
-			fence.mesh.rotation.y = Math.PI;
-
-			fence.mesh.updateMatrix();
-			fenceGeometry.merge(fence.mesh.geometry, fence.mesh.matrix);
-		};
-
-		for (let i = 0; i < 3; i++) {
-			const fence = new Fence();
-			fence.mesh.position.x += 190;
-			fence.mesh.position.y += 200;
-			fence.mesh.position.z += ((fence.width * 2) + i * (fence.width)) + 5;
-
-			fence.mesh.rotation.y = Math.PI / 2;
-
-			fence.mesh.updateMatrix();
-			fenceGeometry.merge(fence.mesh.geometry, fence.mesh.matrix);
 		};
 
 		const fencePerimeter = new Mesh(fenceGeometry, materials.wood);
@@ -127,43 +106,30 @@ export default class TopIsland {
 
 
 		// pines
-		{
-			const pine = (new Pine([1, 1, 1])).mesh;
-			pine.position.x += 140;
-			pine.position.y += 200;
-			pine.position.z += 140;
+		const pineParams = [
+			{ x: 120, y: 200, z: 140, sx: 1, sy: 1, sz: 1 },
+			{ x: 15, y: 200, z: 140, sx: 1, sy: 1.2, sz: 1 },
+			{ x: -100, y: 200, z: 140, sx: 1.1, sy: 1.5, sz: 1.1 },
+			{ x: -90, y: 200, z: -80, sx: 1.6, sy: 1.8, sz: 1.6 },
+		];
 
-			this.mesh.add(pine);
-		};
-
-		{
-			const pine = (new Pine([1, 1.2, 1])).mesh;
-			pine.position.x += 40;
-			pine.position.y += 200;
-			pine.position.z += 140;
-
-			this.mesh.add(pine);
-		};
-
-		{
-			const pine = (new Pine([1.1, 1.5, 1.1])).mesh;
-			pine.position.x -= 80;
-			pine.position.y += 200;
-			pine.position.z += 140;
-
-			this.mesh.add(pine);
-		};
-
-		{
-			const pine = (new Pine([1.6, 1.8, 1.6])).mesh;
-			pine.position.x -= 80;
-			pine.position.y += 200;
-			pine.position.z -= 80;
+		for (let i = 0; i < pineParams.length; i++) {
+			const pine = (new Pine([
+				pineParams[i].sx,
+				pineParams[i].sy,
+				pineParams[i].sz
+			])).mesh;
+			pine.position.set(
+				pineParams[i].x,
+				pineParams[i].y,
+				pineParams[i].z
+			);
 
 			this.mesh.add(pine);
 		};
 
 
+		// pipe corner
 		const pipeCorner = (new PipeCorner()).mesh;
 		pipeCorner.position.x -= 60;
 		pipeCorner.position.y += 215;

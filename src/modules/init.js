@@ -33,6 +33,24 @@ export default function init() {
 	let renderer = createRenderer();
 	createLights(scene);
 
+
+	const lightParams = {
+		sunrise: {
+
+		},
+		midday: {
+			position: [-280, 695, 350],
+			color: 0xffffff
+		},
+		sunset: {
+			position: [-360, 320, 860],
+			color: 0xfab96f,
+		},
+		midnight: {
+			
+		}
+	}
+
 	// const effectComposer = new EffectComposer(renderer);
 	// effectComposer.addPass(new RenderPass(scene, camera));
 
@@ -70,7 +88,7 @@ export default function init() {
 	const riverParams = [
 		{
 			points: [
-				new Vector3(-440, 695, 40),
+				new Vector3(-445, 690, 40),
 				new Vector3(-370, 615, 40),
 				new Vector3(-195, 600, 40),
 				new Vector3(-180, 210, 40),
@@ -121,10 +139,6 @@ export default function init() {
 	scene.rotation.y = - Math.PI / 4;
 
 
-	// when all loaded
-	document.body.classList.add('loaded');
-
-
 	// status (only dev)
 	const stats = new Stats();
 	stats.showPanel(0);
@@ -138,6 +152,11 @@ export default function init() {
 	// animation
 	const clock = new Clock();
 	let delta;
+
+
+		// when all loaded
+		document.body.classList.add('loaded');
+
 
 	// vane
 	middleIsland.windvane.rotateVane(Math.random() * (2 * Math.PI));

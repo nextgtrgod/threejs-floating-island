@@ -22,7 +22,7 @@ module.exports = {
                         options: {
                             presets: ['es2015', 'es2017'],
                             plugins: [
-                                ["transform-class-properties", { "spec": true }]
+                                ['transform-class-properties', { 'spec': true }]
                             ]
                         }
                     }
@@ -37,6 +37,7 @@ module.exports = {
                             {
                                 loader: 'postcss-loader',
                                 options: {
+                                    sourceMap: true,
                                     plugins: () => [ require('autoprefixer')('last 2 versions') ]
                                 }
                             },
@@ -51,7 +52,7 @@ module.exports = {
    plugins: [
         new ExtractTextPlugin({
             filename: ('styles.css')
-        })
+        }),
         // new webpack.optimize.UglifyJsPlugin({
         //     compress: {
         //         warnings: false,
