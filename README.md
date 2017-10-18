@@ -3,6 +3,8 @@ three.js lowpoly experiment
 
 
 * [three.js](https://threejs.org/)
+* [dat.gui](https://workshop.chromeexperiments.com/examples/gui/)
+* [stats.js](https://github.com/mrdoob/stats.js/)
 
 
 ![threejs-lowpoly-world app screenshot](https://image.ibb.co/hkW6i6/threejs_lowpoly_world.jpg)
