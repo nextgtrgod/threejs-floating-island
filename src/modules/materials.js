@@ -46,14 +46,14 @@ export const materials = {
 		}
 	),
 
-	brick:		new MeshPhongMaterial({ color: colors.brick, flatShading: true, side: DoubleSide}),
-	roof:		new MeshPhongMaterial({ color: colors.roof, flatShading: true }),
+	brick:		new MeshPhongMaterial({ color: colors.brick, flatShading: true }),
+	roof:		new MeshPhongMaterial({ color: colors.roof, flatShading: true, }),
 	white:		new MeshPhongMaterial({ color: colors.white, flatShading: true }),
 	red:		new MeshPhongMaterial({ color: colors.red, flatShading: true }),
 	
-	balloon: 	new MeshPhongMaterial({ color: colors.balloon, flatShading: true, side: DoubleSide}),
+	balloon: 	new MeshPhongMaterial({ color: colors.balloon, flatShading: true, side: DoubleSide }),
 
-	line:		new LineBasicMaterial({ color: colors.lightMetal, linewidth: 1}),
+	line:		new LineBasicMaterial({ color: colors.lightMetal, linewidth: 1 }),
 
 	water:	new MeshPhongMaterial(
 		{

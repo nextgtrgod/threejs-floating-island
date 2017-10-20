@@ -1,16 +1,12 @@
 import { PerspectiveCamera } from 'three';
 
 
-export default function createCamera() {
+export default function createCamera(width, height) {
 
-	let HEIGHT = window.innerHeight;
-	let WIDTH = window.innerWidth;
-
-
-	let aspectRatio = WIDTH / HEIGHT;
+	let aspectRatio = width / height;
 	const fieldOfView = 50;
 	const nearPlane = 1;
-	const farPlane = 4000;
+	const farPlane = 3500;
 
 	let camera = new PerspectiveCamera(
 		fieldOfView,
@@ -19,9 +15,8 @@ export default function createCamera() {
 		farPlane
 	);
 
-	camera.position.x = 0;
-	camera.position.y = -600;
-	camera.position.z = 2400;
+	camera.position.set(0, -350, 2150);
+	camera.rotation.set(.20, .036, 0);
 
 	return camera;
 }

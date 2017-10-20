@@ -23,7 +23,7 @@ export default class PipeCorner {
 		const radius = 35;
 	
 		// arc
-		const arcGeometry = new TorusGeometry((2 * radius), radius, 40, 40, (Math.PI / 2) );
+		const arcGeometry = new TorusGeometry((2 * radius), radius, 16, 16, (Math.PI / 2) );
 		const arc = new Mesh(arcGeometry);
 		arc.rotation.z = Math.PI / 2;
 		arc.updateMatrix();

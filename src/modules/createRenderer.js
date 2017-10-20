@@ -1,27 +1,19 @@
-import { WebGLRenderer, PCFSoftShadowMap } from 'three';
+import { WebGLRenderer } from 'three';
 
 
-export default function createRenderer() {
+export default function createRenderer(id, width, height, antialias = true) {
 
-	let HEIGHT = window.innerHeight;
-	let WIDTH = window.innerWidth;
-
-
-	let renderer = new WebGLRenderer({
+	const renderer = new WebGLRenderer({
 		alpha: true,
-		antialias: true
+		antialias: antialias
 	});
 
-	renderer.setSize(WIDTH, HEIGHT);
-	renderer.shadowMap.enabled = true;
-	// renderer.shadowMap.type = PCFSoftShadowMap;
+	renderer.setSize(width, height);
 
+	renderer.shadowMap.enabled = true;
 	renderer.shadowMap.renderReverseSided = true;
 
-	// renderer.gammaInput = true;
-	// renderer.gammaOutput = true;
-
-	const container = document.getElementById('world');
+	const container = document.getElementById(id);
 	container.appendChild(renderer.domElement);
 
 	return renderer;

@@ -37,6 +37,7 @@ export default class Chimney {
 			new ExtrudeGeometry(
 				pipeShape,
 				{
+					curveSegments 	: 8,
 					steps			: steps,
 					bevelEnabled	: false,
 					extrudePath		: spline

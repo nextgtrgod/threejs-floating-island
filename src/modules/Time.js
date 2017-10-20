@@ -29,4 +29,6 @@ export default class Time {
 			this.dayNode.innerHTML = `${this.date} ${this.month}, ${this.day}`;
 		};
 	};
+
+	getHours = () => this.hours;
 };

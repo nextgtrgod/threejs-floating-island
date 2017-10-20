@@ -42,7 +42,7 @@ export default class Fan {
 		// propeller
 		const propeller = new Object3D();
 
-		const hubGeometry = new CylinderGeometry(10, 10, 30, 10, 1);
+		const hubGeometry = new CylinderGeometry(10, 10, 30, 6, 1);
 		const hub = new Mesh(hubGeometry, materials.darkMetal);
 		hub.receiveShadow = true;
 		hub.castShadow = true;

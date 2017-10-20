@@ -17,6 +17,7 @@ three.js lowpoly experiment
 - [x] Water (vertices movement)
 - [x] House
 - [x] Date and time (ru/eng - system lang)
-- [ ] Day/Night Cycle
-- [ ] Zeppelin ladder to islands
-- [ ] resize/mobile
+- [x] Day/Night Cycle
+- [ ] Ladder from zeppelin to islands
+- [x] resize/mobile
+- [ ] demo on github pages

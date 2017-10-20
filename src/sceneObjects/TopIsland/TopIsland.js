@@ -56,12 +56,14 @@ export default class TopIsland {
 
 
 		// house
-		const house = new House();
-		house.mesh.position.x += 80;
-		house.mesh.position.y += 200;
+		const house = (new House()).mesh;
+		house.position.x += 70;
+		house.position.y += 200;
+		house.position.z += 5;
+		house.rotation.y -= Math.PI / 16;
 
 		this.mesh.add(
-			house.mesh
+			house
 		);
 
 

@@ -11,7 +11,8 @@ body
 	height 100vh
 	margin 0
 	padding 0
-	background-color #80b6dc
+	// background-color #80b6dc
+	background-color #000
 	opacity 0
 	font-family: $font-default
 	&:before
@@ -25,12 +26,38 @@ body
 		opacity .2
 		background-image url('./images/bg.jpg')
 		background-size cover
-		// filter blur(5px)
+		background-position center
 
-	
+
 	&.loaded
 		animation fade-in .2s
 		animation-fill-mode forwards
+
+	// day/night cycle
+	&.midnight
+		background-color #000
+		&:before
+			background-image url('./images/bg-night.svg')
+			opacity .5
+		.date
+			color #FFF
+			text-shadow 5px 3px 10px #111
+
+	&.sunset
+		&:before
+			background-image url('./images/bg-sunset.svg')
+			opacity 1
+		.date
+			color #FFF
+			text-shadow 6px -1px 10px #111
+
+	&.sunrise
+		&:before
+			background-image url('./images/bg-sunrise.svg')
+			opacity 1
+		.date
+			color #FFF
+			text-shadow -5px -4px 6px #111
 
 
 #world
@@ -44,6 +71,7 @@ body
 	position absolute
 	top 0
 	right 0
+
 
 .date
 	position absolute

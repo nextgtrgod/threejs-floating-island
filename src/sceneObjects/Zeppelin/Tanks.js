@@ -36,7 +36,7 @@ export default class Tanks {
 		};
 
 		const tankTop = new Mesh(
-			new LatheGeometry( tankTopPoints, 16 ),
+			new LatheGeometry( tankTopPoints, 12 ),
 		);
 		tankTop.position.y = 35;
 		tankTop.updateMatrix();

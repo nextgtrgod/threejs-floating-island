@@ -99,7 +99,8 @@ export default class MiddleIsland {
 
 		// windvane
 		const windvane = new Windvane();
-		windvane.mesh.position.set(100, 200, -60);
+		windvane.mesh.position.set(100, 200, -50);
+		windvane.mesh.rotation.y += Math.PI / 16;
 
 		this.windvane = windvane;
 

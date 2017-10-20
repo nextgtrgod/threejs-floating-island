@@ -43,7 +43,7 @@ export default class Fan {
 		};
 
 		const engineTop = new Mesh(
-			new LatheGeometry( engineTopPoints, 16 ),
+			new LatheGeometry( engineTopPoints, 8 ),
 		);
 		engineTop.position.y += engineRadius;
 		engineTop.updateMatrix();
@@ -101,7 +101,7 @@ export default class Fan {
 		};
 
 		const engineHub = new Mesh(
-			new CylinderGeometry(5, 10, 15, 8, 1, true)
+			new CylinderGeometry(5, 10, 15, 6, 1, true)
 		);
 		engineHub.position.y += 58;
 		engineHub.updateMatrix();
@@ -122,14 +122,14 @@ export default class Fan {
 		const propellerGeometry = new Geometry();
 
 		const pipe = new Mesh(
-			new CylinderGeometry(4, 4, 280, 8, 1)
+			new CylinderGeometry(4, 4, 280, 6, 1)
 		);
 		pipe.position.set(0, 100, 0);
 		pipe.updateMatrix();
 
 
 		const bladesHub = new Mesh(
-			new CylinderGeometry(12, 5, 10, 8, 1)
+			new CylinderGeometry(12, 5, 10, 6, 1)
 		);
 		bladesHub.position.set(0, 228, 0);
 		bladesHub.updateMatrix();
@@ -154,6 +154,7 @@ export default class Fan {
 				new ExtrudeGeometry(
 					bladeShape,
 					{
+						curveSegments: 8,
 						steps: 1,
 						amount: 2,
 						bevelEnabled: false

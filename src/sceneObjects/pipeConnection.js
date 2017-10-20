@@ -27,7 +27,7 @@ export default class PipeConnection {
 
 		// base
 		const base = new Mesh(
-			new CylinderGeometry( radius, radius, (24 * m), 20, 1, true )
+			new CylinderGeometry( radius, radius, (24 * m), 16, 1, true )
 		);
 		base.rotation.y = (2 * Math.PI / 80);
 		base.updateMatrix();

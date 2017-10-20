@@ -1,16 +1,22 @@
 import Stats from 'stats.js';
 
-const THREE = require('three');
+// const THREE = require('three');
 
-const OrbitControls = require('three-orbit-controls')(THREE);
+// const OrbitControls = require('three-orbit-controls')(THREE);
 
-import { Object3D, Vector3, Clock, AxisHelper, CameraHelper } from 'three';
-import { EffectComposer, RenderPass, BokehPass } from 'postprocessing';
+import {
+	HemisphereLight,
+	AmbientLight,
+	Object3D,
+	Vector3,
+	Clock,
+	DirectionalLightHelper } from 'three';
+
 
 import createScene from './createScene';
 import createCamera from './createCamera';
 import createRenderer from './createRenderer';
-import createLights from './createLights';
+import createSun from './createSun';
 
 
 import BottomIsland from '../sceneObjects/BottomIsland/BottomIsland';
@@ -19,50 +25,69 @@ import TopIsland from '../sceneObjects/TopIsland/TopIsland';
 import Zeppelin from '../sceneObjects/Zeppelin/Zeppelin';
 
 import Water from './Water';
+import LampPost from './LampPost';
 
 // temp
 import { materials } from './materials';
+
+import { lightParams } from './lightParams';
 
 import Time from './Time';
 
 
 export default function init() {
 
-	let scene = createScene();
-	let camera = createCamera();
-	let renderer = createRenderer();
-	createLights(scene);
+	let WIDTH = window.innerWidth;
+	let HEIGHT = window.innerHeight;
+
+	window.addEventListener('resize', () => {
+		WIDTH = window.innerWidth;
+		HEIGHT = window.innerHeight;
+
+		renderer.setSize(WIDTH, HEIGHT);
+		camera.aspect = WIDTH / HEIGHT;
+		camera.updateProjectionMatrix();
+	}, false);
 
 
-	const lightParams = {
-		sunrise: {
+	// main
+	const scene = createScene();
+	const camera = createCamera(WIDTH, HEIGHT);
+	const renderer = createRenderer('world', WIDTH, HEIGHT, true);
 
-		},
-		midday: {
-			position: [-280, 695, 350],
-			color: 0xffffff
-		},
-		sunset: {
-			position: [-360, 320, 860],
-			color: 0xfab96f,
-		},
-		midnight: {
-			
+
+	// lights
+	const hemisphereLight = new HemisphereLight(0xaaaaaa, 0x000000, .9);
+	const ambientLight = new AmbientLight(0x404040, .5);
+	const sunLight = createSun();
+
+
+
+
+	function setLights(dayTime) {
+
+		hemisphereLight.intensity = lightParams[dayTime].hemisphereLight.intensity;
+
+		ambientLight.intensity = lightParams[dayTime].ambientLight.intensity;
+
+		sunLight.intensity = lightParams[dayTime].sunLight.intensity;
+		sunLight.color.setHex(lightParams[dayTime].sunLight.color);
+		sunLight.position.set(...lightParams[dayTime].sunLight.position);
+
+		
+		if (dayTime === 'midnight') {
+			lampPosts.map(lampPost => lampPost.turnLights(true) );
+			materials.line.color.setHex( 0x111111 );
+		} else {
+			lampPosts.map(lampPost => lampPost.turnLights() )
+			materials.line.color.setHex( 0xdcbbb4 );
 		}
-	}
+	};
 
-	// const effectComposer = new EffectComposer(renderer);
-	// effectComposer.addPass(new RenderPass(scene, camera));
-
-	// const bokehPass = new BokehPass(camera, {
-	// 	focus: .1,
-	// 	dof: .095
-	// });
-	// bokehPass.renderToScreen = true;
-	// effectComposer.addPass(bokehPass);
 
 	// orbit controls
-	const controls = new OrbitControls(camera);
+	// const controls = new OrbitControls(camera);
+	// controls.enabled = false;
 
 
 	const bottomIsland = new BottomIsland();
@@ -71,15 +96,13 @@ export default function init() {
 	const zeppelin = new Zeppelin();
 
 	const islands = new Object3D();
+	islands.name = 'islands';
 
 	islands.add(
 		bottomIsland.mesh,
 		middleIsland.mesh,
 		topIsland.mesh,
 	);
-
-	// const axisHelper = new AxisHelper( 400 );
-	// const cameraHelper = new CameraHelper( camera );
 
 
 	// river parts
@@ -88,7 +111,7 @@ export default function init() {
 	const riverParams = [
 		{
 			points: [
-				new Vector3(-445, 690, 40),
+				new Vector3(-450, 690, 40),
 				new Vector3(-370, 615, 40),
 				new Vector3(-195, 600, 40),
 				new Vector3(-180, 210, 40),
@@ -128,14 +151,47 @@ export default function init() {
 	river.map(riverPart => islands.add(riverPart.mesh));
 
 
+	// lamp posts
+	let lampPosts = [];
 
-	//
+	const lampPostParams = [
+		{ x: -215, y: 650, z: -185, ry: 0 },
+		{ x: -215, y: 650, z: 185, ry: Math.PI },
+		{ x: 180, y: 250, z: -175, ry: -Math.PI / 4 },
+		{ x: 170, y: -150, z: 400, ry: -Math.PI / 2 }
+	];
+
+	for (let i = 0; i < lampPostParams.length; i++) {
+		const lampPost = new LampPost();
+
+		lampPost.mesh.position.set(
+			lampPostParams[i].x,
+			lampPostParams[i].y,
+			lampPostParams[i].z
+		);
+
+		lampPost.mesh.rotation.y += lampPostParams[i].ry;
+
+		lampPosts.push( lampPost );
+	};
+
+	islands.add(
+		...(lampPosts.map( lampPost => lampPost.mesh ))
+	);
+
+	// final
+	let sunLightHelper = new DirectionalLightHelper(sunLight, 100); // temp
+
 	scene.add(
+		hemisphereLight,
+		ambientLight,
+		sunLight,
+		sunLightHelper, // temp
 		islands,
 		zeppelin.mesh
 	);
 	// isometric view
-	scene.rotation.x = Math.PI / 6;
+	scene.rotation.x = Math.PI / 4;
 	scene.rotation.y = - Math.PI / 4;
 
 
@@ -145,17 +201,52 @@ export default function init() {
 	document.body.appendChild(stats.dom);
 
 
-	// time
-	const time = new Time();
-
-
 	// animation
 	const clock = new Clock();
 	let delta;
 
 
-		// when all loaded
-		document.body.classList.add('loaded');
+	// mouse position
+	const mousePos = {
+		x: WIDTH / 2, 	// default
+		y: HEIGHT / 2,
+		nX: 0,			// normalized
+		nY: 0
+	};
+	document.addEventListener('mousemove', event => {
+		mousePos.nX = -1 + (event.clientX / WIDTH) * 2;
+		mousePos.nY = 1 - (event.clientY / HEIGHT) * 2;
+	});
+
+
+	// when all loaded
+	// time
+	const time = new Time();
+	let hours = +time.getHours();
+
+	hours = 7;
+
+	function updateLights(hours) {
+		if (hours > 6 && hours < 10) {
+			document.body.className = 'loaded sunrise';
+			setLights('sunrise');
+	
+		} else if (hours >= 10 && hours < 18) {
+			document.body.className = 'loaded midday';
+			setLights('midday');
+	
+		} else if (hours >= 18 && hours < 21) {
+			document.body.className = 'loaded sunset';
+			setLights('sunset');
+	
+		} else {
+			document.body.className = 'loaded midnight';
+			materials.line.color.setHex(0x111111);
+			setLights('midnight');
+		};
+	};
+
+	updateLights(hours);
 
 
 	// vane
@@ -165,13 +256,12 @@ export default function init() {
 
 		//
 		stats.begin();
-		//
 
 		delta =  clock.getDelta();
 
 		// fans
 		middleIsland.fans[0].rotate(5 * delta);
-		middleIsland.fans[1].rotate(10 * delta);
+		middleIsland.fans[1].rotate(6 * delta);
 
 		topIsland.fans[0].rotate(-2 * delta);
 		topIsland.fans[1].rotate(-4 * delta);
@@ -194,20 +284,21 @@ export default function init() {
 		zeppelin.cabine.turbines[0].rotate(.25 * delta);
 		zeppelin.cabine.turbines[1].rotate(.25 * delta);
 
+		// fly
 		zeppelin.mesh.position.y += Math.sin(i * Math.PI);
 		islands.position.y += Math.cos(i * Math.PI) / 2;
-
 		i += .01;
+
+		// camera
+		scene.rotation.x += (-mousePos.nY * (Math.PI / 10) + (Math.PI / 4) - scene.rotation.x) * .05;
+		scene.rotation.y += (mousePos.nX * (Math.PI / 8) + (-Math.PI / 4) - scene.rotation.y) * .05;
 
 
 		renderer.render(scene, camera);
-		// effectComposer.render(delta);
+		time.update();
 
 		//
 		stats.end();
-		//
-
-		time.update();
 
 		requestAnimationFrame(loop);
 	};
@@ -220,39 +311,34 @@ export default function init() {
 	guiContainer.appendChild(gui.domElement);
 
 	let directionalLight = gui.addFolder('scene light');
-	directionalLight.add(scene.children[1].position, 'x', (- 1000), 1000);
-	directionalLight.add(scene.children[1].position, 'y', (- 1000), 1000);
-	directionalLight.add(scene.children[1].position, 'z', (- 1000), 1000);
+	directionalLight.add(scene.children[2].position, 'x', (- 1000), 1000);
+	directionalLight.add(scene.children[2].position, 'y', (- 1000), 1000);
+	directionalLight.add(scene.children[2].position, 'z', (- 1000), 1000);
 	directionalLight.open();
 
 	let params = {
 		cameraControls: true,
-		isOverride: false
+		isOverride: false,
+		sunrise: 	() => updateLights(7),
+		// midday: 	updateLights(11),
+		sunset: 	() => updateLights(19),
+		midnight: 	() => updateLights(0)
 	};
 
 	gui.add(params, 'cameraControls').onChange(() => {
 		controls.enabled = (params.cameraControls) ? true : false
 	}).name('camera controls');
 
-	gui.add(params, 'isOverride').onChange(() => {
-		scene.overrideMaterial = (params.isOverride) ? materials.override : false;
-	}).name('wireframe');
+	gui.add(params, 'sunrise');
+	// gui.add(params, 'midday'),
+	gui.add(params, 'sunset');
+	gui.add(params, 'midnight');
 
-	// let bokehParams = bokehPass.bokehMaterial.uniforms;
-	// let { aperture, aspect, cameraFar, cameraNear, dof, focus, maxBlur} = bokehParams;
-
-
-	// gui.add(aperture, 'value').min(0).max(1).step(.001).name('aperture');
-	// gui.add(aspect, 'value').min(0).max(10).step(.01).name('aspect');
-	// gui.add(cameraFar, 'value').min(-5000).max(5000).step(10).name('cameraFar');
-	// gui.add(cameraNear, 'value').min(-5000).max(5000).step(10).name('cameraNear');
-	// gui.add(dof, 'value').min(0).max(1).step(.01).name('dof');
-	// gui.add(focus, 'value').min(0).max(1).step(.01).name('focus');
-	// gui.add(maxBlur, 'value').min(0).max(1).step(.01).name('maxBlur');
+	// gui.add(params, 'isOverride').onChange(() => {
+	// 	scene.overrideMaterial = (params.isOverride) ? materials.override : false;
+	// }).name('wireframe');
 
 
 	console.log(scene);
 	console.log(renderer.info);
-	// console.log(bokehPass);
-
 }

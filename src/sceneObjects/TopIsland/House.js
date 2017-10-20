@@ -2,7 +2,10 @@ import {
 	Geometry,
 	Mesh,
 	Object3D,
-	CylinderGeometry
+	CylinderGeometry,
+	ExtrudeGeometry,
+	Shape,
+	Path
 } from 'three';
 
 import Cube from '../../modules/Cube';
@@ -84,64 +87,31 @@ export default class House {
 		roof.rotation.y += Math.PI / 4;
 
 		
+		// roof parts
 		const roofCombinedGeometry = new Geometry();
 
-		// roof parts
-		{
+		const roofParams = [
+			{ y: 20,  rT: 50, rB: 100, height: 40 },
+			{ y: 70,  rT: 20, rB: 50,  height: 60 },
+			{ y: 110, rT: 15, rB: 20,  height: 20 },
+			{ y: 130, rT: 30, rB: 15,  height: 10 },
+			{ y: 145, rT: 10, rB: 30,  height: 20 },
+			{ y: 165, rT: 1,  rB: 10,  height: 20 },
+		];
+
+		for (let i = 0; i < roofParams.length; i++) {
 			const roofPart = new Mesh(
-				new CylinderGeometry( (size.x - 90), (size.x - 40), 40, 4, 1 ),
+				new CylinderGeometry(
+					roofParams[i].rT,
+					roofParams[i].rB,
+					roofParams[i].height,
+					4, 1
+				),
 			);
-			roofPart.position.y += 20;
+			roofPart.position.y += roofParams[i].y;
 			roofPart.updateMatrix();
 			roofCombinedGeometry.merge(roofPart.geometry, roofPart.matrix);
 		};
-
-		{
-			const roofPart = new Mesh(
-				new CylinderGeometry( (size.x - 120), (size.x - 90), 60, 4, 1 ),
-			);
-			roofPart.position.y += 70;
-			roofPart.updateMatrix();
-			roofCombinedGeometry.merge(roofPart.geometry, roofPart.matrix);
-		};
-
-		{
-			const roofPart = new Mesh(
-				new CylinderGeometry( (size.x - 125), (size.x - 120), 20, 4, 1 ),
-			);
-			roofPart.position.y += 110;
-			roofPart.updateMatrix();
-			roofCombinedGeometry.merge(roofPart.geometry, roofPart.matrix);
-		};
-
-		
-		{
-			const roofPart = new Mesh(
-				new CylinderGeometry( 30, 15, 10, 4, 1 ),
-			);
-			roofPart.position.y += 130;
-			roofPart.updateMatrix();
-			roofCombinedGeometry.merge(roofPart.geometry, roofPart.matrix);
-		};
-
-		{
-			const roofPart = new Mesh(
-				new CylinderGeometry( 10, 30, 20, 4, 1 ),
-			);
-			roofPart.position.y += 145;
-			roofPart.updateMatrix();
-			roofCombinedGeometry.merge(roofPart.geometry, roofPart.matrix);
-		};
-
-		{
-			const roofPart = new Mesh(
-				new CylinderGeometry( 1, 10, 20, 4, 1 ),
-			);
-			roofPart.position.y += 165;
-			roofPart.updateMatrix();
-			roofCombinedGeometry.merge(roofPart.geometry, roofPart.matrix);
-		};
-
 
 		const roofCombined = new Mesh(roofCombinedGeometry, materials.roof);
 		roofCombined.castShadow = true;
@@ -152,19 +122,24 @@ export default class House {
 		
 		// chimneys
 		const chimneyCombinedGeometry = new Geometry();
-		{
-			const chimney = (new Chimney(30, 50)).mesh;
-			chimney.position.set(0, 100, -70);
+
+		const chimneyParams = [
+			{ x: 0, y: 100, z: -70, width: 30, height: 50 },
+			{ x: -10, y: 120, z: -80, width: 20, height: 80 }
+		];
+
+		for (let i = 0; i < chimneyParams.length; i++) {
+			const chimney = (new Chimney(
+				chimneyParams[i].width,
+				chimneyParams[i].height
+			)).mesh;
+			chimney.position.set(
+				chimneyParams[i].x,
+				chimneyParams[i].y,
+				chimneyParams[i].z
+			);
 			chimney.updateMatrix();
-
-			chimneyCombinedGeometry.merge(chimney.geometry, chimney.matrix);
-		};
-
-		{
-			const chimney = (new Chimney(20, 80)).mesh;
-			chimney.position.set(-10, 120, -80);
-			chimney.updateMatrix();
-
+	
 			chimneyCombinedGeometry.merge(chimney.geometry, chimney.matrix);
 		};
 
@@ -175,10 +150,80 @@ export default class House {
 		chimneyCombined.receiveShadow = true;
 
 
+		// door
+		const doorShape = new Shape();
+
+		doorShape.moveTo(15, -15);
+		doorShape.lineTo(15, 15);
+
+		for (let i = 0; i < 8; i++) {
+			doorShape.lineTo(
+				15 * Math.cos( i * Math.PI / 8 ),
+				10 * Math.sin( i * Math.PI / 8 ) + 15
+			);
+		};
+
+		doorShape.lineTo(-15, -15);
+		doorShape.moveTo(-15, 15);
+
+		const extrudeSettings = {
+			steps: 2,
+			amount: 4,
+			bevelEnabled: false
+		};
+
+		const door = new Mesh(
+			new ExtrudeGeometry(doorShape, extrudeSettings),
+			materials.wood
+		);
+		door.castShadow = true;
+		door.receiveShadow = true;
+
+		door.position.set(70, 15, -125);
+		door.rotation.y = Math.PI / 2;
+
+
+		// window
+		const windowShape = new Shape();
+		windowShape.moveTo(0, 0);
+		windowShape.absarc(0, 0, 15, 0, Math.PI * 2);
+
+		const holePath = new Path();
+		holePath.moveTo(0, 0);
+		holePath.absarc(0, 0, 12, 0, Math.PI * 2);
+		windowShape.holes.push( holePath );
+
+		const windowGeometry = new ExtrudeGeometry(
+			windowShape,
+			{
+				amount: 4,
+				steps: 1,
+				bevelEnabled: false
+			}
+		);
+
+		const horizontalFrame = new Cube([1, 30, 4]);
+		const verticalFrame = new Cube([30, 1, 4]);
+
+		windowGeometry.merge(horizontalFrame.geometry, horizontalFrame.matrix);
+		windowGeometry.merge(verticalFrame.geometry, verticalFrame.matrix);
+		
+		const houseWindow = new Mesh(windowGeometry, materials.wood);
+		houseWindow.position.set(70, 25, -65);
+		houseWindow.rotation.y = Math.PI / 2;
+		houseWindow.scale.x = 1.15
+
+		houseWindow.receiveShadow = true;
+		houseWindow.castShadow = true;
+
+
+
 		// final
 		this.mesh.add(
 			basement,
 			firstFloor,
+			door,
+			houseWindow,
 			roof,
 			chimneyCombined
 		);
