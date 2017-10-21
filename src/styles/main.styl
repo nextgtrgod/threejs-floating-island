@@ -9,12 +9,13 @@ body
 	position relative
 	display block
 	height 100vh
+	overflow hidden
 	margin 0
 	padding 0
-	// background-color #80b6dc
 	background-color #000
 	opacity 0
 	font-family: $font-default
+	transition all .2s
 	&:before
 		content ''
 		position absolute
@@ -23,7 +24,6 @@ body
 		right 0
 		bottom 0
 		margin auto
-		opacity .2
 		background-image url('./images/bg.jpg')
 		background-size cover
 		background-position center
@@ -35,29 +35,28 @@ body
 
 	// day/night cycle
 	&.midnight
-		background-color #000
 		&:before
 			background-image url('./images/bg-night.svg')
 			opacity .5
 		.date
-			color #FFF
 			text-shadow 5px 3px 10px #111
 
 	&.sunset
 		&:before
 			background-image url('./images/bg-sunset.svg')
-			opacity 1
 		.date
-			color #FFF
 			text-shadow 6px -1px 10px #111
 
 	&.sunrise
 		&:before
 			background-image url('./images/bg-sunrise.svg')
-			opacity 1
 		.date
-			color #FFF
 			text-shadow -5px -4px 6px #111
+	
+	&.midday
+		background-color #80B6DC
+		&:before
+			opacity .2
 
 
 #world
@@ -71,13 +70,26 @@ body
 	position absolute
 	top 0
 	right 0
+	.function
+		border-left-color #2FA1D6
+		transition all .1s
+		&:hover
+			border-left-color #E61D5F
 
 
 .date
 	position absolute
 	left 1vw
 	bottom 1vw
-	font-size 40px
+	color #FFF
+	font-size 3.25vw
+	text-shadow 6px 4px 10px #111
+	@media (max-width 719px)
+		left unset
+		right 1vw
+		font-size 32px
+		text-align right
+
 	span
 		font-size 1.5em
 		&#day

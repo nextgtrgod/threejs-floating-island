@@ -56,7 +56,7 @@ export default function init() {
 	const renderer = createRenderer('world', WIDTH, HEIGHT, true);
 
 
-	// lights
+	// lights (default params)
 	const hemisphereLight = new HemisphereLight(0xaaaaaa, 0x000000, .9);
 	const ambientLight = new AmbientLight(0x404040, .5);
 	const sunLight = createSun();
@@ -180,13 +180,13 @@ export default function init() {
 	);
 
 	// final
-	let sunLightHelper = new DirectionalLightHelper(sunLight, 100); // temp
+	// let sunLightHelper = new DirectionalLightHelper(sunLight, 100); // temp
 
 	scene.add(
 		hemisphereLight,
 		ambientLight,
 		sunLight,
-		sunLightHelper, // temp
+		// sunLightHelper, // temp
 		islands,
 		zeppelin.mesh
 	);
@@ -218,13 +218,46 @@ export default function init() {
 		mousePos.nY = 1 - (event.clientY / HEIGHT) * 2;
 	});
 
+	// mobile gyroscope
+	let isGyroscope = false;
+
+	const gyroscope = {
+		rx: 0,
+		ry: 0,
+		nrx: 0,
+		nry: 0,
+	};
+	window.addEventListener('deviceorientation', event => {
+
+		if (event.beta && event.gamma) {
+
+			isGyroscope = true;
+	
+			console.log(event.beta, event.gamma);
+	
+			gyroscope.rx = event.beta;	// -180..180
+			gyroscope.ry = event.gamma;	// -90..90
+	
+			if (gyroscope.rx > 90)  { gyroscope.rx = 90 };
+			if (gyroscope.rx < -90) { gyroscope.rx = -90 };
+	
+			if (gyroscope.ry > 45)  { gyroscope.ry = 45 };
+			if (gyroscope.ry < -45) { gyroscope.ry = -45 };
+	
+			gyroscope.nrx = -1 + (gyroscope.rx / 90) * 2;
+			gyroscope.nry = 1 - (gyroscope.ry / 45) * 2;
+
+		};
+
+	}, true);
+
 
 	// when all loaded
 	// time
 	const time = new Time();
 	let hours = +time.getHours();
 
-	hours = 7;
+	// hours = 7;
 
 	function updateLights(hours) {
 		if (hours > 6 && hours < 10) {
@@ -290,8 +323,13 @@ export default function init() {
 		i += .01;
 
 		// camera
-		scene.rotation.x += (-mousePos.nY * (Math.PI / 10) + (Math.PI / 4) - scene.rotation.x) * .05;
-		scene.rotation.y += (mousePos.nX * (Math.PI / 8) + (-Math.PI / 4) - scene.rotation.y) * .05;
+		if (!isGyroscope) {
+			scene.rotation.x += (-mousePos.nY * (Math.PI / 10) + (Math.PI / 4) - scene.rotation.x) * .05;
+			scene.rotation.y += (mousePos.nX * (Math.PI / 8) + (-Math.PI / 4) - scene.rotation.y) * .05;
+		} else {
+			scene.rotation.x += (-gyroscope.nrx * (Math.PI / 10) + (Math.PI / 4) - scene.rotation.x) * .05;
+			scene.rotation.y += (gyroscope.nry * (Math.PI / 8) + (-Math.PI / 4) - scene.rotation.y) * .05;
+		}
 
 
 		renderer.render(scene, camera);
@@ -307,32 +345,38 @@ export default function init() {
 
 	// dat.GUI
 	let gui = new dat.GUI({ autoplace: false });
+	gui.closed = true;
+
 	const guiContainer = document.getElementById('gui');
 	guiContainer.appendChild(gui.domElement);
 
-	let directionalLight = gui.addFolder('scene light');
-	directionalLight.add(scene.children[2].position, 'x', (- 1000), 1000);
-	directionalLight.add(scene.children[2].position, 'y', (- 1000), 1000);
-	directionalLight.add(scene.children[2].position, 'z', (- 1000), 1000);
-	directionalLight.open();
+	// let directionalLight = gui.addFolder('scene light');
+	// directionalLight.add(scene.children[2].position, 'x', (- 1000), 1000);
+	// directionalLight.add(scene.children[2].position, 'y', (- 1000), 1000);
+	// directionalLight.add(scene.children[2].position, 'z', (- 1000), 1000);
+	// directionalLight.open();
 
 	let params = {
 		cameraControls: true,
 		isOverride: false,
 		sunrise: 	() => updateLights(7),
-		// midday: 	updateLights(11),
+		midday: 	() => updateLights(11),
 		sunset: 	() => updateLights(19),
 		midnight: 	() => updateLights(0)
 	};
 
-	gui.add(params, 'cameraControls').onChange(() => {
-		controls.enabled = (params.cameraControls) ? true : false
-	}).name('camera controls');
+	// gui.add(params, 'cameraControls').onChange(() => {
+	// 	controls.enabled = (params.cameraControls) ? true : false
+	// }).name('camera controls');
 
-	gui.add(params, 'sunrise');
-	// gui.add(params, 'midday'),
-	gui.add(params, 'sunset');
-	gui.add(params, 'midnight');
+	let dayTimeGUI = gui.addFolder('daytime');
+	dayTimeGUI.add(params, 'sunrise');
+	dayTimeGUI.add(params, 'midday');
+	dayTimeGUI.add(params, 'sunset');
+	dayTimeGUI.add(params, 'midnight');
+	dayTimeGUI.open();
+
+
 
 	// gui.add(params, 'isOverride').onChange(() => {
 	// 	scene.overrideMaterial = (params.isOverride) ? materials.override : false;

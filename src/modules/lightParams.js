@@ -16,7 +16,17 @@ export const lightParams = {
 	},
 
 	midday: {
-
+		hemisphereLight: {
+			intensity: .9
+		},
+		ambientLight: {
+			intensity: .5
+		},
+		sunLight: {
+			intensity: .75,
+			position: [-280, 695, 350],
+			color: 0xffffff
+		}
 	},
 
 	sunset: {
