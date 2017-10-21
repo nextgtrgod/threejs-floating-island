@@ -8,7 +8,7 @@ three.js lowpoly experiment
 * [Delaunay Triangulation pattern maker](https://msurguy.github.io/triangles/)
 
 
-![threejs-lowpoly-world app screenshot](https://image.ibb.co/hkW6i6/threejs_lowpoly_world.jpg)
+![threejs-lowpoly-world app screenshot](https://image.ibb.co/ejWQwR/threejs_lowpoly_world.jpg)
 
 
 ### Todo
@@ -19,6 +19,7 @@ three.js lowpoly experiment
 - [x] House
 - [x] Date and time (ru/eng - system lang)
 - [x] Day/Night Cycle
-- [ ] Gyroscope
+- [x] Gyroscope
 - [x] resize/mobile
+- [ ] main animation loop optimize
 - [ ] demo on github pages
