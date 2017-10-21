@@ -1,5 +1,5 @@
-# threejs-lowpoly-world
-three.js lowpoly experiment
+# Low poly world
+three.js low poly experiment
 
 
 * [three.js](https://threejs.org/)
@@ -11,7 +11,10 @@ three.js lowpoly experiment
 ![threejs-lowpoly-world app screenshot](https://image.ibb.co/ejWQwR/threejs_lowpoly_world.jpg)
 
 
-### Todo
+[DEMO](https://nextgtrgod.github.io/threejs-lowpoly-world/)
+
+
+## Todo
 - [x] Static objects
 - [x] Pipes (back side)
 - [x] Fans and windvane
@@ -21,5 +24,6 @@ three.js lowpoly experiment
 - [x] Day/Night Cycle
 - [x] Gyroscope
 - [x] resize/mobile
+- [x] demo on github pages
+- [ ] preloader
 - [ ] main animation loop optimize
-- [ ] demo on github pages
