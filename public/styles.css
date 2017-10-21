@@ -65,6 +65,9 @@ body.midday:before {
   top: 0;
   right: 0;
 }
+#gui .main {
+  margin-right: 0;
+}
 #gui .function {
   border-left-color: #2fa1d6;
   -webkit-transition: all 0.1s;
