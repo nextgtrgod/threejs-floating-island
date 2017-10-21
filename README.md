@@ -8,7 +8,7 @@ three.js low poly experiment
 * [Delaunay Triangulation pattern maker](https://msurguy.github.io/triangles/)
 
 
-![threejs-lowpoly-world app screenshot](https://image.ibb.co/ejWQwR/threejs_lowpoly_world.jpg)
+![threejs-lowpoly-world app screenshot](https://image.ibb.co/kGYB36/threejs_lowpoly_world.jpg)
 
 
 [DEMO](https://nextgtrgod.github.io/threejs-lowpoly-world/)
