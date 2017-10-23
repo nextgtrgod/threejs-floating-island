@@ -26,4 +26,4 @@ three.js low poly experiment
 - [x] resize/mobile
 - [x] demo on github pages
 - [ ] preloader
-- [ ] main animation loop optimize
+- [x] main animation loop optimize

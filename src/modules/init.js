@@ -31,6 +31,7 @@ import LampPost from './LampPost';
 import { materials } from './materials';
 
 import { lightParams } from './lightParams';
+import { breakpoints } from './daytimeParams';
 
 import Time from './Time';
 
@@ -218,34 +219,27 @@ export default function init() {
 		mousePos.nY = 1 - (event.clientY / HEIGHT) * 2;
 	});
 
-	// mobile gyroscope
-	let isGyroscope = false;
 
+	// mobile gyroscope
 	const gyroscope = {
-		rx: 0,
-		ry: 0,
-		nrx: 0,
-		nry: 0,
+		x: 0,
+		y: 0,
 	};
 	window.addEventListener('deviceorientation', event => {
 
 		if (event.beta && event.gamma) {
-
-			isGyroscope = true;
 	
-			console.log(event.beta, event.gamma);
+			gyroscope.x = event.beta;	// -180..180
+			gyroscope.y = event.gamma;	// -90..90
 	
-			gyroscope.rx = event.beta;	// -180..180
-			gyroscope.ry = event.gamma;	// -90..90
+			if (gyroscope.x > 90)  { gyroscope.x = 90 };
+			if (gyroscope.x < -90) { gyroscope.x = -90 };
 	
-			if (gyroscope.rx > 90)  { gyroscope.rx = 90 };
-			if (gyroscope.rx < -90) { gyroscope.rx = -90 };
+			if (gyroscope.y > 45)  { gyroscope.y = 45 };
+			if (gyroscope.y < -45) { gyroscope.y = -45 };
 	
-			if (gyroscope.ry > 45)  { gyroscope.ry = 45 };
-			if (gyroscope.ry < -45) { gyroscope.ry = -45 };
-	
-			gyroscope.nrx = -1 + (gyroscope.rx / 90) * 2;
-			gyroscope.nry = 1 - (gyroscope.ry / 45) * 2;
+			mousePos.nY = -1 + (gyroscope.x / 90) * 2;
+			mousePos.nX = 1 - (gyroscope.y / 45) * 2;
 
 		};
 
@@ -260,15 +254,15 @@ export default function init() {
 	// hours = 7;
 
 	function updateLights(hours) {
-		if (hours > 6 && hours < 10) {
+		if (hours >= breakpoints[0] && hours < breakpoints[1]) {
 			document.body.className = 'loaded sunrise';
 			setLights('sunrise');
 	
-		} else if (hours >= 10 && hours < 18) {
+		} else if (hours >= breakpoints[1] && hours < breakpoints[2]) {
 			document.body.className = 'loaded midday';
 			setLights('midday');
 	
-		} else if (hours >= 18 && hours < 21) {
+		} else if (hours >= breakpoints[2] && hours < breakpoints[3]) {
 			document.body.className = 'loaded sunset';
 			setLights('sunset');
 	
@@ -283,8 +277,12 @@ export default function init() {
 
 
 	// vane
-	middleIsland.windvane.rotateVane(Math.random() * (2 * Math.PI));
+	const vane = middleIsland.windvane.vane;
+
+	// animation
+	let easing = .05;
 	let i = 0;
+
 	function loop() {
 
 		//
@@ -320,16 +318,16 @@ export default function init() {
 		// fly
 		zeppelin.mesh.position.y += Math.sin(i * Math.PI);
 		islands.position.y += Math.cos(i * Math.PI) / 2;
+
+		// windvane
+		vane.rotation.y += Math.cos(i * Math.PI) * easing / 10;
+		
 		i += .01;
 
+
 		// camera
-		if (!isGyroscope) {
-			scene.rotation.x += (-mousePos.nY * (Math.PI / 10) + (Math.PI / 4) - scene.rotation.x) * .05;
-			scene.rotation.y += (mousePos.nX * (Math.PI / 8) + (-Math.PI / 4) - scene.rotation.y) * .05;
-		} else {
-			scene.rotation.x += (-gyroscope.nrx * (Math.PI / 10) + (Math.PI / 4) - scene.rotation.x) * .05;
-			scene.rotation.y += (gyroscope.nry * (Math.PI / 8) + (-Math.PI / 4) - scene.rotation.y) * .05;
-		}
+		scene.rotation.x += (-mousePos.nY * (Math.PI / 10) + (Math.PI / 4) - scene.rotation.x) * easing;
+		scene.rotation.y += (mousePos.nX * (Math.PI / 8) - (Math.PI / 4) - scene.rotation.y) * easing;
 
 
 		renderer.render(scene, camera);
