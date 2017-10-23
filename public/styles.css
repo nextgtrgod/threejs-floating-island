@@ -83,6 +83,11 @@ body.midday:before {
   color: #fff;
   font-size: 3.25vw;
   text-shadow: 6px 4px 10px #111;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  cursor: default;
 }
 @media (max-width: 719px) {
   .date {

@@ -180,9 +180,8 @@ export default function init() {
 		...(lampPosts.map( lampPost => lampPost.mesh ))
 	);
 
-	// final
-	// let sunLightHelper = new DirectionalLightHelper(sunLight, 100); // temp
 
+	// final
 	scene.add(
 		hemisphereLight,
 		ambientLight,
@@ -265,7 +264,7 @@ export default function init() {
 		} else if (hours >= breakpoints[2] && hours < breakpoints[3]) {
 			document.body.className = 'loaded sunset';
 			setLights('sunset');
-	
+
 		} else {
 			document.body.className = 'loaded midnight';
 			materials.line.color.setHex(0x111111);
@@ -367,6 +366,10 @@ export default function init() {
 	// 	controls.enabled = (params.cameraControls) ? true : false
 	// }).name('camera controls');
 
+	// gui.add(params, 'isOverride').onChange(() => {
+	// 	scene.overrideMaterial = (params.isOverride) ? materials.override : false;
+	// }).name('wireframe');
+	
 	let dayTimeGUI = gui.addFolder('daytime');
 	dayTimeGUI.add(params, 'sunrise');
 	dayTimeGUI.add(params, 'midday');
@@ -374,13 +377,6 @@ export default function init() {
 	dayTimeGUI.add(params, 'midnight');
 	dayTimeGUI.open();
 
-
-
-	// gui.add(params, 'isOverride').onChange(() => {
-	// 	scene.overrideMaterial = (params.isOverride) ? materials.override : false;
-	// }).name('wireframe');
-
-
-	console.log(scene);
-	console.log(renderer.info);
+	// console.log(scene);
+	// console.log(renderer.info);
 }
