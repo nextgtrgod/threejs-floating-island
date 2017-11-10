@@ -25,5 +25,5 @@ three.js low poly experiment
 - [x] Gyroscope
 - [x] resize/mobile
 - [x] demo on github pages
-- [ ] preloader
+- [x] preloader
 - [x] main animation loop optimize
