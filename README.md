@@ -6,6 +6,7 @@ three.js low poly experiment
 * [dat.gui](https://workshop.chromeexperiments.com/examples/gui/)
 * [stats.js](https://github.com/mrdoob/stats.js/)
 * [Delaunay Triangulation pattern maker](https://msurguy.github.io/triangles/)
+* [SpinKit](https://github.com/tobiasahlin/SpinKit)
 
 
 ![threejs-lowpoly-world app screenshot](https://image.ibb.co/kGYB36/threejs_lowpoly_world.jpg)
