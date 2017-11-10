@@ -1,0 +1,50 @@
+
+body.loaded #preloader {
+	opacity: 0;
+}
+
+#preloader {
+	transition: all .4s;
+}
+
+.sk-rotating-plane {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	margin: auto;
+	width: 60px;
+	height: 60px;
+	background-color: #80b6dc;
+	-webkit-animation: sk-rotatePlane 1.2s infinite ease-in-out;
+		animation: sk-rotatePlane 1.2s infinite ease-in-out;
+	}
+
+@-webkit-keyframes sk-rotatePlane {
+	0% {
+		-webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+			transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+	}
+	50% {
+		-webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+			transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+	}
+	100% {
+		-webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+			transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+	}
+}
+
+@keyframes sk-rotatePlane {
+	0% {
+		-webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+			transform: perspective(120px) rotateX(0deg) rotateY(0deg); }
+	50% {
+		-webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+			transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg); }
+	100% {
+		-webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+			transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+	}
+}

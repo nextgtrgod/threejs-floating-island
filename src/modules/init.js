@@ -250,23 +250,24 @@ export default function init() {
 	const time = new Time();
 	let hours = +time.getHours();
 
-	// hours = 7;
+
+	let worldNode = document.getElementById('world');
 
 	function updateLights(hours) {
 		if (hours >= breakpoints[0] && hours < breakpoints[1]) {
-			document.body.className = 'loaded sunrise';
+			worldNode.className = 'sunrise';
 			setLights('sunrise');
 	
 		} else if (hours >= breakpoints[1] && hours < breakpoints[2]) {
-			document.body.className = 'loaded midday';
+			worldNode.className = 'midday';
 			setLights('midday');
 	
 		} else if (hours >= breakpoints[2] && hours < breakpoints[3]) {
-			document.body.className = 'loaded sunset';
+			worldNode.className = 'sunset';
 			setLights('sunset');
 
 		} else {
-			document.body.className = 'loaded midnight';
+			worldNode.className = 'midnight';
 			materials.line.color.setHex(0x111111);
 			setLights('midnight');
 		};
@@ -281,6 +282,8 @@ export default function init() {
 	// animation
 	let easing = .05;
 	let i = 0;
+
+	document.body.className = 'loaded';
 
 	function loop() {
 

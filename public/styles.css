@@ -6,12 +6,24 @@
   margin: 0;
   padding: 0;
   background-color: #000;
-  opacity: 0;
   font-family: 'Poiret One', cursive;
   -webkit-transition: all 0.2s;
   transition: all 0.2s;
 }
-body:before {
+body.loaded #world {
+  -webkit-animation: fade-in 0.4s;
+          animation: fade-in 0.4s;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
+}
+#world {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  opacity: 0;
+}
+#world:before {
   content: '';
   position: absolute;
   top: 0;
@@ -22,43 +34,32 @@ body:before {
   background-image: url("./images/bg.jpg");
   background-size: cover;
   background-position: center;
+  z-index: -1;
 }
-body.loaded {
-  -webkit-animation: fade-in 0.2s;
-          animation: fade-in 0.2s;
-  -webkit-animation-fill-mode: forwards;
-          animation-fill-mode: forwards;
-}
-body.midnight:before {
+#world.midnight:before {
   background-image: url("./images/bg-night.svg");
   opacity: 0.5;
 }
-body.midnight .date {
+#world.midnight .date {
   text-shadow: 5px 3px 10px #111;
 }
-body.sunset:before {
+#world.sunset:before {
   background-image: url("./images/bg-sunset.svg");
 }
-body.sunset .date {
+#world.sunset .date {
   text-shadow: 6px -1px 10px #111;
 }
-body.sunrise:before {
+#world.sunrise:before {
   background-image: url("./images/bg-sunrise.svg");
 }
-body.sunrise .date {
+#world.sunrise .date {
   text-shadow: -5px -4px 6px #111;
 }
-body.midday {
+#world.midday {
   background-color: #80b6dc;
 }
-body.midday:before {
+#world.midday:before {
   opacity: 0.2;
-}
-#world {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
 }
 #gui {
   position: absolute;
