@@ -145,7 +145,7 @@ export default class Windvane {
 
 			const extrudeSettings = {
 				steps: 2,
-				amount: 4,
+				depth: 4,
 				bevelEnabled: false
 			};
 

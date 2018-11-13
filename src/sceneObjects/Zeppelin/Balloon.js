@@ -62,7 +62,7 @@ export default class Balloon {
 				frameShape,
 				{
 					steps: 1,
-					amount: 20,
+					depth: 20,
 					bevelEnabled: false
 				}
 			),

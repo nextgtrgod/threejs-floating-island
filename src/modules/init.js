@@ -1,4 +1,5 @@
-import Stats from 'stats.js';
+import Stats from 'stats.js'
+import * as dat from 'dat.gui'
 
 // const THREE = require('three');
 
@@ -36,7 +37,7 @@ import { breakpoints } from './daytimeParams';
 import Time from './Time';
 
 
-export default function init() {
+export default async function init() {
 
 	let WIDTH = window.innerWidth;
 	let HEIGHT = window.innerHeight;
@@ -54,7 +55,7 @@ export default function init() {
 	// main
 	const scene = createScene();
 	const camera = createCamera(WIDTH, HEIGHT);
-	const renderer = createRenderer('world', WIDTH, HEIGHT, true);
+	const renderer = await createRenderer('world', WIDTH, HEIGHT, true);
 
 
 	// lights (default params)
@@ -196,9 +197,13 @@ export default function init() {
 
 
 	// status (only dev)
-	const stats = new Stats();
-	stats.showPanel(0);
-	document.body.appendChild(stats.dom);
+	let stats
+
+	if (process.env.NODE_ENV !== 'development') {
+		stats = new Stats()
+		stats.showPanel(0)
+		document.body.appendChild(stats.dom)
+	}
 
 
 	// animation
@@ -277,70 +282,94 @@ export default function init() {
 
 
 	// vane
-	const vane = middleIsland.windvane.vane;
+	const vane = middleIsland.windvane.vane
 
 	// animation
-	let easing = .05;
-	let i = 0;
+	let easing = .05
+	let i = 0
 
-	document.body.className = 'loaded';
+	document.body.classList.add('loaded')
 
 	function loop() {
 
 		//
-		stats.begin();
+		if (stats) stats.begin()
 
-		delta =  clock.getDelta();
+		delta =  clock.getDelta()
 
 		// fans
-		middleIsland.fans[0].rotate(5 * delta);
-		middleIsland.fans[1].rotate(6 * delta);
+		middleIsland.fans[0].rotate(5 * delta)
+		middleIsland.fans[1].rotate(6 * delta)
 
-		topIsland.fans[0].rotate(-2 * delta);
-		topIsland.fans[1].rotate(-4 * delta);
+		topIsland.fans[0].rotate(-2 * delta)
+		topIsland.fans[1].rotate(-4 * delta)
 
 
 		// windvane
-		middleIsland.windvane.rotateFan(delta);
+		middleIsland.windvane.rotateFan(delta)
 
 
 		// waves
-		river[0].moveWaves();
-		river[1].moveWaves();
-		river[2].moveWaves();
+		river[0].moveWaves()
+		river[1].moveWaves()
+		river[2].moveWaves()
 
 		// zeppelin
-		zeppelin.fans[0].rotate(20 * delta);
-		zeppelin.fans[1].rotate(21 * delta);
-		zeppelin.fans[2].rotate(19 * delta);
-		zeppelin.fans[3].rotate(22 * delta);
-		zeppelin.cabine.turbines[0].rotate(.25 * delta);
-		zeppelin.cabine.turbines[1].rotate(.25 * delta);
+		zeppelin.fans[0].rotate(20 * delta)
+		zeppelin.fans[1].rotate(21 * delta)
+		zeppelin.fans[2].rotate(19 * delta)
+		zeppelin.fans[3].rotate(22 * delta)
+		zeppelin.cabine.turbines[0].rotate(.25 * delta)
+		zeppelin.cabine.turbines[1].rotate(.25 * delta)
 
 		// fly
-		zeppelin.mesh.position.y += Math.sin(i * Math.PI);
-		islands.position.y += Math.cos(i * Math.PI) / 2;
+		zeppelin.mesh.position.y += Math.sin(i * Math.PI)
+		islands.position.y += Math.cos(i * Math.PI) / 2
 
 		// windvane
-		vane.rotation.y += Math.cos(i * Math.PI) * easing / 10;
+		vane.rotation.y += Math.cos(i * Math.PI) * easing / 10
 		
-		i += .01;
+		i += .01
 
 
 		// camera
-		scene.rotation.x += (-mousePos.nY * (Math.PI / 10) + (Math.PI / 4) - scene.rotation.x) * easing;
-		scene.rotation.y += (mousePos.nX * (Math.PI / 8) - (Math.PI / 4) - scene.rotation.y) * easing;
+		scene.rotation.x += (-mousePos.nY * (Math.PI / 10) + (Math.PI / 4) - scene.rotation.x) * easing
+		scene.rotation.y += (mousePos.nX * (Math.PI / 8) - (Math.PI / 4) - scene.rotation.y) * easing
 
 
-		renderer.render(scene, camera);
-		time.update();
+		renderer.render(scene, camera)
+		time.update()
 
 		//
-		stats.end();
+		if (stats) stats.end()
 
-		requestAnimationFrame(loop);
-	};
-	loop();
+		requestAnimationFrame(loop)
+	}
+	loop()
+
+
+	// export scene
+	if (process.env.NODE_ENV === 'development') {
+
+		console.log('press s to save scene to json')
+
+		document.addEventListener('keypress', ({ keyCode }) => {
+			if (keyCode === 115) {
+				let json = JSON.stringify(scene.toJSON())
+
+				let blob = new Blob([json], { type: 'application/json' })
+
+				let url  = URL.createObjectURL(blob)
+		
+				let a = document.createElement('a')
+				a.download = 'scene.json'
+				a.href = url
+				a.textContent = 'Download scene.json'
+		
+				a.click()
+			}
+		})
+	}
 
 
 	// dat.GUI

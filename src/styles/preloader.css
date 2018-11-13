@@ -1,10 +1,11 @@
 
 body.loaded #preloader {
-	opacity: 0;
+    opacity: 0;
+    animation-play-state: paused;
 }
 
 #preloader {
-	transition: all .4s;
+	transition: opacity .2s;
 }
 
 .sk-rotating-plane {

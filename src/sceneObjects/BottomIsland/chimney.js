@@ -20,7 +20,7 @@ export default class Chimney {
 		const extrudeSettings = {
 			curveSegments: 8,
 			steps: 1,
-			amount: 1,
+			depth: 1,
 			bevelEnabled: false
 		};
 

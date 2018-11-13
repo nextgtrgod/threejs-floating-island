@@ -1,7 +1,7 @@
 // fonts
-@import url('https://fonts.googleapis.com/css?family=Poiret+One')
+// @import url('https://fonts.googleapis.com/css?family=Poiret+One')
 
-$font-default = 'Poiret One', cursive;
+// $font-default = 'Poiret One', cursive;
 
 
 
@@ -12,15 +12,20 @@ body
 	overflow hidden
 	margin 0
 	padding 0
-	background-color #000
+	background-color #111
 	// opacity 0
-	font-family: $font-default
-	transition all .2s
+	// font-family: $font-default
+	// transition all .2s
 
 	&.loaded
 		#world
-			animation fade-in .4s
-			animation-fill-mode forwards
+			animation: fade-in .4s
+			animation-fill-mode: forwards
+
+	&.show-controls
+		#gui
+			opacity: 1
+			pointer-events: all
 
 
 #world
@@ -37,7 +42,7 @@ body
 		right 0
 		bottom 0
 		margin auto
-		background-image url('./images/bg.jpg')
+		background-image url('../images/bg.jpg')
 		background-size cover
 		background-position center
 		z-index -1
@@ -45,20 +50,20 @@ body
 	// day/night cycle
 	&.midnight
 		&:before
-			background-image url('./images/bg-night.svg')
+			background-image url('../images/bg-night.svg')
 			opacity .5
 		.date
 			text-shadow 5px 3px 10px #111
 
 	&.sunset
 		&:before
-			background-image url('./images/bg-sunset.svg')
+			background-image url('../images/bg-sunset.svg')
 		.date
 			text-shadow 6px -1px 10px #111
 
 	&.sunrise
 		&:before
-			background-image url('./images/bg-sunrise.svg')
+			background-image url('../images/bg-sunrise.svg')
 		.date
 			text-shadow -5px -4px 6px #111
 	
@@ -72,6 +77,10 @@ body
 	position absolute
 	top 0
 	right 0
+	opacity: 0
+	transition: all .3s
+	pointer-events: none
+
 	.main
 		margin-right 0
 	.function
@@ -87,7 +96,7 @@ body
 	bottom 1vw
 	color #FFF
 	font-size 3.25vw
-	text-shadow 6px 4px 10px #111
+	text-shadow 6px 4px 15px alpha(#111, .5)
 	user-select none
 	cursor default
 	@media (max-width 719px)

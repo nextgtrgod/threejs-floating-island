@@ -33,7 +33,7 @@ export default class Turbine {
 			new ExtrudeGeometry(
 				turbineOuterShape,
 				{
-					amount: 80,
+					depth: 80,
 					steps: 1,
 					bevelEnabled: false
 				}

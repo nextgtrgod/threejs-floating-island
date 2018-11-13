@@ -156,7 +156,7 @@ export default class Fan {
 					{
 						curveSegments: 8,
 						steps: 1,
-						amount: 2,
+						depth: 2,
 						bevelEnabled: false
 					}
 				)

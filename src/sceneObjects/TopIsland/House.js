@@ -168,7 +168,7 @@ export default class House {
 
 		const extrudeSettings = {
 			steps: 2,
-			amount: 4,
+			depth: 4,
 			bevelEnabled: false
 		};
 
@@ -196,7 +196,7 @@ export default class House {
 		const windowGeometry = new ExtrudeGeometry(
 			windowShape,
 			{
-				amount: 4,
+				depth: 4,
 				steps: 1,
 				bevelEnabled: false
 			}

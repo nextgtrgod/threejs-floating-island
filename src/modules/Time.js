@@ -25,6 +25,8 @@ export default class Time {
 			this.month = this.lang.get('month', this.now.getMonth());
 			this.day = this.lang.get('weekday', this.now.getDay());
 
+			if (!this.timeNode) return
+
 			this.timeNode.innerHTML = `${this.hours}:${this.minutes}`;
 			this.dayNode.innerHTML = `${this.date} ${this.month}, ${this.day}`;
 		};

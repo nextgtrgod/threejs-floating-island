@@ -1,5 +1,5 @@
-# Low poly world
-three.js low poly experiment
+# Lowpoly world
+three.js lowpoly experiment with AR
 
 
 * [three.js](https://threejs.org/)
