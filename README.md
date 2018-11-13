@@ -1,29 +1,30 @@
-# three-low
+# Lowpoly world
+three.js lowpoly experiment
 
-## Project setup
-```
-yarn install
-```
 
-### Compiles and hot-reloads for development
-```
-yarn run serve
-```
+* [three.js](https://threejs.org/)
+* [dat.gui](https://workshop.chromeexperiments.com/examples/gui/)
+* [stats.js](https://github.com/mrdoob/stats.js/)
+* [Delaunay Triangulation pattern maker](https://msurguy.github.io/triangles/)
+* [SpinKit](https://github.com/tobiasahlin/SpinKit)
 
-### Compiles and minifies for production
-```
-yarn run build
-```
 
-### Run your tests
-```
-yarn run test
-```
+![threejs-lowpoly-world app screenshot](https://image.ibb.co/kGYB36/threejs_lowpoly_world.jpg)
 
-### Lints and fixes files
-```
-yarn run lint
-```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+[DEMO](https://nextgtrgod.github.io/threejs-lowpoly-world/)
+
+
+## Todo
+- [x] Static objects
+- [x] Pipes (back side)
+- [x] Fans and windvane
+- [x] Water (vertices movement)
+- [x] House
+- [x] Date and time (ru/eng - system lang)
+- [x] Day/Night Cycle
+- [x] Gyroscope
+- [x] resize/mobile
+- [x] demo on github pages
+- [x] preloader
+- [x] main animation loop optimize
