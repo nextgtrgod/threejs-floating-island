@@ -199,7 +199,7 @@ export default async function init() {
 	// status (only dev)
 	let stats
 
-	if (process.env.NODE_ENV !== 'development') {
+	if (process.env.NODE_ENV === 'development') {
 		stats = new Stats()
 		stats.showPanel(0)
 		document.body.appendChild(stats.dom)
