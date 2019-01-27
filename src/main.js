@@ -8,10 +8,7 @@ import init from './modules/init'
 
 window.addEventListener('load', () => {
 
-    // console.log(process.env.NODE_ENV)
-
     init()
-
 
     let showControls = process.env.NODE_ENV === 'development'
 

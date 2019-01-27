@@ -49,7 +49,7 @@ export default async function init() {
 		renderer.setSize(WIDTH, HEIGHT);
 		camera.aspect = WIDTH / HEIGHT;
 		camera.updateProjectionMatrix();
-	}, false);
+	}, false)
 
 
 	// main
@@ -60,31 +60,31 @@ export default async function init() {
 
 	// lights (default params)
 	const hemisphereLight = new HemisphereLight(0xaaaaaa, 0x000000, .9);
-	const ambientLight = new AmbientLight(0x404040, .5);
-	const sunLight = createSun();
+	const ambientLight = new AmbientLight(0x404040, .5)
+	const sunLight = createSun()
 
 
 
 
 	function setLights(dayTime) {
 
-		hemisphereLight.intensity = lightParams[dayTime].hemisphereLight.intensity;
+		hemisphereLight.intensity = lightParams[dayTime].hemisphereLight.intensity
 
-		ambientLight.intensity = lightParams[dayTime].ambientLight.intensity;
+		ambientLight.intensity = lightParams[dayTime].ambientLight.intensity
 
-		sunLight.intensity = lightParams[dayTime].sunLight.intensity;
-		sunLight.color.setHex(lightParams[dayTime].sunLight.color);
-		sunLight.position.set(...lightParams[dayTime].sunLight.position);
+		sunLight.intensity = lightParams[dayTime].sunLight.intensity
+		sunLight.color.setHex(lightParams[dayTime].sunLight.color)
+		sunLight.position.set(...lightParams[dayTime].sunLight.position)
 
 		
 		if (dayTime === 'midnight') {
-			lampPosts.map(lampPost => lampPost.turnLights(true) );
+			lampPosts.map(lampPost => lampPost.turnLights(true) )
 			materials.line.color.setHex( 0x111111 );
 		} else {
 			lampPosts.map(lampPost => lampPost.turnLights() )
-			materials.line.color.setHex( 0xdcbbb4 );
+			materials.line.color.setHex( 0xdcbbb4 )
 		}
-	};
+	}
 
 
 	// orbit controls
@@ -92,19 +92,19 @@ export default async function init() {
 	// controls.enabled = false;
 
 
-	const bottomIsland = new BottomIsland();
-	const middleIsland = new MiddleIsland();
-	const topIsland = new TopIsland();
-	const zeppelin = new Zeppelin();
+	const bottomIsland = new BottomIsland()
+	const middleIsland = new MiddleIsland()
+	const topIsland = new TopIsland()
+	const zeppelin = new Zeppelin()
 
-	const islands = new Object3D();
-	islands.name = 'islands';
+	const islands = new Object3D()
+	islands.name = 'islands'
 
 	islands.add(
 		bottomIsland.mesh,
 		middleIsland.mesh,
 		topIsland.mesh,
-	);
+	)
 
 
 	// river parts
@@ -138,8 +138,8 @@ export default async function init() {
 				new Vector3(-450, 0, 80),
 			],
 			steps: 2
-		}
-	];
+		},
+	]
 
 	for (let i = 0; i < riverParams.length; i++) {
 		river.push(
@@ -147,21 +147,21 @@ export default async function init() {
 				riverParams[i].points,
 				riverParams[i].steps
 			)
-		);
-	};
+		)
+	}
 
 	river.map(riverPart => islands.add(riverPart.mesh));
 
 
 	// lamp posts
-	let lampPosts = [];
+	let lampPosts = []
 
 	const lampPostParams = [
 		{ x: -215, y: 650, z: -185, ry: 0 },
 		{ x: -215, y: 650, z: 185, ry: Math.PI },
 		{ x: 180, y: 250, z: -175, ry: -Math.PI / 4 },
 		{ x: 170, y: -150, z: 400, ry: -Math.PI / 2 }
-	];
+	]
 
 	for (let i = 0; i < lampPostParams.length; i++) {
 		const lampPost = new LampPost();
@@ -175,11 +175,11 @@ export default async function init() {
 		lampPost.mesh.rotation.y += lampPostParams[i].ry;
 
 		lampPosts.push( lampPost );
-	};
+	}
 
 	islands.add(
 		...(lampPosts.map( lampPost => lampPost.mesh ))
-	);
+	)
 
 
 	// final
@@ -189,7 +189,7 @@ export default async function init() {
 		sunLight,
 		// sunLightHelper, // temp
 		islands,
-		zeppelin.mesh
+		zeppelin.mesh,
 	);
 	// isometric view
 	scene.rotation.x = Math.PI / 4;
@@ -207,8 +207,8 @@ export default async function init() {
 
 
 	// animation
-	const clock = new Clock();
-	let delta;
+	const clock = new Clock()
+	let delta
 
 
 	// mouse position
@@ -216,19 +216,19 @@ export default async function init() {
 		x: WIDTH / 2, 	// default
 		y: HEIGHT / 2,
 		nX: 0,			// normalized
-		nY: 0
-	};
+		nY: 0,
+	}
 	document.addEventListener('mousemove', event => {
-		mousePos.nX = -1 + (event.clientX / WIDTH) * 2;
-		mousePos.nY = 1 - (event.clientY / HEIGHT) * 2;
-	});
+		mousePos.nX = -1 + (event.clientX / WIDTH) * 2
+		mousePos.nY = 1 - (event.clientY / HEIGHT) * 2
+	})
 
 
 	// mobile gyroscope
 	const gyroscope = {
 		x: 0,
 		y: 0,
-	};
+	}
 	window.addEventListener('deviceorientation', event => {
 
 		if (event.beta && event.gamma) {
@@ -247,13 +247,13 @@ export default async function init() {
 
 		};
 
-	}, true);
+	}, true)
 
 
 	// when all loaded
 	// time
-	const time = new Time();
-	let hours = +time.getHours();
+	const time = new Time()
+	let hours = +time.getHours()
 
 
 	let worldNode = document.getElementById('world');
@@ -275,10 +275,10 @@ export default async function init() {
 			worldNode.className = 'midnight';
 			materials.line.color.setHex(0x111111);
 			setLights('midnight');
-		};
-	};
+		}
+	}
 
-	updateLights(hours);
+	updateLights(hours)
 
 
 	// vane
@@ -373,11 +373,14 @@ export default async function init() {
 
 
 	// dat.GUI
-	let gui = new dat.GUI({ autoplace: false });
-	gui.closed = true;
+	let gui = new dat.GUI({
+		autoplace: false,
+		hideable: false,
+	})
+	gui.closed = true
 
-	const guiContainer = document.getElementById('gui');
-	guiContainer.appendChild(gui.domElement);
+	const guiContainer = document.getElementById('gui')
+	guiContainer.appendChild(gui.domElement)
 
 	// let directionalLight = gui.addFolder('scene light');
 	// directionalLight.add(scene.children[2].position, 'x', (- 1000), 1000);
@@ -391,8 +394,8 @@ export default async function init() {
 		sunrise: 	() => updateLights(7),
 		midday: 	() => updateLights(11),
 		sunset: 	() => updateLights(19),
-		midnight: 	() => updateLights(0)
-	};
+		midnight: 	() => updateLights(0),
+	}
 
 	// gui.add(params, 'cameraControls').onChange(() => {
 	// 	controls.enabled = (params.cameraControls) ? true : false
@@ -402,12 +405,12 @@ export default async function init() {
 	// 	scene.overrideMaterial = (params.isOverride) ? materials.override : false;
 	// }).name('wireframe');
 	
-	let dayTimeGUI = gui.addFolder('daytime');
-	dayTimeGUI.add(params, 'sunrise');
-	dayTimeGUI.add(params, 'midday');
-	dayTimeGUI.add(params, 'sunset');
-	dayTimeGUI.add(params, 'midnight');
-	dayTimeGUI.open();
+	let dayTimeGUI = gui.addFolder('daytime')
+	dayTimeGUI.add(params, 'sunrise')
+	dayTimeGUI.add(params, 'midday')
+	dayTimeGUI.add(params, 'sunset')
+	dayTimeGUI.add(params, 'midnight')
+	dayTimeGUI.open()
 
 	// console.log(scene);
 	// console.log(renderer.info);
