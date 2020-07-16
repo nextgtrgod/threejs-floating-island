@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "build": "vue-cli-service build",
-    "start": "vue-cli-service serve"
+    "start": "vue-cli-service serve",
+    "deploy": "./deploy.sh"
   },
   "dependencies": {
     "@babel/plugin-proposal-class-properties": "^7.10.4",
