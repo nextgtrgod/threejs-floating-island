@@ -3,7 +3,7 @@ Three.js lowpoly experiment
 
 * [three.js](https://threejs.org/)
 * [dat.gui](https://workshop.chromeexperiments.com/examples/gui/)
-* [delaunay Triangulation pattern maker](https://msurguy.github.io/triangles/)
+* [delaunay triangulation pattern maker](https://msurguy.github.io/triangles/)
 
 <a href="https://nextgtrgod.github.io/threejs-lowpoly-world/" target="_blank">
 	<img src="/screenshot.jpg?raw=true">
