@@ -6,7 +6,7 @@ Three.js lowpoly experiment
 * [delaunay Triangulation pattern maker](https://msurguy.github.io/triangles/)
 
 <a href="https://nextgtrgod.github.io/threejs-lowpoly-world/" target="_blank">
-	<img src="https://image.ibb.co/kGYB36/threejs_lowpoly_world.jpg">
+	<img src="/screenshot.jpg?raw=true">
 </a>
 
 ## Todo
