@@ -1,69 +1,63 @@
-import Stats from 'stats.js'
 import * as dat from 'dat.gui'
-
-// const THREE = require('three');
-
-// const OrbitControls = require('three-orbit-controls')(THREE);
-
 import {
 	HemisphereLight,
 	AmbientLight,
 	Object3D,
 	Vector3,
 	Clock,
-	DirectionalLightHelper } from 'three';
+	DirectionalLightHelper,
+} from 'three'
 
+import createScene from './createScene'
+import createCamera from './createCamera'
+import createRenderer from './createRenderer'
+import createSun from './createSun'
 
-import createScene from './createScene';
-import createCamera from './createCamera';
-import createRenderer from './createRenderer';
-import createSun from './createSun';
+import BottomIsland from '@/scene/BottomIsland/BottomIsland'
+import MiddleIsland from '@/scene/MiddleIsland/MiddleIsland'
+import TopIsland from '@/scene/TopIsland/TopIsland'
+import Zeppelin from '@/scene/Zeppelin/Zeppelin'
 
-
-import BottomIsland from '../sceneObjects/BottomIsland/BottomIsland';
-import MiddleIsland from '../sceneObjects/MiddleIsland/MiddleIsland';
-import TopIsland from '../sceneObjects/TopIsland/TopIsland';
-import Zeppelin from '../sceneObjects/Zeppelin/Zeppelin';
-
-import Water from './Water';
-import LampPost from './LampPost';
+import Water from './Water'
+import LampPost from './LampPost'
 
 // temp
-import { materials } from './materials';
+import { materials } from './materials'
 
-import { lightParams } from './lightParams';
-import { breakpoints } from './daytimeParams';
+import { lightParams } from './lightParams'
+import { breakpoints } from './daytimeParams'
 
-import Time from './Time';
+import Time from './Time'
 
 
-export default async function init() {
+let init = () => {
 
-	let WIDTH = window.innerWidth;
-	let HEIGHT = window.innerHeight;
+	let WIDTH = window.innerWidth
+	let HEIGHT = window.innerHeight
 
 	window.addEventListener('resize', () => {
-		WIDTH = window.innerWidth;
-		HEIGHT = window.innerHeight;
+		WIDTH = window.innerWidth
+		HEIGHT = window.innerHeight
 
-		renderer.setSize(WIDTH, HEIGHT);
-		camera.aspect = WIDTH / HEIGHT;
-		camera.updateProjectionMatrix();
+		renderer.setSize(WIDTH, HEIGHT)
+		camera.aspect = WIDTH / HEIGHT
+		camera.updateProjectionMatrix()
 	}, false)
 
 
+	const container = document.getElementById('scene')
+	const canvas = container.querySelector('canvas')
+
 	// main
-	const scene = createScene();
-	const camera = createCamera(WIDTH, HEIGHT);
-	const renderer = await createRenderer('world', WIDTH, HEIGHT, true);
+	const scene = createScene()
+	const camera = createCamera(WIDTH, HEIGHT)
+	const renderer = createRenderer(canvas, WIDTH, HEIGHT, true)
 
 
 	// lights (default params)
-	const hemisphereLight = new HemisphereLight(0xaaaaaa, 0x000000, .9);
+	const hemisphereLight = new HemisphereLight(0xaaaaaa, 0x000000, .9)
 	const ambientLight = new AmbientLight(0x404040, .5)
 	const sunLight = createSun()
-
-
 
 
 	function setLights(dayTime) {
@@ -86,11 +80,9 @@ export default async function init() {
 		}
 	}
 
-
 	// orbit controls
 	// const controls = new OrbitControls(camera);
 	// controls.enabled = false;
-
 
 	const bottomIsland = new BottomIsland()
 	const middleIsland = new MiddleIsland()
@@ -196,16 +188,6 @@ export default async function init() {
 	scene.rotation.y = - Math.PI / 4;
 
 
-	// status (only dev)
-	let stats
-
-	if (process.env.NODE_ENV === 'development') {
-		stats = new Stats()
-		stats.showPanel(0)
-		document.body.appendChild(stats.dom)
-	}
-
-
 	// animation
 	const clock = new Clock()
 	let delta
@@ -255,29 +237,25 @@ export default async function init() {
 	const time = new Time()
 	let hours = +time.getHours()
 
-
-	let worldNode = document.getElementById('world');
-
 	function updateLights(hours) {
 		if (hours >= breakpoints[0] && hours < breakpoints[1]) {
-			worldNode.className = 'sunrise';
-			setLights('sunrise');
+			container.className = 'sunrise'
+			setLights('sunrise')
 	
 		} else if (hours >= breakpoints[1] && hours < breakpoints[2]) {
-			worldNode.className = 'midday';
-			setLights('midday');
+			container.className = 'midday'
+			setLights('midday')
 	
 		} else if (hours >= breakpoints[2] && hours < breakpoints[3]) {
-			worldNode.className = 'sunset';
-			setLights('sunset');
+			container.className = 'sunset'
+			setLights('sunset')
 
 		} else {
-			worldNode.className = 'midnight';
-			materials.line.color.setHex(0x111111);
-			setLights('midnight');
+			container.className = 'midnight'
+			materials.line.color.setHex(0x111111)
+			setLights('midnight')
 		}
 	}
-
 	updateLights(hours)
 
 
@@ -288,12 +266,7 @@ export default async function init() {
 	let easing = .05
 	let i = 0
 
-	document.body.classList.add('loaded')
-
-	function loop() {
-
-		//
-		if (stats) stats.begin()
+	let draw = () => {
 
 		delta =  clock.getDelta()
 
@@ -339,38 +312,21 @@ export default async function init() {
 
 		renderer.render(scene, camera)
 		time.update()
-
-		//
-		if (stats) stats.end()
-
-		requestAnimationFrame(loop)
-	}
-	loop()
-
-
-	// export scene
-	if (process.env.NODE_ENV === 'development') {
-
-		console.log('press s to save scene to json')
-
-		document.addEventListener('keypress', ({ keyCode }) => {
-			if (keyCode === 115) {
-				let json = JSON.stringify(scene.toJSON())
-
-				let blob = new Blob([json], { type: 'application/json' })
-
-				let url  = URL.createObjectURL(blob)
-		
-				let a = document.createElement('a')
-				a.download = 'scene.json'
-				a.href = url
-				a.textContent = 'Download scene.json'
-		
-				a.click()
-			}
-		})
 	}
 
+	let rafId = null
+	let update = () => {
+		rafId = requestAnimationFrame(update)
+		draw()
+	}
+
+	let start = () => {
+		update()
+	}
+
+	let stop = () => {
+		cancelAnimationFrame(rafId)
+	}
 
 	// dat.GUI
 	let gui = new dat.GUI({
@@ -414,4 +370,31 @@ export default async function init() {
 
 	// console.log(scene);
 	// console.log(renderer.info);
+
+	// export scene
+	if (process.env.NODE_ENV === 'development') {
+
+		console.log('press s to save scene to json')
+
+		document.addEventListener('keypress', ({ keyCode }) => {
+			if (keyCode === 115) {
+				let json = JSON.stringify(scene.toJSON())
+
+				let blob = new Blob([json], { type: 'application/json' })
+
+				let url  = URL.createObjectURL(blob)
+		
+				let a = document.createElement('a')
+				a.download = 'scene.json'
+				a.href = url
+				a.textContent = 'Download scene.json'
+		
+				a.click()
+			}
+		})
+	}
+
+	return { draw, start, stop }
 }
+
+export default init

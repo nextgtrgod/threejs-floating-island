@@ -1,23 +1,20 @@
 {
-  "name": "lowpoly-world",
+  "name": "threejs-lowpoly-world",
   "version": "1.0.0",
-  "description": "lowpoly world",
-  "author": "nextgtrgod",
   "scripts": {
-    "start": "vue-cli-service serve",
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build",
+    "start": "vue-cli-service serve"
   },
   "dependencies": {
-    "dat.gui": "^0.7.3",
-    "stats.js": "^0.17.0",
-    "stylus": "^0.54.5",
-    "stylus-loader": "^3.0.2",
-    "three": "^0.98.0"
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
+    "core-js": "^3.6.5",
+    "dat.gui": "^0.7.7",
+    "three": "^0.118.3"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.1.1",
-    "@vue/cli-service": "^3.1.4",
-    "vue-template-compiler": "^2.5.17"
+    "@vue/cli-plugin-babel": "~4.4.0",
+    "@vue/cli-service": "~4.4.0",
+    "sass": "^1.26.5",
+    "sass-loader": "^8.0.2"
   }
 }

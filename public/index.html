@@ -1,20 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
 	<meta name="theme-color" content="#DCB780">
-	<title>lowpoly world</title>
+	<link rel="icon" type="image/svg+xml" href="./favicon.svg">
+	<title>Lowpoly world</title>
+	<style>
+		#scene {
+			opacity: 0;
+			transition: opacity .3s;
+		}
+
+		#preloader {
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			margin: auto;
+			width: 60px;
+			height: 60px;
+			background-color: #ffdba9;
+			animation: rotate 1.2s infinite ease-in-out;
+			transition: opacity .2s;
+		}
+
+		@keyframes rotate {
+			0% {
+				transform: perspective(120px) rotateX(0deg) rotateY(0deg); }
+			50% {
+				transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg); }
+			100% {
+				transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+			}
+		}
+
+		body.loaded #preloader {
+			opacity: 0;
+			animation: none;
+		}
+	</style>
 </head>
 <body style="background-color: #111">
-	<div id="preloader" class="sk-rotating-plane"></div>
+	<div id="preloader"></div>
 
-	<div id="world">
-		<!-- <div class="date">
-			<span id="time"></span>
-			<span id="day"></span>
-		</div> -->
+	<div id="scene">
+		<canvas/>
 	</div>
 
 	<div id="gui"></div>

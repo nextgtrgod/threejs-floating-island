@@ -1,3 +1,5 @@
 module.exports = {
-  baseUrl: ''
+	devServer: {
+		hot: false,
+	}
 }

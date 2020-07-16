@@ -169,7 +169,7 @@ export default class Fan {
 
 		const blades = new Mesh(bladesGeometry, materials.white);
 		blades.position.set(0, 235, 0);
-		blades.geometry.applyMatrix( new Matrix4().makeRotationX( Math.PI / 2 ) );
+		blades.geometry.applyMatrix4( new Matrix4().makeRotationX( Math.PI / 2 ) );
 		blades.updateMatrix();
 
 

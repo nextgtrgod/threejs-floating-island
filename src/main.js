@@ -1,31 +1,48 @@
-// import 'babel-polyfill';
+import styles from '@/styles/main.scss'
 
-import main from './styles/main.styl'
-import preloader from './styles/preloader.css'
+import init from '@/modules/init'
+let { draw, start, stop } = init()
 
-import init from './modules/init'
+let isIframe = (() => {
+	try {
+		return window.self !== window.top
+	} catch (e) {
+		return true
+	}
+})()
+
+if (isIframe) {
+	draw()
+
+	let trusted = [
+		'http://localhost:8080',
+		'https://nextgtrgod.github.io',
+	]
+
+	window.addEventListener('message', e => {
+		if (!trusted.includes(e.origin)) return
+
+		switch (e.data) {
+			case 'start':
+				start()
+				break;
+			case 'stop':
+				stop()
+				break;
+		}
+	})
+} else start()
+
+document.body.classList.add('loaded')
 
 
-window.addEventListener('load', () => {
+let controls = !isIframe && process.env.NODE_ENV === 'development'
+let gui = document.getElementById('gui')
 
-    init()
+if (controls) gui.classList.add('visible')
 
-    let showControls = process.env.NODE_ENV === 'development'
-
-    let toggleControls = () => {
-        if (showControls) document.body.classList.add('show-controls')
-        else document.body.classList.remove('show-controls')
-    }
-
-    toggleControls()
-
-    document.addEventListener('keyup', ({ keyCode }) => {
-        if (keyCode !== 72) return
-
-        showControls = !showControls
-
-        toggleControls()
-    })
-
-    console.log('press h to show controls')
+document.addEventListener('keyup', ({ keyCode }) => {
+	if (keyCode !== 72) return
+	gui.classList.toggle('visible')
 })
+console.log('press h to show controls')
