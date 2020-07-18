@@ -31,18 +31,19 @@ if (isIframe) {
 				break;
 		}
 	})
-} else start()
+} else {
+	start()
+
+	let controls = process.env.NODE_ENV === 'development'
+	let gui = document.getElementById('gui')
+
+	if (controls) gui.classList.add('visible')
+	
+	document.addEventListener('keyup', ({ keyCode }) => {
+		if (keyCode !== 72) return
+		gui.classList.toggle('visible')
+	})
+	console.log('press h to show controls')
+}
 
 document.body.classList.add('loaded')
-
-
-let controls = !isIframe && process.env.NODE_ENV === 'development'
-let gui = document.getElementById('gui')
-
-if (controls) gui.classList.add('visible')
-
-document.addEventListener('keyup', ({ keyCode }) => {
-	if (keyCode !== 72) return
-	gui.classList.toggle('visible')
-})
-console.log('press h to show controls')
