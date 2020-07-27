@@ -44,6 +44,8 @@ let init = () => {
 		renderer.setSize(WIDTH, HEIGHT)
 		camera.aspect = WIDTH / HEIGHT
 		camera.updateProjectionMatrix()
+
+		draw() // safari fix
 	}, false)
 
 
