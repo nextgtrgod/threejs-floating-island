@@ -8,6 +8,8 @@ import {
 	DirectionalLightHelper,
 } from 'three'
 
+import clamp from '@/utils/clamp'
+
 import createScene from './createScene'
 import createCamera from './createCamera'
 import createRenderer from './createRenderer'
@@ -60,7 +62,7 @@ let init = () => {
 	const sunLight = createSun()
 
 
-	function setLights(dayTime) {
+	let setLights = dayTime => {
 
 		hemisphereLight.intensity = lightParams[dayTime].hemisphereLight.intensity
 
@@ -100,7 +102,7 @@ let init = () => {
 
 
 	// river parts
-	const river = [];
+	const river = []
 
 	const riverParams = [
 		{
@@ -113,36 +115,31 @@ let init = () => {
 				new Vector3(-20, 210, 100),
 				new Vector3(15, 205, 210),
 				new Vector3(0, -180, 230),
-				new Vector3(0, -180, 570)
+				new Vector3(0, -180, 570),
 			],
-			steps: 25
+			steps: 25,
 		},
 		{
 			points: [
 				new Vector3(0, -250, 665),
-				new Vector3(0, -380, 665)
+				new Vector3(0, -380, 665),
 			],
-			steps: 4
+			steps: 4,
 		},
 		{
 			points: [
 				new Vector3(-450, 90, 80),
 				new Vector3(-450, 0, 80),
 			],
-			steps: 2
+			steps: 2,
 		},
 	]
 
 	for (let i = 0; i < riverParams.length; i++) {
-		river.push(
-			new Water(
-				riverParams[i].points,
-				riverParams[i].steps
-			)
-		)
+		river.push( new Water(riverParams[i].points, riverParams[i].steps) )
 	}
 
-	river.map(riverPart => islands.add(riverPart.mesh));
+	river.map(riverPart => islands.add(riverPart.mesh))
 
 
 	// lamp posts
@@ -152,7 +149,7 @@ let init = () => {
 		{ x: -215, y: 650, z: -185, ry: 0 },
 		{ x: -215, y: 650, z: 185, ry: Math.PI },
 		{ x: 180, y: 250, z: -175, ry: -Math.PI / 4 },
-		{ x: 170, y: -150, z: 400, ry: -Math.PI / 2 }
+		{ x: 170, y: -150, z: 400, ry: -Math.PI / 2 },
 	]
 
 	for (let i = 0; i < lampPostParams.length; i++) {
@@ -161,12 +158,12 @@ let init = () => {
 		lampPost.mesh.position.set(
 			lampPostParams[i].x,
 			lampPostParams[i].y,
-			lampPostParams[i].z
-		);
+			lampPostParams[i].z,
+		)
 
-		lampPost.mesh.rotation.y += lampPostParams[i].ry;
+		lampPost.mesh.rotation.y += lampPostParams[i].ry
 
-		lampPosts.push( lampPost );
+		lampPosts.push( lampPost )
 	}
 
 	islands.add(
@@ -207,37 +204,34 @@ let init = () => {
 
 
 	// mobile gyroscope
-	const gyroscope = {
+	let gyroscope = {
 		x: 0,
 		y: 0,
 	}
-	window.addEventListener('deviceorientation', event => {
 
-		if (event.beta && event.gamma) {
-	
-			gyroscope.x = event.beta;	// -180..180
-			gyroscope.y = event.gamma;	// -90..90
-	
-			if (gyroscope.x > 90)  { gyroscope.x = 90 };
-			if (gyroscope.x < -90) { gyroscope.x = -90 };
-	
-			if (gyroscope.y > 45)  { gyroscope.y = 45 };
-			if (gyroscope.y < -45) { gyroscope.y = -45 };
-	
-			mousePos.nY = -1 + (gyroscope.x / 90) * 2;
-			mousePos.nX = 1 - (gyroscope.y / 45) * 2;
+	let checkOrientation = ({ beta, gamma }) => {
+		gyroscope.x = clamp(-90, beta, 90) || 0
+		gyroscope.y = clamp(-45, gamma, 45) || 0
 
-		};
+		mousePos.nY = -1 + (gyroscope.x / 90) * 2
+		mousePos.nX = 1 - (gyroscope.y / 45) * 2
+	}
 
-	}, true)
-
+	if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+		DeviceOrientationEvent.requestPermission()
+			.then(permissionState => {
+				if (permissionState === 'granted')
+					window.addEventListener('deviceorientation', checkOrientation)
+				})
+			.catch(console.log)
+	} else window.addEventListener('deviceorientation', checkOrientation)
 
 	// when all loaded
 	// time
 	const time = new Time()
 	let hours = +time.getHours()
 
-	function updateLights(hours) {
+	let updateLights = hours => {
 		if (hours >= breakpoints[0] && hours < breakpoints[1]) {
 			container.className = 'sunrise'
 			setLights('sunrise')
@@ -268,7 +262,7 @@ let init = () => {
 
 	let draw = () => {
 
-		delta =  clock.getDelta()
+		delta = clock.getDelta()
 
 		// fans
 		middleIsland.fans[0].rotate(5 * delta)
@@ -287,7 +281,6 @@ let init = () => {
 		river[1].moveWaves()
 		river[2].moveWaves()
 
-		// zeppelin
 		zeppelin.fans[0].rotate(20 * delta)
 		zeppelin.fans[1].rotate(21 * delta)
 		zeppelin.fans[2].rotate(19 * delta)
@@ -295,23 +288,17 @@ let init = () => {
 		zeppelin.cabine.turbines[0].rotate(.25 * delta)
 		zeppelin.cabine.turbines[1].rotate(.25 * delta)
 
-		// fly
 		zeppelin.mesh.position.y += Math.sin(i * Math.PI)
 		islands.position.y += Math.cos(i * Math.PI) / 2
 
-		// windvane
 		vane.rotation.y += Math.cos(i * Math.PI) * easing / 10
 		
 		i += .01
 
-
-		// camera
 		scene.rotation.x += (-mousePos.nY * (Math.PI / 10) + (Math.PI / 4) - scene.rotation.x) * easing
 		scene.rotation.y += (mousePos.nX * (Math.PI / 8) - (Math.PI / 4) - scene.rotation.y) * easing
 
-
 		renderer.render(scene, camera)
-		time.update()
 	}
 
 	let rafId = null
