@@ -5,12 +5,17 @@ body {
 	overflow: hidden;
 	margin: 0;
 	background-color: #111;
+	-webkit-tap-highlight-color: transparent;
 
 	&.loaded {
 		#scene {
 			opacity: 1;
 		}
 	}
+}
+
+:focus {
+	outline: none;
 }
 
 #scene {
@@ -87,4 +92,21 @@ body {
 			border-left-color: #E61D5F;
 		}
 	}
+}
+
+#gyroscope {
+	position: fixed;
+	top: 10px;
+	left: 10px;
+	width: 50px;
+	height: 50px;
+	background-color: #000;
+	background-image: url('../images/gyroscope.svg');
+	background-size: 30px;
+	background-repeat: no-repeat;
+	background-position: center;
+	border: none;
+	border-radius: 50%;
+	box-shadow: 0 0 20px -10px rgba(#000, 50%);
+	cursor: pointer;
 }

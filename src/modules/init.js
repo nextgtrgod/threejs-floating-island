@@ -32,17 +32,17 @@ import { breakpoints } from './daytimeParams'
 import Time from './Time'
 
 
-let init = () => {
+let init = ({ dpi, antialias }) => {
 
-	let WIDTH = window.innerWidth
-	let HEIGHT = window.innerHeight
+	let W = window.innerWidth
+	let H = window.innerHeight
 
 	window.addEventListener('resize', () => {
-		WIDTH = window.innerWidth
-		HEIGHT = window.innerHeight
+		W = window.innerWidth
+		H = window.innerHeight
 
-		renderer.setSize(WIDTH, HEIGHT)
-		camera.aspect = WIDTH / HEIGHT
+		renderer.setSize(W, H)
+		camera.aspect = W / H
 		camera.updateProjectionMatrix()
 
 		draw() // safari fix
@@ -54,8 +54,8 @@ let init = () => {
 
 	// main
 	const scene = createScene()
-	const camera = createCamera(WIDTH, HEIGHT)
-	const renderer = createRenderer(canvas, WIDTH, HEIGHT, true)
+	const camera = createCamera(W, H)
+	const renderer = createRenderer({ canvas, W, H, dpi, antialias })
 
 
 	// lights (default params)
@@ -74,7 +74,6 @@ let init = () => {
 		sunLight.color.setHex(lightParams[dayTime].sunLight.color)
 		sunLight.position.set(...lightParams[dayTime].sunLight.position)
 
-		
 		if (dayTime === 'midnight') {
 			lampPosts.map(lampPost => lampPost.turnLights(true) )
 			materials.line.color.setHex( 0x111111 );
@@ -181,10 +180,10 @@ let init = () => {
 		// sunLightHelper, // temp
 		islands,
 		zeppelin.mesh,
-	);
+	)
 	// isometric view
-	scene.rotation.x = Math.PI / 4;
-	scene.rotation.y = - Math.PI / 4;
+	scene.rotation.x = Math.PI / 4
+	scene.rotation.y = - Math.PI / 4
 
 
 	// animation
@@ -192,40 +191,48 @@ let init = () => {
 	let delta
 
 
-	// mouse position
-	const mousePos = {
-		x: WIDTH / 2, 	// default
-		y: HEIGHT / 2,
-		nX: 0,			// normalized
-		nY: 0,
+	// pointer position
+	const pointer = {
+		x: 0, // -1..1
+		y: 0,
 	}
-	document.addEventListener('mousemove', event => {
-		mousePos.nX = -1 + (event.clientX / WIDTH) * 2
-		mousePos.nY = 1 - (event.clientY / HEIGHT) * 2
-	})
 
+	if (window.matchMedia('(hover)').matches) {
+
+		document.addEventListener('mousemove', ({ clientX, clientY }) => {
+			pointer.x = -1 + (clientX / W) * 2
+			pointer.y = 1 - (clientY / H) * 2
+		})
+	}
 
 	// mobile gyroscope
 	let gyroscope = {
 		x: 0,
 		y: 0,
 	}
-
 	let checkOrientation = ({ beta, gamma }) => {
 		gyroscope.x = clamp(-90, beta, 90) || 0
 		gyroscope.y = clamp(-45, gamma, 45) || 0
 
-		mousePos.nY = -1 + (gyroscope.x / 90) * 2
-		mousePos.nX = 1 - (gyroscope.y / 45) * 2
+		pointer.y = -1 + (gyroscope.x / 90) * 2
+		pointer.x = 1 - (gyroscope.y / 45) * 2
 	}
 
 	if (typeof DeviceOrientationEvent.requestPermission === 'function') {
-		DeviceOrientationEvent.requestPermission()
-			.then(permissionState => {
-				if (permissionState === 'granted')
-					window.addEventListener('deviceorientation', checkOrientation)
-				})
-			.catch(console.log)
+		let button = document.createElement('button')
+		button.id = 'gyroscope'
+
+		button.addEventListener('click', () => {
+			DeviceOrientationEvent.requestPermission()
+				.then(permissionState => {
+					if (permissionState === 'granted')
+						window.addEventListener('deviceorientation', checkOrientation)
+						button.remove()
+					})
+				.catch(console.log)
+		})
+		document.body.appendChild(button)
+
 	} else window.addEventListener('deviceorientation', checkOrientation)
 
 	// when all loaded
@@ -297,8 +304,8 @@ let init = () => {
 		
 		i += .01
 
-		scene.rotation.x += (-mousePos.nY * (Math.PI / 10) + (Math.PI / 4) - scene.rotation.x) * easing
-		scene.rotation.y += (mousePos.nX * (Math.PI / 8) - (Math.PI / 4) - scene.rotation.y) * easing
+		scene.rotation.x += (-pointer.y * (Math.PI / 10) + (Math.PI / 4) - scene.rotation.x) * easing
+		scene.rotation.y += (pointer.x * (Math.PI / 8) - (Math.PI / 4) - scene.rotation.y) * easing
 
 		renderer.render(scene, camera)
 	}

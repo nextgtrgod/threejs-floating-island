@@ -1,7 +1,11 @@
 import styles from '@/styles/main.scss'
 
+let options = (new URL(document.location)).searchParams
+let dpi = parseInt(options.get('dpi')) || window.devicePixelRatio
+let antialias = options.get('antialias') === 'false' ? false : true
+
 import init from '@/modules/init'
-let { draw, start, stop } = init()
+let { draw, start, stop } = init({ dpi, antialias })
 
 let isIframe = (() => {
 	try {

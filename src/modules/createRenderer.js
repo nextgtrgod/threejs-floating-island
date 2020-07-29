@@ -7,7 +7,13 @@ let getContext = canvas => {
 	return canvas.getContext('webgl') || canvas.getContext('experimental-webgl')
 }
 
-let createRenderer = (canvas, width, height, antialias = true) => {
+let createRenderer = ({
+	canvas,
+	W,
+	H,
+	dpi = window.devicePixelRatio,
+	antialias = true,
+}) => {
 
 	let renderer = new WebGLRenderer({
 		canvas,
@@ -16,8 +22,8 @@ let createRenderer = (canvas, width, height, antialias = true) => {
 		alpha: true,
 		powerPreference: 'high-performance',
 	})
-	renderer.setSize(width, height)
-	renderer.setPixelRatio(window.devicePixelRatio)
+	renderer.setSize(W, H)
+	renderer.setPixelRatio(dpi)
 
 	renderer.shadowMap.enabled = true
 	// renderer.shadowMap.renderReverseSided = true
