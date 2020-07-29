@@ -225,7 +225,7 @@ let init = ({ dpi, antialias }) => {
 		pointer.x = -gyroscope.y / 45
 	}
 
-	if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+	if (window.DeviceOrientationEvent && typeof window.DeviceOrientationEvent.requestPermission === 'function') {
 		let button = document.createElement('button')
 		button.id = 'gyroscope'
 
@@ -242,8 +242,7 @@ let init = ({ dpi, antialias }) => {
 
 	} else window.addEventListener('deviceorientation', checkOrientation)
 
-	// when all loaded
-	// time
+
 	const time = new Time()
 	let hours = +time.getHours()
 
