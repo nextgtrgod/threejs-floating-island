@@ -96,17 +96,23 @@ body {
 
 #gyroscope {
 	position: fixed;
-	top: 10px;
-	left: 10px;
-	width: 50px;
-	height: 50px;
+	top: 5px;
+	left: 5px;
+	width: 48px;
+	height: 48px;
 	background-color: #000;
 	background-image: url('../images/gyroscope.svg');
-	background-size: 30px;
+	background-size: 24px;
 	background-repeat: no-repeat;
 	background-position: center;
 	border: none;
 	border-radius: 50%;
 	box-shadow: 0 0 20px -10px rgba(#000, 50%);
+	transition: opacity .2s;
 	cursor: pointer;
+
+	&.hidden {
+		opacity: 0;
+		pointer-events: none;
+	}
 }

@@ -209,10 +209,21 @@ let init = ({ dpi, antialias }) => {
 	let gyroscope = {
 		x: 0,
 		y: 0,
+		// initial: {
+		// 	x: 0,
+		// 	y: 0,
+		// },
 	}
 	let checkOrientation = ({ beta, gamma }) => {
-		gyroscope.x = clamp(-90, beta, 90) || 0
-		gyroscope.y = clamp(-45, gamma, 45) || 0
+		if (!gyroscope.initial) {
+			return gyroscope.initial = {
+				x: beta,
+				y: gamma,
+			}
+		}
+
+		gyroscope.x = clamp(-90, (gyroscope.initial.x - beta), 90) || 0
+		gyroscope.y = clamp(-45, (gyroscope.initial.y - gamma), 45) || 0
 
 		pointer.y = -1 + (gyroscope.x / 90) * 2
 		pointer.x = 1 - (gyroscope.y / 45) * 2
@@ -227,7 +238,7 @@ let init = ({ dpi, antialias }) => {
 				.then(permissionState => {
 					if (permissionState === 'granted')
 						window.addEventListener('deviceorientation', checkOrientation)
-						button.remove()
+						button.classList.add('hidden')
 					})
 				.catch(console.log)
 		})
