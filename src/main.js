@@ -16,6 +16,8 @@ let isIframe = (() => {
 })()
 
 if (isIframe) {
+	document.body.classList.add('is-iframe')
+
 	draw()
 
 	let trusted = [

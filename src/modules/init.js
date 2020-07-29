@@ -209,10 +209,6 @@ let init = ({ dpi, antialias }) => {
 	let gyroscope = {
 		x: 0,
 		y: 0,
-		// initial: {
-		// 	x: 0,
-		// 	y: 0,
-		// },
 	}
 	let checkOrientation = ({ beta, gamma }) => {
 		if (!gyroscope.initial) {
@@ -222,11 +218,11 @@ let init = ({ dpi, antialias }) => {
 			}
 		}
 
-		gyroscope.x = clamp(-90, (gyroscope.initial.x - beta), 90) || 0
-		gyroscope.y = clamp(-45, (gyroscope.initial.y - gamma), 45) || 0
+		gyroscope.x = clamp(-90, (beta - gyroscope.initial.x), 90) || 0
+		gyroscope.y = clamp(-45, (gamma - gyroscope.initial.y), 45) || 0
 
-		pointer.y = -1 + (gyroscope.x / 90) * 2
-		pointer.x = 1 - (gyroscope.y / 45) * 2
+		pointer.y = -gyroscope.x / 90
+		pointer.x = -gyroscope.y / 45
 	}
 
 	if (typeof DeviceOrientationEvent.requestPermission === 'function') {

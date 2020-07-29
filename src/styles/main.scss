@@ -116,3 +116,7 @@ body {
 		pointer-events: none;
 	}
 }
+
+body.is-iframe #gyroscope {
+	display: none;
+}
