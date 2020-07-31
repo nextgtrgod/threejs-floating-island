@@ -330,48 +330,48 @@ let init = ({ dpi, antialias }) => {
 		cancelAnimationFrame(rafId)
 	}
 
-	// dat.GUI
-	let gui = new dat.GUI({
-		autoplace: false,
-		hideable: false,
-	})
-	gui.closed = true
+	let addGui = container => {
+		// dat.GUI
+		let gui = new dat.GUI({
+			autoplace: false,
+			hideable: false,
+		})
+		gui.closed = true
 
-	const guiContainer = document.getElementById('gui')
-	guiContainer.appendChild(gui.domElement)
-
-	// let directionalLight = gui.addFolder('scene light');
-	// directionalLight.add(scene.children[2].position, 'x', (- 1000), 1000);
-	// directionalLight.add(scene.children[2].position, 'y', (- 1000), 1000);
-	// directionalLight.add(scene.children[2].position, 'z', (- 1000), 1000);
-	// directionalLight.open();
-
-	let params = {
-		cameraControls: true,
-		isOverride: false,
-		sunrise: 	() => updateLights(7),
-		midday: 	() => updateLights(11),
-		sunset: 	() => updateLights(19),
-		midnight: 	() => updateLights(0),
-	}
-
-	// gui.add(params, 'cameraControls').onChange(() => {
-	// 	controls.enabled = (params.cameraControls) ? true : false
-	// }).name('camera controls');
-
-	// gui.add(params, 'isOverride').onChange(() => {
-	// 	scene.overrideMaterial = (params.isOverride) ? materials.override : false;
-	// }).name('wireframe');
+		container.appendChild(gui.domElement)
 	
-	let dayTimeGUI = gui.addFolder('daytime')
-	dayTimeGUI.add(params, 'sunrise')
-	dayTimeGUI.add(params, 'midday')
-	dayTimeGUI.add(params, 'sunset')
-	dayTimeGUI.add(params, 'midnight')
-	dayTimeGUI.open()
-
-	// console.log(scene);
-	// console.log(renderer.info);
+		// let directionalLight = gui.addFolder('scene light');
+		// directionalLight.add(scene.children[2].position, 'x', (- 1000), 1000);
+		// directionalLight.add(scene.children[2].position, 'y', (- 1000), 1000);
+		// directionalLight.add(scene.children[2].position, 'z', (- 1000), 1000);
+		// directionalLight.open();
+	
+		let params = {
+			cameraControls: true,
+			isOverride: false,
+			sunrise: 	() => updateLights(7),
+			midday: 	() => updateLights(11),
+			sunset: 	() => updateLights(19),
+			midnight: 	() => updateLights(0),
+		}
+	
+		// gui.add(params, 'cameraControls').onChange(() => {
+		// 	controls.enabled = (params.cameraControls) ? true : false
+		// }).name('camera controls');
+	
+		// gui.add(params, 'isOverride').onChange(() => {
+		// 	scene.overrideMaterial = (params.isOverride) ? materials.override : false;
+		// }).name('wireframe');
+		
+		let dayTimeGUI = gui.addFolder('daytime')
+		dayTimeGUI.add(params, 'sunrise')
+		dayTimeGUI.add(params, 'midday')
+		dayTimeGUI.add(params, 'sunset')
+		dayTimeGUI.add(params, 'midnight')
+		dayTimeGUI.open()
+	}
+	const guiContainer = document.getElementById('gui')
+	if (guiContainer) addGui(guiContainer)
 
 	// export scene
 	if (process.env.NODE_ENV === 'development') {
@@ -384,7 +384,7 @@ let init = ({ dpi, antialias }) => {
 
 				let blob = new Blob([json], { type: 'application/json' })
 
-				let url  = URL.createObjectURL(blob)
+				let url = URL.createObjectURL(blob)
 		
 				let a = document.createElement('a')
 				a.download = 'scene.json'

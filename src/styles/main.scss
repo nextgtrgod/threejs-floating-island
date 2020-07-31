@@ -1,10 +1,12 @@
 
+$bg-color: #111;
+
 body {
 	position: relative;
 	height: 100vh;
 	overflow: hidden;
 	margin: 0;
-	background-color: #111;
+	background-color: $bg-color;
 	-webkit-tap-highlight-color: transparent;
 
 	&.loaded {
@@ -100,20 +102,33 @@ body {
 	left: 5px;
 	width: 48px;
 	height: 48px;
-	background-color: #000;
+	background-color: $bg-color;
 	background-image: url('../images/gyroscope.svg');
 	background-size: 24px;
 	background-repeat: no-repeat;
 	background-position: center;
 	border: none;
 	border-radius: 50%;
-	box-shadow: 0 0 20px -10px rgba(#000, 50%);
 	transition: opacity .2s;
 	cursor: pointer;
+	animation: pulse 2s infinite;
 
 	&.hidden {
 		opacity: 0;
 		pointer-events: none;
+		animation-iteration-count: 1;
+	}
+}
+
+@keyframes pulse {
+	0% {
+		box-shadow: 0 0 0 0 rgba($bg-color, 70%);
+	}
+	70% {
+		box-shadow: 0 0 0 10px rgba($bg-color, 0%);
+	}
+	100% {
+		box-shadow: 0 0 0 0 rgba($bg-color, 0%);
 	}
 }
 
