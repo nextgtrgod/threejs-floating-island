@@ -6,7 +6,18 @@
 	<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
 	<meta name="theme-color" content="#DCB780">
 	<link rel="icon" type="image/svg+xml" href="./favicon.svg">
-	<title>Lowpoly world</title>
+	<title>Floating low-poly island</title>
+
+	<meta property="og:title" content="Floating low-poly island" />
+	<meta property="og:description" content="three.js low-poly floating island" />
+	<meta property="og:image" content="https://nextgtrgod.github.io/threejs-floating-island/share.jpg" />
+	<meta property="og:site_name" content="Floating island" />
+
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content="Floating low-poly island" />
+	<meta name="twitter:description" content="three.js low-poly floating island" />
+	<meta name="twitter:image" content="https://nextgtrgod.github.io/threejs-floating-island/share.jpg" />
+
 	<style>
 		#scene {
 			opacity: 0;
@@ -29,9 +40,11 @@
 
 		@keyframes rotate {
 			0% {
-				transform: perspective(120px) rotateX(0deg) rotateY(0deg); }
+				transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+			}
 			50% {
-				transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg); }
+				transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+			}
 			100% {
 				transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
 			}
@@ -41,6 +54,10 @@
 			opacity: 0;
 			animation: none;
 		}
+
+		.repo {
+			display: none;
+		}
 	</style>
 </head>
 <body style="background-color: #111">
@@ -49,6 +66,15 @@
 	<div id="scene">
 		<canvas/>
 	</div>
+
+	<a href="https://github.com/nextgtrgod/threejs-floating-island" target="_blank" rel="noopener" class="repo">
+		<svg xmlns="http://www.w3.org/2000/svg" width="48" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+			<circle fill="#FFF" cx="16" cy="16" r="16"/>
+			<path fill="#000" d="M12.03 31.51v-1.1c0-.38 0-1.39-.02-2.72-4.45.97-5.39-2.15-5.39-2.15-.72-1.84-1.77-2.34-1.77-2.34-1.46-.99.1-.97.1-.97 1.61.11 2.46 1.65 2.46 1.65 1.42 2.45 3.74 1.74 4.65 1.33a3.42 3.42 0 011.02-2.14c-3.55-.4-7.29-1.78-7.29-7.9 0-1.75.62-3.18 1.65-4.3-.17-.4-.72-2.03.16-4.23 0 0 1.34-.43 4.4 1.64a15.32 15.32 0 018 0c3.06-2.07 4.4-1.64 4.4-1.64.87 2.2.33 3.83.16 4.23a6.17 6.17 0 011.65 4.3c0 6.14-3.75 7.5-7.3 7.89.56.5 1.08 1.47 1.08 2.96l-.02 4.4v1.1a16.64 16.64 0 01-7.94 0z"/>
+		</svg>
+	</a>
+
+	<button id="gyroscope"></button>
 
 	<div id="gui"></div>
 </body>

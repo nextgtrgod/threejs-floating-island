@@ -13,6 +13,10 @@ body {
 		#scene {
 			opacity: 1;
 		}
+
+		.repo {
+			display: block;
+		}
 	}
 }
 
@@ -50,6 +54,15 @@ body {
 		&:before {
 			background-color: #79D1FF;
 			background-image: url('../images/bg-day.svg');
+		}
+
+		& + .repo svg {
+			circle {
+				fill: #111;
+			}
+			path {
+				fill: #FFF;
+			}
 		}
 	}
 
@@ -98,25 +111,42 @@ body {
 
 #gyroscope {
 	position: fixed;
-	top: 5px;
-	left: 5px;
+	top: 10px;
+	left: 10px;
 	width: 48px;
 	height: 48px;
 	background-color: $bg-color;
 	background-image: url('../images/gyroscope.svg');
-	background-size: 24px;
+	background-size: 30px;
 	background-repeat: no-repeat;
 	background-position: center;
 	border: none;
 	border-radius: 50%;
-	transition: opacity .2s;
+	transition: opacity .2s, transform .2s;
 	cursor: pointer;
 	animation: pulse 2s infinite;
+
+	&:before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		border-radius: 50%;
+		box-shadow: 0 0 20px -10px #000;
+	}
 
 	&.hidden {
 		opacity: 0;
 		pointer-events: none;
 		animation-iteration-count: 1;
+	}
+
+	@media (hover) {
+		&:hover {
+			transform: scale(1.05);
+		}
 	}
 }
 
@@ -125,13 +155,47 @@ body {
 		box-shadow: 0 0 0 0 rgba($bg-color, 70%);
 	}
 	70% {
-		box-shadow: 0 0 0 10px rgba($bg-color, 0%);
+		box-shadow: 0 0 0 15px rgba($bg-color, 0%);
 	}
 	100% {
 		box-shadow: 0 0 0 0 rgba($bg-color, 0%);
 	}
 }
 
-body.is-iframe #gyroscope {
-	display: none;
+.repo {
+	position: fixed;
+	width: 48px;
+	height: 48px;
+	font-size: 0;
+	border-radius: 50%;
+	box-shadow: 0 0 20px -10px #000;
+	transition: transform .2s;
+	cursor: pointer;
+
+	@media (max-width: 719px) {
+		bottom: 10px;
+		left: 10px;
+	}
+
+	@media (min-width: 720px) {
+		top: 10px;
+		right: 10px;
+	}
+
+	@media (hover) {
+		&:hover {
+			transform: scale(1.05);
+		}
+	}
+}
+
+body.is-iframe {
+
+	#gyroscope {
+		display: none;
+	}
+
+	.repo {
+		display: none;
+	}
 }
