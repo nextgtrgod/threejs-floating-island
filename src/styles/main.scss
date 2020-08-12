@@ -57,10 +57,10 @@ body {
 		}
 
 		& + .repo svg {
-			circle {
+			path:first-child {
 				fill: #111;
 			}
-			path {
+			path:last-child {
 				fill: #FFF;
 			}
 		}
