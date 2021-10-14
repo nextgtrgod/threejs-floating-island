@@ -8,17 +8,17 @@ import {
 	DirectionalLightHelper,
 } from 'three'
 
-import clamp from '@/utils/clamp'
+import clamp from '../utils/clamp'
 
 import createScene from './createScene'
 import createCamera from './createCamera'
 import createRenderer from './createRenderer'
 import createSun from './createSun'
 
-import BottomIsland from '@/scene/BottomIsland/BottomIsland'
-import MiddleIsland from '@/scene/MiddleIsland/MiddleIsland'
-import TopIsland from '@/scene/TopIsland/TopIsland'
-import Zeppelin from '@/scene/Zeppelin/Zeppelin'
+import BottomIsland from '../scene/BottomIsland/BottomIsland'
+import MiddleIsland from '../scene/MiddleIsland/MiddleIsland'
+import TopIsland from '../scene/TopIsland/TopIsland'
+import Zeppelin from '../scene/Zeppelin/Zeppelin'
 
 import Water from './Water'
 import LampPost from './LampPost'
@@ -32,7 +32,7 @@ import { breakpoints } from './daytimeParams'
 import Time from './Time'
 
 
-let init = ({ dpi, antialias }) => {
+let init = ({ dpr, antialias }) => {
 
 	let W = window.innerWidth
 	let H = window.innerHeight
@@ -55,7 +55,7 @@ let init = ({ dpi, antialias }) => {
 	// main
 	const scene = createScene()
 	const camera = createCamera(W, H)
-	const renderer = createRenderer({ canvas, W, H, dpi, antialias })
+	const renderer = createRenderer({ canvas, W, H, dpr, antialias })
 
 
 	// lights (default params)

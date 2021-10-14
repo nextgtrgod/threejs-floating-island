@@ -1,0 +1,22 @@
+name: 'Publish'
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+            node-version: '14'
+      - run: |
+          yarn
+          yarn build --base=/${{ github.event.repository.name }}/
+      - uses: JamesIves/github-pages-deploy-action@4.1.5
+        with:
+          branch: gh-pages
+          folder: dist

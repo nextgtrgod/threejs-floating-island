@@ -189,7 +189,7 @@ export default class Fan {
 		);
 	}
 
-	rotate = (value) => {
+	rotate(value) {
 		this.propeller.rotation.y += value
 	}
 }

@@ -11,7 +11,7 @@ let createRenderer = ({
 	canvas,
 	W,
 	H,
-	dpi = window.devicePixelRatio,
+	dpr = window.devicePixelRatio,
 	antialias = true,
 }) => {
 
@@ -23,7 +23,7 @@ let createRenderer = ({
 		powerPreference: 'high-performance',
 	})
 	renderer.setSize(W, H)
-	renderer.setPixelRatio(dpi)
+	renderer.setPixelRatio(dpr)
 
 	renderer.shadowMap.enabled = true
 	// renderer.shadowMap.renderReverseSided = true

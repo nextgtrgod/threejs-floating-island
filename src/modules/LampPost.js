@@ -80,7 +80,7 @@ export default class LampPost {
 		);
 	}
 
-	turnLights = (status) => {
+	turnLights(status) {
 		if (status) {
 			this.light.intensity = .95;
 			this.light.distance = 1000;

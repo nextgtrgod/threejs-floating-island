@@ -9,7 +9,7 @@ export default class Time {
 		this.update()
 	}
 
-	update = () => {
+	update() {
 		if ((Date.now() - this.now) > 60000) {
 			
 			this.now = new Date()
@@ -18,5 +18,7 @@ export default class Time {
 		}
 	}
 
-	getHours = () => this.hours
+	getHours() {
+		return this.hours
+	}
 }

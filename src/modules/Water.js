@@ -58,7 +58,7 @@ export default class Water {
 		this.mesh.castShadow = true;
 	}
 
-	moveWaves = () => {
+	moveWaves() {
 
 		const verts = this.mesh.geometry.vertices;
 		const l = verts.length;

@@ -121,7 +121,7 @@ export default class Turbine {
 		);
 	}
 
-	rotate = (value) => {
+	rotate(value) {
 		this.propeller.rotation.z += value;
 	}
 }

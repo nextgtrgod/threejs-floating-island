@@ -220,7 +220,7 @@ export default class Windvane {
 		);
 	}
 
-	rotateFan = (value) => {
+	rotateFan(value) {
 		this.fan.rotation.z += value;
 	}
 }

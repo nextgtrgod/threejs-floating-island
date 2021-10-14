@@ -1,11 +1,11 @@
-import styles from '@/styles/main.scss'
+import styles from './styles/main.scss'
 
 let options = (new URL(document.location)).searchParams
-let dpi = parseInt(options.get('dpi')) || window.devicePixelRatio
+let dpr = parseInt(options.get('dpr')) || window.devicePixelRatio
 let antialias = options.get('antialias') === 'false' ? false : true
 
-import init from '@/modules/init'
-let { draw, start, stop } = init({ dpi, antialias })
+import init from './modules/init'
+let { draw, start, stop } = init({ dpr, antialias })
 
 let isIframe = (() => {
 	try {
