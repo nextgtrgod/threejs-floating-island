@@ -84,7 +84,7 @@ export default class LampPost {
 			this.light.distance = 1000
 			this.light.decay = 2
 			this.light.castShadow = true
-			this.light.shadow.mapSize.set(256, 256)
+			this.light.shadow.mapSize.set(128, 128)
 		} else {
 			this.light.intensity = 0
 			this.light.distance = 1
