@@ -1,4 +1,4 @@
-import { WebGLRenderer } from 'three'
+import { WebGLRenderer, PCFSoftShadowMap } from 'three'
 import { WEBGL } from 'three/examples/jsm/WebGL.js'
 
 let getContext = canvas => {
@@ -27,6 +27,7 @@ let createRenderer = ({
 
 	renderer.shadowMap.enabled = true
 	// renderer.shadowMap.renderReverseSided = true
+	// renderer.shadowMap.type = PCFSoftShadowMap
 
 	return renderer
 }

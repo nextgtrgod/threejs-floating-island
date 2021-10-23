@@ -64,37 +64,33 @@ export default class LampPost {
 
 
 		// light
-		this.light = new PointLight(0xfddb92, 0, 0, 0);
-
-		this.light.castShadow = false;
-		this.light.shadow.mapSize.width = 16;
-		this.light.shadow.mapSize.height = 16;
-
-		this.light.position.set(-10, 30, 30);
+		this.light = new PointLight(0xfddb92, 0, 0, 0)
+		this.light.castShadow = false
+		this.light.shadow.mapSize.set(16, 16)
+		this.light.shadow.normalBias = .5
+		this.light.position.set(-10, 30, 30)
 
 
 		this.mesh.add(
 			base,
 			lamp,
 			this.light
-		);
+		)
 	}
 
 	turnLights(status) {
 		if (status) {
-			this.light.intensity = .95;
-			this.light.distance = 1000;
-			this.light.decay = 2;
-			this.light.castShadow = true;
-			this.light.shadow.mapSize.width = 128;
-			this.light.shadow.mapSize.height = 128;
+			this.light.intensity = .95
+			this.light.distance = 1000
+			this.light.decay = 2
+			this.light.castShadow = true
+			this.light.shadow.mapSize.set(256, 256)
 		} else {
-			this.light.intensity = 0;
-			this.light.distance = 1;
-			this.light.decay = 1;
-			this.light.castShadow = false;
-			this.light.shadow.mapSize.width = 8;
-			this.light.shadow.mapSize.height = 8;
+			this.light.intensity = 0
+			this.light.distance = 1
+			this.light.decay = 1
+			this.light.castShadow = false
+			this.light.shadow.mapSize.set(8, 8)
 		};
 	}
 }
